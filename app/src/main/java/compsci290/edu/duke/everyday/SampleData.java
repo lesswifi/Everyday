@@ -20,12 +20,14 @@ public class SampleData {
         journalEntry1.setTitle("Disney");
         journalEntry1.setContent("We went to Disneyland today and the kids had lots of fun!");
         Calendar calendar1 = GregorianCalendar.getInstance();
+        journalEntry1.setDateModified(calendar1.getTimeInMillis());
         journalEnrties.add(journalEntry1);
 
         JournalEntry journalEntry2 = new JournalEntry();
         journalEntry2.setTitle("Universal Studio");
         journalEntry2.setContent("We went to hike!");
         Calendar calendar2 = GregorianCalendar.getInstance();
+        journalEntry2.setDateModified(calendar2.getTimeInMillis());
         journalEnrties.add(journalEntry2);
 
         return journalEnrties;
