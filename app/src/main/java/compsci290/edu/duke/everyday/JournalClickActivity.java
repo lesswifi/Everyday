@@ -62,8 +62,6 @@ public class JournalClickActivity extends AppCompatActivity {
                         dateView.setText(note.mDateCreated + "");
                         tagView.setText(note.getJournalId());
                     }
-
-
                 }
             }
 

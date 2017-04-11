@@ -26,11 +26,11 @@ public class JournalEntry {
 
     @SerializedName("mDateCreated")
     @Expose
-    public Date mDateCreated;
+    public long mDateCreated;
 
     @SerializedName("mDateModified")
     @Expose
-    public Date mDateModified;
+    public long mDateModified;
 
     @SerializedName("mWeather")
     @Expose
@@ -42,7 +42,7 @@ public class JournalEntry {
 
     public JournalEntry() {}
 
-    public JournalEntry(String EntryId, String title, String content, Date dateCreated, Date dateModified, String tagId, String tagName, String weather, String tag)
+    public JournalEntry(String EntryId, String title, String content, long dateCreated, long dateModified, String tagId, String tagName, String weather, String tag)
     {
         mId = EntryId;
         mTitle = title;
@@ -54,7 +54,7 @@ public class JournalEntry {
 
     }
 
-    public JournalEntry(String title, String content, String tag, Date dateCreated) {
+    public JournalEntry(String title, String content, String tag, long dateCreated) {
         mTitle = title;
         mContent = content;
         mDateCreated = dateCreated;
@@ -70,7 +70,7 @@ public class JournalEntry {
         mContent = c;
     }
 
-    public void setDateModified(Date t){
+    public void setDateModified(long t){
         mDateModified = t;
     }
 
@@ -86,7 +86,7 @@ public class JournalEntry {
         return mTitle;
     }
 
-    public Date getDateModified(){
+    public long getDateModified(){
         return mDateModified;
     }
 

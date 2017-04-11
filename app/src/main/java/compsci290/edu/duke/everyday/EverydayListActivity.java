@@ -105,7 +105,7 @@ public class EverydayListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mJournalFirebaseAdapter);
     }
 
-/**
+
     private void addInitialDataToFirebase() {
 
         List<JournalEntry> sampleJournalEntries = SampleData.getSampleJournalEntries();
@@ -165,6 +165,5 @@ public class EverydayListActivity extends AppCompatActivity {
         });
 
     }
-     **/
 
 }

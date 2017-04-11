@@ -11,7 +11,9 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -61,7 +63,8 @@ public class WriteJournalActivity extends Activity {
                 setEditingEnabled(false);
                 Snackbar.make(v, "Uploading entry...", Snackbar.LENGTH_SHORT).show();
 
-                Date date = new Date();
+                Calendar calendar = GregorianCalendar.getInstance();
+                long date = calendar.getTimeInMillis();
                 submitEntry(title, content, tag, date);
 /**                mDatabase.child("journalentries").addListenerForSingleValueEvent(
                         new ValueEventListener() {
@@ -95,7 +98,7 @@ public class WriteJournalActivity extends Activity {
         }
     }
 
-    private void submitEntry(String title, String content, String tag, Date date) {
+    private void submitEntry(String title, String content, String tag, long date) {
 
         // journal entries key
         String key = mDatabase.child("journalentries").push().getKey();
