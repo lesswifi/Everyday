@@ -13,17 +13,20 @@ public class JournalViewHolder extends RecyclerView.ViewHolder{
 
     TextView title;
     TextView journalDate;
+    TextView journalId;
 
     public JournalViewHolder(View v) {
         super(v);
         title = (TextView) v.findViewById(R.id.view_holder_title);
         journalDate = (TextView) v.findViewById(R.id.view_holder_date);
+        journalId = (TextView) v.findViewById(R.id.view_holder_id);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("hey", "hey");
                 Intent intent = new Intent(v.getContext(), JournalClickActivity.class);
+                intent.putExtra("journalId", journalId.getText().toString());
                 v.getContext().startActivity(intent);
             }
         });

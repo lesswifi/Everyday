@@ -85,6 +85,7 @@ public class EverydayListActivity extends AppCompatActivity {
                             (JournalViewHolder holder, JournalEntry model, int position) {
                         holder.title.setText(model.getTitle());
                         holder.journalDate.setText("" + model.getDateModified());
+                        holder.journalId.setText(model.getJournalId());
                     }
 
                 };
