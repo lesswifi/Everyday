@@ -45,7 +45,7 @@ public class JournalClickActivity extends AppCompatActivity {
         dateView = (TextView)findViewById(R.id.journal_date);
         tagView = (TextView)findViewById(R.id.journal_tag);
 
-
+        pullDatafromFirebase();
     }
 
     private void pullDatafromFirebase(){
@@ -55,8 +55,14 @@ public class JournalClickActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
                 for (DataSnapshot noteSnapshot: dataSnapshot.getChildren()){
-                    JournalEntry note = noteSnapshot.getValue(JournalEntry.class);
-                    mJournalEntries.add(note);
+                    if(noteSnapshot.getKey().equals(journalId)){
+                        JournalEntry note = noteSnapshot.getValue(JournalEntry.class);
+                        titleView.setText(note.getTitle());
+                        contentView.setText(note.content);
+                        dateView.setText(note.dateCreated + "");
+                        tagView.setText(note.getJournalId());
+                    }
+
 
                 }
             }
@@ -69,7 +75,5 @@ public class JournalClickActivity extends AppCompatActivity {
 
 
     }
-
-
 
 }
