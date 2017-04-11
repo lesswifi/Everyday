@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -72,7 +73,6 @@ public class EverydayListActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(){
 
-        Log.d(LOG_TAG, "fuck");
         FirebaseRecyclerAdapter<JournalEntry, JournalViewHolder> mJournalFirebaseAdapter =
                 new FirebaseRecyclerAdapter<JournalEntry, JournalViewHolder>(
                         JournalEntry.class,
@@ -82,12 +82,11 @@ public class EverydayListActivity extends AppCompatActivity {
 
                     @Override
                     protected void populateViewHolder
-                            (JournalViewHolder holder, JournalEntry model, int position) {
+                            (JournalViewHolder holder, JournalEntry model, final int position) {
                         holder.title.setText(model.getTitle());
                         holder.journalDate.setText("" + model.getDateModified());
                         holder.journalId.setText(model.getJournalId());
                     }
-
                 };
 
         mRecyclerView.setAdapter(mJournalFirebaseAdapter);

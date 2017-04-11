@@ -10,8 +10,8 @@ public class JournalEntry {
     public String content;
     public long dateCreated;
     public long dateModified;
-    public String tagId;
     public String tagName;
+
 
     public void setTitle(String t){
         title = t;
