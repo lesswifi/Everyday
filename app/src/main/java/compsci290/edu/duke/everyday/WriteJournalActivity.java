@@ -63,23 +63,23 @@ public class WriteJournalActivity extends Activity {
 
                 Date date = new Date();
                 submitEntry(title, content, tag, date);
-//                mDatabase.child("journalentries").addListenerForSingleValueEvent(
-//                        new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                Date date = new Date();
-//                                submitEntry(title, content, tag, date);
-//                                setEditingEnabled(true);
-//                                finish();
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//                                Log.w(TAG, "onCancelled", databaseError.toException());
-//                                setEditingEnabled(true);
-//                            }
-//                        }
-//                );
+/**                mDatabase.child("journalentries").addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Date date = new Date();
+                                submitEntry(title, content, tag, date);
+                                setEditingEnabled(true);
+                                finish();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.w(TAG, "onCancelled", databaseError.toException());
+                                setEditingEnabled(true);
+                            }
+                        }
+                );  **/
             }
         });
     }
