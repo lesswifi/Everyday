@@ -58,8 +58,8 @@ public class JournalClickActivity extends AppCompatActivity {
                     if(noteSnapshot.getKey().equals(journalId)){
                         JournalEntry note = noteSnapshot.getValue(JournalEntry.class);
                         titleView.setText(note.getTitle());
-                        contentView.setText(note.content);
-                        dateView.setText(note.dateCreated + "");
+                        contentView.setText(note.mContent);
+                        dateView.setText(note.mDateCreated + "");
                         tagView.setText(note.getJournalId());
                     }
 

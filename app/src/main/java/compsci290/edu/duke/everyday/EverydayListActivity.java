@@ -1,5 +1,6 @@
 package compsci290.edu.duke.everyday;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -59,14 +60,26 @@ public class EverydayListActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
         if (sharedPreferences.getBoolean(FIRST_RUN, true)) {
-            addInitialDataToFirebase();
+            //addInitialDataToFirebase();
             editor.putBoolean(FIRST_RUN, false).commit();
         }
+
+        // Floating Action Button Launches the NewJournalEntryActivity
+        findViewById(R.id.fab_new_quiz).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(LOG_TAG, "onClick: clicked on add  button");
+                        startActivity(new Intent(EverydayListActivity.this, WriteJournalActivity.class));
+
+                    }
+                }
+        );
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.getWritableDatabase();
 
-        pullDatafromFirebase();
+        //pullDatafromFirebase();
         setUpRecyclerView();
 
     }
@@ -92,7 +105,7 @@ public class EverydayListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mJournalFirebaseAdapter);
     }
 
-
+/**
     private void addInitialDataToFirebase() {
 
         List<JournalEntry> sampleJournalEntries = SampleData.getSampleJournalEntries();
@@ -112,6 +125,7 @@ public class EverydayListActivity extends AppCompatActivity {
         }
 
     }
+
 
     private void pullDatafromFirebase(){
 
@@ -151,5 +165,6 @@ public class EverydayListActivity extends AppCompatActivity {
         });
 
     }
+     **/
 
 }

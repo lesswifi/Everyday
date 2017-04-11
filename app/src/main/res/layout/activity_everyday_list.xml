@@ -10,6 +10,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="compsci290.edu.duke.everyday.EverydayListActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_new_quiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_image_edit"
+        android:layout_margin="16dp" />
+
     <TextView
         android:id="@+id/tagId"
         android:layout_width="wrap_content"

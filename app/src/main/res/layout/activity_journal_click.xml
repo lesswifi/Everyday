@@ -16,7 +16,6 @@
         android:layout_margin="30dp"
         app:backgroundTint="@color/colorPrimaryDark"
         app:elevation="5dp"
-        android:src="@drawable/ic_mode_edit_white_24dp"
         android:id="@+id/floatingActionButton" />
 
     <LinearLayout
