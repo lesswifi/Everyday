@@ -135,4 +135,5 @@ public class EverydayListActivity extends AppCompatActivity {
         });
 
     }
+
 }
