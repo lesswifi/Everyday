@@ -8,16 +8,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignInActivity">
+
+        <activity android:name=".EverydayListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".JournalClickActivity" />
-        <activity android:name=".WriteJournalActivity" />
-        <activity android:name=".EverydayListActivity">
-        </activity>
+
+        <activity android:name=".JournalClickActivity"></activity>
+        <activity android:name=".WriteJournalActivity"></activity>
     </application>
 
 </manifest>
