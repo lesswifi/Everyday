@@ -24,6 +24,8 @@ import java.util.List;
 public class EverydayListActivity extends AppCompatActivity {
 
     public DatabaseReference mDatabase;
+    public DatabaseReference journalCloudEndPoint;
+    public DatabaseReference tagCloudEndPoint;
 
     private List<JournalEntry> mJournalEntries = new ArrayList<>();
     private List<Tag> mTags = new ArrayList<>();
@@ -51,6 +53,8 @@ public class EverydayListActivity extends AppCompatActivity {
 
         //initiate firebase
         mDatabase =  FirebaseDatabase.getInstance().getReference();
+        journalCloudEndPoint = mDatabase.child("journalentris");
+        tagCloudEndPoint = mDatabase.child("tags");
 
         //sharepreferences to check and call addInitialDataToFirebase() only once
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -87,7 +91,7 @@ public class EverydayListActivity extends AppCompatActivity {
                         JournalEntry.class,
                         R.layout.journal_custom_row,
                         JournalViewHolder.class,
-                        mDatabase){
+                        journalCloudEndPoint){
 
                     @Override
                     protected void populateViewHolder
@@ -106,25 +110,51 @@ public class EverydayListActivity extends AppCompatActivity {
 
         List<JournalEntry> sampleJournalEntries = SampleData.getSampleJournalEntries();
         for (JournalEntry journalEntry: sampleJournalEntries){
-            String key = mDatabase.push().getKey();
+            String key = journalCloudEndPoint.push().getKey();
             journalEntry.setJournalId(key);
-            mDatabase.child(key).setValue(journalEntry);
+            journalCloudEndPoint.child(key).setValue(journalEntry);
+        }
+
+        List<String> tagNames = SampleData.getSampleTags();
+        for (String name: tagNames){
+            String tagKey = tagCloudEndPoint.push().getKey();
+            Tag tag = new Tag();
+            tag.setTagName(name);
+            tag.setTagId(tagKey);
+            tagCloudEndPoint.child(tagKey).setValue(tag);
         }
 
     }
 
 
-    private void pullDatafromFirebase() {
+    private void pullDatafromFirebase(){
 
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        journalCloudEndPoint.addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
+            public void onDataChange(DataSnapshot dataSnapshot){
+                for (DataSnapshot noteSnapshot: dataSnapshot.getChildren()){
                     JournalEntry note = noteSnapshot.getValue(JournalEntry.class);
                     mJournalEntries.add(note);
 
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(LOG_TAG, databaseError.getMessage());
+            }
+        });
+
+
+        tagCloudEndPoint.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot categorySnapshot: dataSnapshot.getChildren()){
+                    Tag tag = categorySnapshot.getValue(Tag.class);
+                    mTags.add(tag);
+                    tagView.setText(mTags.get(0).getTagId());
                 }
             }
 
