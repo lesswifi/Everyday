@@ -4,11 +4,11 @@ package compsci290.edu.duke.everyday;
  * Created by FD on 4/4/2017.
  */
 
+import android.location.Location;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.Date;
 
 @IgnoreExtraProperties
 public class JournalEntry {
@@ -39,6 +39,11 @@ public class JournalEntry {
     @SerializedName("mTag")
     @Expose
     public String mTag;
+
+    @SerializedName("mLocation")
+    @Expose
+    public Location mLocation;
+
 
     public JournalEntry() {}
 

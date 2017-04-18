@@ -37,6 +37,8 @@ public class EverydayListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //set default layout
@@ -78,7 +80,9 @@ public class EverydayListActivity extends AppCompatActivity {
         //pullDatafromFirebase();
         setUpRecyclerView();
 
+
     }
+
 
     private void setUpRecyclerView(){
 
@@ -135,4 +139,6 @@ public class EverydayListActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
