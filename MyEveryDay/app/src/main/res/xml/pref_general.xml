@@ -1,0 +1,37 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Editor" >
+        <SwitchPreference
+            android:title="Note Editor"
+            android:key="default_editor"
+            android:summary="Toogle to use Lined Editor or Plain Editor"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:title="Delete"
+            android:key="prompt_for_delete"
+            android:summary="Toogle to prompt for Confirm delete"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Default Sort" >
+        <ListPreference
+            android:key="sort_options"
+            android:title="Sort Options"
+            android:dialogTitle="Select Sort Option"
+            android:entries="@array/sortOptionsEntries"
+            android:entryValues="@array/sortOptionsValues"
+            android:defaultValue="@string/column_title" />
+
+
+
+    </PreferenceCategory>
+
+
+
+
+
+
+</PreferenceScreen>
