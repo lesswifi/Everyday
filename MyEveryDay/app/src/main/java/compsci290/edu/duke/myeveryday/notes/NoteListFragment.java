@@ -58,7 +58,7 @@ public class NoteListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mRootView = inflater.inflate(R.layout.fragment_note_list, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_journal_list, container, false);
 
         ButterKnife.bind(this, mRootView);
         mFirebaseAuth = FirebaseAuth.getInstance();
