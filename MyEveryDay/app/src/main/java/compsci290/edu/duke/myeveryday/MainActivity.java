@@ -53,6 +53,7 @@ import compsci290.edu.duke.myeveryday.Authentication.SignedInActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
+import compsci290.edu.duke.myeveryday.notes.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
@@ -120,12 +121,11 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         journals = new ArrayList<>();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(mActivity, AddJournalActivity.class));
             }
         });
 

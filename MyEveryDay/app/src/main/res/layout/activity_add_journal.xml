@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_add_node"
+    <include layout="@layout/content_add_journal"
         android:id="@+id/container"/>
 
 

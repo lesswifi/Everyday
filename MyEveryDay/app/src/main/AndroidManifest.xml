@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".Authentication.SignedInActivity" />
         <activity android:name=".Authentication.AuthUiActivity" />
+        <activity android:name=".notes.AddJournalActivity" />
     </application>
 
 </manifest>
