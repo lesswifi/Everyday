@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +53,7 @@ import compsci290.edu.duke.myeveryday.Authentication.SignedInActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
+import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
@@ -223,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
 
-
-
+        addDefaultData();
+        openFragment(new NoteListFragment(), "Journals");
 
         }
 
@@ -334,9 +337,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-        addDefaultData();
+        //addDefaultData();
         //DatabaseReference temp = mdatabase.child("temp");
         //temp.setValue("a test");
+    }
+
+    private void openFragment(Fragment fragment, String screenTitle){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.container, fragment)
+                .addToBackStack(screenTitle)
+                .commit();
+        getSupportActionBar().setTitle(screenTitle);
     }
 
     public void addDefaultData()

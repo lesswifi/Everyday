@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/note_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/margin_padding_small"
+        android:paddingLeft="@dimen/margin_padding_small"
+        android:paddingRight="@dimen/margin_padding_small"
+        android:paddingTop="@dimen/margin_padding_small" />
+
+    <TextView
+        android:id="@+id/empty_text"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="@dimen/margin_padding_normal"
+        android:gravity="center"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:textSize="@dimen/text_size_huge"
+        android:textColor="@color/primary_dark"
+        android:text="@string/no_notes_found"
+        android:fontFamily="sans-serif-condensed"/>
+
+
+</FrameLayout>
+

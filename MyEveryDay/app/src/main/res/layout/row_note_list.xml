@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background_white"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="4dp"
+    card_view:cardPreventCornerOverlap="true"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circle_image_view"
+            android:layout_width="@dimen/profile_image_size"
+            android:layout_height="@dimen/profile_image_size"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_padding_small"
+            android:src="@drawable/person_icon" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="@dimen/profile_image_size"
+            android:layout_height="@dimen/profile_image_size"
+            android:layout_centerVertical="true"
+            android:src="@drawable/person_icon"
+            android:layout_margin="@dimen/margin_padding_small"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_padding_small"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_padding_normal">
+
+            <TextView
+                android:id="@+id/text_view_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_xxnormal"/>
+
+            <TextView
+                android:id="@+id/text_view_note_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_normal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_padding_small"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_padding_normal">
+
+            <ImageView
+                android:id="@+id/image_view_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_padding_small"
+                android:src="@drawable/delete_button"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
