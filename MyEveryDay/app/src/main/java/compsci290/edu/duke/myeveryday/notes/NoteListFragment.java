@@ -1,6 +1,7 @@
 package compsci290.edu.duke.myeveryday.notes;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,22 +87,26 @@ public class NoteListFragment extends Fragment {
             }
 
             @Override
-            protected void populateViewHolder(NoteViewHolder holder, JournalEntry model, int position) {
+            protected void populateViewHolder(NoteViewHolder holder, final JournalEntry model, int position) {
                 holder.title.setText(model.getmTitle());
-                /**holder.title.setOnClickListener(new View.OnClickListener() {
+                holder.title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openNoteDetails(model);
+                        Gson gson = new Gson();
+                        String serializedJournal = gson.toJson(model);
+                        Intent editIntent = new Intent(getActivity(), AddJournalActivity.class);
+                        editIntent.putExtra(Constants.SERIALIZED_NOTE, serializedJournal);
+                        startActivity(editIntent);
                     }
-                });**/
+                });
 
                 holder.noteDate.setText(TimeUtils.getDueDate(model.getmDateModified()));
-                /**holder.delete.setOnClickListener(new View.OnClickListener() {
+                holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        promptForDelete(model);
+
                     }
-                });**/
+                });
 
                 try {
                     if (model.getmJourneyType().equals(Constants.NOTE_TYPE_AUDIO)){

@@ -20,7 +20,7 @@
         android:paddingTop="@dimen/margin_padding_tiny">
 
         <EditText
-            android:id="@+id/edit_text_category"
+            android:id="@+id/edit_text_tag"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_padding_large"
             android:textSize="@dimen/margin_padding_xxnormal"
@@ -53,18 +53,16 @@
         <EditText
             android:id="@+id/edit_text_title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_padding_large"
-            android:textSize="@dimen/margin_padding_xxnormal"
-            android:hint="@string/select_category"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_action_folder_open"
-            android:focusable="false"
-            android:layout_alignParentTop="true"
+            android:layout_height="@dimen/margin_padding_xxlarge"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_padding_tiny"
-            />
+            android:background="@android:color/transparent"
+            android:hint="@string/placeholder_note_title"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:textSize="@dimen/text_size_xxnormal" />
     </RelativeLayout>
 
     <View
