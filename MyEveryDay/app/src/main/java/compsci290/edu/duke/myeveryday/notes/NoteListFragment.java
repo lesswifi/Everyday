@@ -1,11 +1,13 @@
 package compsci290.edu.duke.myeveryday.notes;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,8 +52,8 @@ public class NoteListFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     @BindView(R.id.empty_text)
-    TextView eEmptyText;
-
+    TextView mEmptyText;
+    
 
     public NoteListFragment() {
         // Required empty public constructor
@@ -104,7 +108,7 @@ public class NoteListFragment extends Fragment {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        promptForDelete(model);
                     }
                 });
 
@@ -140,6 +144,48 @@ public class NoteListFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mNoteFirebaseAdapter);
         return mRootView;
+    }
+
+    private void promptForDelete(final JournalEntry journal){
+
+        String title = journal.getmTitle();
+        String message = "Delete " + title;
+
+        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+        TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+        titleText.setText(getString(R.string.are_you_sure));
+        alertDialog.setCustomTitle(titleView);
+
+        alertDialog.setMessage(message);
+        alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!TextUtils.isEmpty(journal.getmID())){
+                    Task<Void> voidTask = mcloudReference.child(journal.getmID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            if (mNoteFirebaseAdapter.getItemCount() < 1) {
+                                showEmptyText();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    public void showEmptyText() {
+        mRecyclerView.setVisibility(View.GONE);
+        mEmptyText.setVisibility(View.VISIBLE);
     }
 
 }
