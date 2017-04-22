@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "667376332991",
+    "firebase_url": "https://myeveryday-53a59.firebaseio.com",
+    "project_id": "myeveryday-53a59",
+    "storage_bucket": "myeveryday-53a59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667376332991:android:befcd4b5d468fea1",
+        "android_client_info": {
+          "package_name": "compsci290.edu.duke.myeveryday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "667376332991-6t7krpbmri4kgjgtbllfgmbitl52e72a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "compsci290.edu.duke.myeveryday",
+            "certificate_hash": "bce98313bb767c65f295de225a0b3f7b3ec9c2fd"
+          }
+        },
+        {
+          "client_id": "667376332991-g00pai2fehcvklv8hf0e0fn7ah2s377k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdEadPcT9xtDVM7ChOqHODeW9VfiKxtCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "667376332991-g00pai2fehcvklv8hf0e0fn7ah2s377k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
