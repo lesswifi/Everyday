@@ -42,7 +42,7 @@ public class Constants {
     public final static String MIME_TYPE_SKETCH = "image/png";
 
 
-    public final static String MIME_TYPE_IMAGE_EXT = ".jpeg";
+    public final static String MIME_TYPE_IMAGE_EXT = ".jpg";
     public final static String MIME_TYPE_AUDIO_EXT = ".amr";
     public final static String MIME_TYPE_SKETCH_EXT = ".png";
 

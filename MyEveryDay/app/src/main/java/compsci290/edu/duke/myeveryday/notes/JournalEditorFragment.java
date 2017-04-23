@@ -1,14 +1,25 @@
 package compsci290.edu.duke.myeveryday.notes;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,9 +29,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.PathInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -28,13 +43,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.util.FileUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +73,9 @@ public class JournalEditorFragment extends Fragment {
     @BindView(R.id.edit_text_journal)
     EditText mContent;
 
+    @Nullable @BindView(R.id.photo_gallery)
+    LinearLayout mPhotoGallery;
+
     private View mRootView;
     private JournalEntry currentJournal = null;
     private boolean isInEditMode = false;
@@ -59,6 +85,16 @@ public class JournalEditorFragment extends Fragment {
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
     private DatabaseReference mTagCloudReference;
+
+    private ArrayList<String> mPhotoPathList = new ArrayList<String>();
+    //private AudioHelper mAudioHelper;
+    private MediaRecorder mRecorder = null;
+    private MediaPlayer mPlayer = null;
+    private Animation mAnimation;
+
+    static final int EXTERNAL_PERMISSION_REQUEST = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
     public JournalEditorFragment() {
         // Required empty public constructor
@@ -120,6 +156,7 @@ public class JournalEditorFragment extends Fragment {
         }
     }
 
+
     private void populateNode(JournalEntry journal) {
         mTitle.setText(journal.getmTitle());
         mTitle.setHint(getString(R.string.placeholder_note_title));
@@ -136,14 +173,82 @@ public class JournalEditorFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        PackageManager packageManager = getActivity().getPackageManager();
         switch (item.getItemId()){
             case R.id.action_save:
                 validateAndSaveContent();
+                break;
+            case R.id.action_camera:
+                if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                    if (isStoragePermissionGranted()) {
+                        launchCamera();
+                    }
+                }
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File photoFile = null;
+        try {
+            photoFile = CameraHelper.createImageFile();
+            mPhotoPathList.add(photoFile.getAbsolutePath());
+        } catch (IOException e) {
+            makeToast("There was a problem saving the picture.");
+            return;
+        }
+
+        if (photoFile != null) {
+            Uri photoUri = Uri.fromFile(photoFile);
+            // mImageURIs.add(fileUri);
+            //mImageURI = fileUri;
+            //mLocalImagePaths.add(fileUri.getPath());
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_IMAGE_CAPTURE:
+                    String photoPath = mPhotoPathList.get(mPhotoPathList.size() - 1);
+                    populateImage(photoPath, false);
+                    break;
+            }
+        }
+    }
+
+    private void populateImage(String imagePath, boolean isCloudImage) {
+        //LinearLayout mPhotoGallery = (LinearLayout) mRootView.findViewById(R.id.photo_gallery);
+        ImageView image = new ImageView(getContext());
+        mPhotoGallery.addView(image);
+
+        if (isCloudImage) {
+
+        } else {
+            CameraHelper.displayImageInView(getContext(), imagePath, image);
+        }
+    }
+
+    private boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, EXTERNAL_PERMISSION_REQUEST);
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
     }
 
     private void validateAndSaveContent() {
@@ -185,6 +290,13 @@ public class JournalEditorFragment extends Fragment {
         makeToast(result);
         startActivity(new Intent(getActivity(), MainActivity.class));
 
+    }
+
+    public void addImagesToFirebase() {
+        for (int i = 0; i < mPhotoPathList.size(); i++) {
+            Log.d("addImagesToFirebase", mPhotoPathList.get(i));
+        }
+        // save to firebase
     }
 
     private void makeToast(String message){
