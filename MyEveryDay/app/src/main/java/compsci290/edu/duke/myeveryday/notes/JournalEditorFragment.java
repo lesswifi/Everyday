@@ -3,7 +3,9 @@ package compsci290.edu.duke.myeveryday.notes;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -67,6 +69,7 @@ import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
+import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.FileUtils;
@@ -89,6 +92,9 @@ public class JournalEditorFragment extends Fragment {
     @Nullable @BindView(R.id.photo_gallery)
     LinearLayout mPhotoGallery;
 
+    @BindView(R.id.audio_playback)
+    Button mAudioPlayback;
+
     private View mRootView;
     private JournalEntry currentJournal = null;
     private boolean isInEditMode = false;
@@ -103,13 +109,15 @@ public class JournalEditorFragment extends Fragment {
 
     private ArrayList<String> mPhotoPathList = new ArrayList<String>();
     private ArrayList<String> mCloudPhotoPathList = new ArrayList<String>();
-    //private AudioHelper mAudioHelper;
+    private String mAudioPath;
+
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private Animation mAnimation;
 
     static final int EXTERNAL_PERMISSION_REQUEST = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_AUDIO_RECORD = 2;
 
 
     public JournalEditorFragment() {
@@ -168,7 +176,24 @@ public class JournalEditorFragment extends Fragment {
             for (int i = 0; i < mCloudPhotoPathList.size(); i++) {
                 populateImage(mCloudPhotoPathList.get(i), true);
             }
+            if (currentJournal.getmAudioPath() != null) {
+                mAudioPlayback.setVisibility(View.VISIBLE);
+            }
         }
+
+        mAudioPlayback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPlayer == null) {
+                    mAudioPlayback.setText("Stop");
+                    AudioHelper.startPlayback(mPlayer, mAudioPath);
+                } else {
+                    AudioHelper.stopPlayback(mPlayer);
+                    mPlayer = null;
+                    mAudioPlayback.setText("Play");
+                }
+            }
+        });
 
         return mRootView;
     }
@@ -187,7 +212,6 @@ public class JournalEditorFragment extends Fragment {
         mTitle.setHint(getString(R.string.placeholder_note_title));
         mContent.setText(journal.getmContent());
         mContent.setHint(getString(R.string.placeholder_note_text));
-
     }
 
 
@@ -211,6 +235,16 @@ public class JournalEditorFragment extends Fragment {
                     }
                 }
                 break;
+            case R.id.action_record:
+                if (packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
+                    if (isStoragePermissionGranted()) {
+                        if (isRecordPermissionGranted()) {
+                            launchRecorder();
+                        }
+                    }
+                } else {
+                    makeToast("You do not have a microphone");
+                }
 
         }
 
@@ -235,6 +269,66 @@ public class JournalEditorFragment extends Fragment {
         }
     }
 
+    private void launchRecorder() {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View titleView = (View) inflater.inflate(R.layout.dialog_title, null);
+        TextView titleText = (TextView) titleView.findViewById(R.id.text_view_dialog_title);
+        titleText.setText("Record Audio");
+        alertDialog.setCustomTitle(titleView);
+
+        alertDialog.setPositiveButton("Start", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (mRecorder == null) {
+                    try {
+                        File audioFile = AudioHelper.createAudioFile();
+                        mAudioPath = audioFile.getAbsolutePath();
+                        AudioHelper.startRecording(mRecorder, mAudioPath);
+                        promptToStopRecording();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        });
+
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+
+    }
+
+    private void promptToStopRecording() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View titleView = (View) inflater.inflate(R.layout.dialog_title, null);
+        TextView titleText = (TextView) titleView.findViewById(R.id.text_view_dialog_title);
+        titleText.setText("Audio Recorder");
+        alertDialog.setCustomTitle(titleView);
+
+        alertDialog.setPositiveButton("Stop", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AudioHelper.stopRecording(mRecorder);
+                mRecorder = null;
+                mAudioPlayback.setVisibility(View.VISIBLE);
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -243,6 +337,10 @@ public class JournalEditorFragment extends Fragment {
                     String photoPath = mPhotoPathList.get(mPhotoPathList.size() - 1);
                     populateImage(photoPath, false);
                     break;
+                case REQUEST_AUDIO_RECORD:
+                    launchRecorder();
+                    break;
+
             }
         }
     }
@@ -266,6 +364,21 @@ public class JournalEditorFragment extends Fragment {
                 return true;
             } else {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, EXTERNAL_PERMISSION_REQUEST);
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    private boolean isRecordPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                this.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_AUDIO_RECORD);
                 return false;
             }
         }
@@ -315,6 +428,7 @@ public class JournalEditorFragment extends Fragment {
             @Override
             protected Object doInBackground(Object[] objects) {
                 addImagesToFirebase();
+                addAudioToFirebase();
                 return null;
             };
 
@@ -360,6 +474,39 @@ public class JournalEditorFragment extends Fragment {
 
         try {
             Tasks.await(Tasks.whenAll(taskList));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addAudioToFirebase() {
+        if (mAudioPath == null) {
+            return;
+        }
+
+        Uri file = Uri.fromFile(new File(mAudioPath));
+        StorageReference audioRef = mStorageReference.child("audio/" + file.getLastPathSegment());
+        UploadTask uploadTask = audioRef.putFile(file);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                makeToast("There was a problem uploading your recording.");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String uploadedAudioPath = taskSnapshot.getDownloadUrl().toString();
+                currentJournal.setmAudioPath(uploadedAudioPath);
+                Log.d("onSuccess", uploadedAudioPath);
+            }
+        });
+
+        try {
+            Tasks.await(uploadTask);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

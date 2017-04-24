@@ -15,11 +15,7 @@ public class JournalEntry {
     private long mDateModified;
     private long mnextreminder;
     private List<String> mImagePaths = new ArrayList<String>();
-    private boolean mCloudImageExitst;
     private String mAudioPath;
-    private boolean mCloudAudioExists;
-    private String msketchpath;
-    private boolean mcloudsketchExists;
     private String mWeather;
     private String mTagID;
     private String mTagName;
@@ -85,44 +81,12 @@ public class JournalEntry {
 
     public void removemImagePath(String mImagePath) { this.mImagePaths.remove(mImagePath); }
 
-    public boolean ismCloudImageExitst() {
-        return mCloudImageExitst;
-    }
-
-    public void setmCloudImageExitst(boolean mCloudImageExitst) {
-        this.mCloudImageExitst = mCloudImageExitst;
-    }
-
     public String getmAudioPath() {
         return mAudioPath;
     }
 
     public void setmAudioPath(String mAudioPath) {
         this.mAudioPath = mAudioPath;
-    }
-
-    public boolean ismCloudAudioExists() {
-        return mCloudAudioExists;
-    }
-
-    public void setmCloudAudioExists(boolean mCloudAudioExists) {
-        this.mCloudAudioExists = mCloudAudioExists;
-    }
-
-    public String getMsketchpath() {
-        return msketchpath;
-    }
-
-    public void setMsketchpath(String msketchpath) {
-        this.msketchpath = msketchpath;
-    }
-
-    public boolean isMcloudsketchExists() {
-        return mcloudsketchExists;
-    }
-
-    public void setMcloudsketchExists(boolean mcloudsketchExists) {
-        this.mcloudsketchExists = mcloudsketchExists;
     }
 
     public String getmWeather() {
