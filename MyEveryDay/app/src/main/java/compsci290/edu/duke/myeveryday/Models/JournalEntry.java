@@ -1,5 +1,8 @@
 package compsci290.edu.duke.myeveryday.Models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wangerxiao on 4/17/17.
  */
@@ -11,7 +14,7 @@ public class JournalEntry {
     private long mDateCreated;
     private long mDateModified;
     private long mnextreminder;
-    private String mImagePath;
+    private List<String> mImagePaths = new ArrayList<String>();
     private boolean mCloudImageExitst;
     private String mAudioPath;
     private boolean mCloudAudioExists;
@@ -70,13 +73,17 @@ public class JournalEntry {
         this.mnextreminder = mnextreminder;
     }
 
-    public String getmImagePath() {
-        return mImagePath;
+    public List<String> getmImagePaths() {
+        return mImagePaths;
     }
 
-    public void setmImagePath(String mImagePath) {
-        this.mImagePath = mImagePath;
+    public void setmImagePaths(List<String> mImagePaths) {
+        this.mImagePaths = mImagePaths;
     }
+
+    public void addmImagePath(String mImagePath) { this.mImagePaths.add(mImagePath); }
+
+    public void removemImagePath(String mImagePath) { this.mImagePaths.remove(mImagePath); }
 
     public boolean ismCloudImageExitst() {
         return mCloudImageExitst;
