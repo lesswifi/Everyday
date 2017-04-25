@@ -162,10 +162,14 @@ public class JournalEditorFragment extends Fragment {
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
         getCurrentNode();
-        mCloudPhotoPathList = (ArrayList<String>) currentJournal.getmImagePaths();
-        for (int i = 0; i < mCloudPhotoPathList.size(); i++) {
-            populateImage(mCloudPhotoPathList.get(i), true);
+
+        if (currentJournal != null) {
+            mCloudPhotoPathList = (ArrayList<String>) currentJournal.getmImagePaths();
+            for (int i = 0; i < mCloudPhotoPathList.size(); i++) {
+                populateImage(mCloudPhotoPathList.get(i), true);
+            }
         }
+
         return mRootView;
     }
 
