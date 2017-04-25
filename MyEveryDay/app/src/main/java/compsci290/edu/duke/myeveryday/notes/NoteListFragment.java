@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 
@@ -78,7 +80,7 @@ public class NoteListFragment extends Fragment {
                 JournalEntry.class,
                 R.layout.row_note_list,
                 NoteViewHolder.class,
-                mcloudReference) {
+                mcloudReference.orderByChild("mDateCreated")) {
 
             @Override
             protected JournalEntry parseSnapshot (DataSnapshot snapshot){
@@ -93,7 +95,15 @@ public class NoteListFragment extends Fragment {
             @Override
             protected void populateViewHolder(NoteViewHolder holder, final JournalEntry model, int position) {
                 holder.title.setText(model.getmTitle());
-                holder.title.setOnClickListener(new View.OnClickListener() {
+                holder.content.setText(model.getmContent());
+
+                /*
+                String imageUrl = model.getmImagePaths().get(0);
+                CameraHelper.displayImageInView(getActivity(), imageUrl, holder.photo);
+                holder.gradient.setVisibility(View.VISIBLE);
+                */
+
+                holder.card.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Gson gson = new Gson();
@@ -104,13 +114,16 @@ public class NoteListFragment extends Fragment {
                     }
                 });
 
-                holder.noteDate.setText(TimeUtils.getDueDate(model.getmDateModified()));
+                holder.noteTime.setText(TimeUtils.getReadableModifiedShortDate(model.getmDateCreated()) + "\n" + TimeUtils.getReadableModifiedTime(model.getmDateCreated()));
+
+                /*
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         promptForDelete(model);
                     }
                 });
+
 
                 try {
                     if (model.getmJourneyType().equals(Constants.NOTE_TYPE_AUDIO)){
@@ -136,12 +149,17 @@ public class NoteListFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                */
 
             }
         };
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mNoteFirebaseAdapter);
         return mRootView;
     }
