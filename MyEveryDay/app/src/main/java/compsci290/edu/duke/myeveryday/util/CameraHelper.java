@@ -32,10 +32,10 @@ import compsci290.edu.duke.myeveryday.R;
 
 public class CameraHelper {
 
-    public static File createImageFile() throws IOException {
+    public static File createImageFile(Context mContext) throws IOException {
         String timeStamp = TimeUtils.getDatetimeSuffix(System.currentTimeMillis());
         String imageFileName = "img_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,
                 Constants.MIME_TYPE_IMAGE_EXT,

@@ -22,6 +22,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -184,7 +185,7 @@ public class JournalEditorFragment extends Fragment {
         mAudioPlayback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPlayer == null) {
+                if (mPlayer != null) {
                     mAudioPlayback.setText("Stop");
                     AudioHelper.startPlayback(mPlayer, mAudioPath);
                 } else {
@@ -253,9 +254,10 @@ public class JournalEditorFragment extends Fragment {
 
     private void launchCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photoFile = null;
+        takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        File photoFile;
         try {
-            photoFile = CameraHelper.createImageFile();
+            photoFile = CameraHelper.createImageFile(getActivity());
             mPhotoPathList.add(photoFile.getAbsolutePath());
         } catch (IOException e) {
             makeToast("There was a problem saving the picture.");
@@ -263,7 +265,10 @@ public class JournalEditorFragment extends Fragment {
         }
 
         if (photoFile != null) {
-            Uri photoUri = Uri.fromFile(photoFile);
+            Uri photoUri = FileProvider.getUriForFile(getActivity(),
+                    "compsci290.edu.duke.myeveryday.fileprovider",
+                    photoFile);
+
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
@@ -445,6 +450,7 @@ public class JournalEditorFragment extends Fragment {
     }
 
     public void addImagesToFirebase() {
+        Log.d("addImagesToFirebase", "IN THIS FUNCTION");
         // Updates cloud photos to remove the URLs deleted during editing
         currentJournal.setmImagePaths(mCloudPhotoPathList);
 
