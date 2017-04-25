@@ -1,5 +1,6 @@
 package compsci290.edu.duke.myeveryday.util;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -7,6 +8,8 @@ import android.provider.MediaStore;
 
 import java.io.File;
 import java.io.IOException;
+
+import static android.media.AudioManager.STREAM_MUSIC;
 
 /**
  * Created by pallavishankar on 4/23/17.
@@ -28,7 +31,6 @@ public class AudioHelper {
     }
 
     public static void startRecording(MediaRecorder mRecorder, String mAudioFilePath) {
-        mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setOutputFile(mAudioFilePath);
@@ -53,8 +55,8 @@ public class AudioHelper {
     }
 
     public static void startPlayback(MediaPlayer mPlayer, String mAudioFilePath) {
-        mPlayer = new MediaPlayer();
         try {
+            mPlayer.setAudioStreamType(STREAM_MUSIC);
             mPlayer.setDataSource(mAudioFilePath);
             mPlayer.prepare();
             mPlayer.start();

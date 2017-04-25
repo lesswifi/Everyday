@@ -111,6 +111,7 @@ public class JournalEditorFragment extends Fragment {
     private ArrayList<String> mPhotoPathList = new ArrayList<String>();
     private ArrayList<String> mCloudPhotoPathList = new ArrayList<String>();
     private String mAudioPath;
+    private String mPlaybackAudioPath;
 
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
@@ -177,7 +178,8 @@ public class JournalEditorFragment extends Fragment {
             for (int i = 0; i < mCloudPhotoPathList.size(); i++) {
                 populateImage(mCloudPhotoPathList.get(i), true);
             }
-            if (currentJournal.getmAudioPath() != null) {
+            mPlaybackAudioPath = currentJournal.getmAudioPath();
+            if (mPlaybackAudioPath != null) {
                 mAudioPlayback.setVisibility(View.VISIBLE);
             }
         }
@@ -185,9 +187,18 @@ public class JournalEditorFragment extends Fragment {
         mAudioPlayback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPlayer != null) {
+                if (mPlayer == null) {
+                    mPlayer = new MediaPlayer();
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            AudioHelper.stopPlayback(mPlayer);
+                            mPlayer = null;
+                            mAudioPlayback.setText("Play");
+                        }
+                    });
                     mAudioPlayback.setText("Stop");
-                    AudioHelper.startPlayback(mPlayer, mAudioPath);
+                    AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
                 } else {
                     AudioHelper.stopPlayback(mPlayer);
                     mPlayer = null;
@@ -289,6 +300,7 @@ public class JournalEditorFragment extends Fragment {
                     try {
                         File audioFile = AudioHelper.createAudioFile();
                         mAudioPath = audioFile.getAbsolutePath();
+                        mRecorder = new MediaRecorder();
                         AudioHelper.startRecording(mRecorder, mAudioPath);
                         promptToStopRecording();
                     } catch (IOException e) {
@@ -324,6 +336,7 @@ public class JournalEditorFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 AudioHelper.stopRecording(mRecorder);
                 mRecorder = null;
+                mPlaybackAudioPath = mAudioPath;
                 mAudioPlayback.setVisibility(View.VISIBLE);
                 dialog.dismiss();
             }
@@ -413,6 +426,8 @@ public class JournalEditorFragment extends Fragment {
             e.printStackTrace();
         }
 
+        startActivity(new Intent(getActivity(), MainActivity.class));
+
     }
 
     private void addNotetoFirebase() throws ExecutionException, InterruptedException {
@@ -439,20 +454,22 @@ public class JournalEditorFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
+                //super.onPostExecute(o);
                 mcloudReference.child(currentJournal.getmID()).setValue(currentJournal);
                 String result = isInEditMode ? "Note updated" : "Note added";
                 makeToast(result);
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                Log.d("onPostExecute", "added");
             }
         }.execute();
+
+        //startActivity(new Intent(getActivity(), MainActivity.class));
 
     }
 
     public void addImagesToFirebase() {
         Log.d("addImagesToFirebase", "IN THIS FUNCTION");
         // Updates cloud photos to remove the URLs deleted during editing
-        currentJournal.setmImagePaths(mCloudPhotoPathList);
+        // currentJournal.setmImagePaths(mCloudPhotoPathList);
 
         // Adds local images
         ArrayList<UploadTask> taskList = new ArrayList<UploadTask>();
