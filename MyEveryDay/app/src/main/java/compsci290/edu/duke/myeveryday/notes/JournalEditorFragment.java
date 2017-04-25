@@ -437,11 +437,11 @@ public class JournalEditorFragment extends Fragment {
             Log.d("addNotetoFirebase", currentJournal.toString());
             String key = mcloudReference.push().getKey();
             currentJournal.setmID(key);
+            currentJournal.setmDateCreated(System.currentTimeMillis());
         }
 
         currentJournal.setmTitle(mTitle.getText().toString());
         currentJournal.setmContent(mContent.getText().toString());
-        currentJournal.setmDateCreated(System.currentTimeMillis());
         currentJournal.setmDateModified(System.currentTimeMillis());
 
         AsyncTask addMedia = new AsyncTask() {

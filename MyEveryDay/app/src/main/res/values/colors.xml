@@ -3,10 +3,12 @@
     <color name="colorPrimary">@color/primary</color>
     <color name="colorPrimaryDark">@color/primary_dark</color>
     <color name="colorAccent">@color/accent</color>
+    <color name="colorBackground">#f5f5f5</color>
+    <color name="colorTimeline">@color/material_gray_300</color>
 
 
-    <color name="primary">#FB8C00</color>
-    <color name="primary_dark">#F57C00</color>
+    <color name="primary">#ff9800</color>
+    <color name="primary_dark">#f57f17</color>
     <color name="primary_light">#FFE0B2</color>
     <color name="accent">#FF5722</color>
     <color name="primary_text">#212121</color>
