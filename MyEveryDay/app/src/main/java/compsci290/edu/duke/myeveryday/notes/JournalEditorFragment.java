@@ -1,7 +1,18 @@
 package compsci290.edu.duke.myeveryday.notes;
 
 
+import android.widget.ImageView;
+
+<<<<<<< ours
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.Bundle;
+=======
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,17 +21,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.os.Environment;
 import android.provider.MediaStore;
+>>>>>>> theirs
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -31,33 +39,41 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Log;
+<<<<<<< ours
+=======
 import android.view.ContextMenu;
+>>>>>>> theirs
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< ours
+=======
 import android.view.animation.Animation;
 import android.view.animation.PathInterpolator;
 import android.widget.Button;
+>>>>>>> theirs
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+<<<<<<< ours
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+=======
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+>>>>>>> theirs
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +83,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+<<<<<<< ours
+
+import java.io.IOException;
+import java.text.BreakIterator;
+import java.util.List;
+import java.util.Locale;
+=======
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -75,12 +98,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import java.io.IOException;
-import java.text.BreakIterator;
-import java.util.List;
-import java.util.Locale;
+>>>>>>> theirs
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
@@ -88,20 +106,23 @@ import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
+<<<<<<< ours
 import compsci290.edu.duke.myeveryday.Services.LatLng;
 import compsci290.edu.duke.myeveryday.Services.WeatherService;
+import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
+=======
 import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
-import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
 import compsci290.edu.duke.myeveryday.util.FileUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
+>>>>>>> theirs
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class JournalEditorFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-public class JournalEditorFragment extends Fragment {
 
     @BindView(R.id.edit_text_tag)
     EditText mTag;
@@ -477,7 +498,6 @@ public class JournalEditorFragment extends Fragment {
             return;
         }
 
-        addNotetoFirebase();
         try {
             addNotetoFirebase();
         } catch (ExecutionException | InterruptedException e) {
@@ -488,24 +508,28 @@ public class JournalEditorFragment extends Fragment {
 
     }
 
+<<<<<<< ours
     private void addNotetoFirebase()  {
+=======
     private void addNotetoFirebase() throws ExecutionException, InterruptedException {
+>>>>>>> theirs
 
         if (currentJournal == null){
             currentJournal = new JournalEntry();
             Log.d("addNotetoFirebase", currentJournal.toString());
             String key = mcloudReference.push().getKey();
             currentJournal.setmID(key);
-
             currentJournal.setmDateCreated(System.currentTimeMillis());
         }
         Log.d("Journal editor", mTitle.getText().toString());
-
         currentJournal.setmTitle(mTitle.getText().toString());
+<<<<<<< ours
         String contentText = mContent.getText().toString();
         currentJournal.setmContent(contentText);
         currentJournal.setmDateCreated(System.currentTimeMillis());
+=======
         currentJournal.setmContent(mContent.getText().toString());
+>>>>>>> theirs
         currentJournal.setmDateModified(System.currentTimeMillis());
         currentJournal.setmLocation(mAddress);
         currentJournal.setmLatLng(mLatLng);
@@ -526,7 +550,6 @@ public class JournalEditorFragment extends Fragment {
         System.out.println("NLP");
         System.out.println(nlpResult);
 
-        mcloudReference.child(currentJournal.getmID()).setValue(currentJournal);
         AsyncTask addMedia = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
@@ -535,9 +558,6 @@ public class JournalEditorFragment extends Fragment {
                 return null;
             };
 
-        String result = isInEditMode ? "Note updated" : "Note added";
-        makeToast(result);
-        startActivity(new Intent(getActivity(), MainActivity.class));
             @Override
             protected void onPostExecute(Object o) {
                 //super.onPostExecute(o);
@@ -551,13 +571,6 @@ public class JournalEditorFragment extends Fragment {
         //startActivity(new Intent(getActivity(), MainActivity.class));
 
     }
-
-    private List<Double> getNLP(String content) throws InterruptedException, ExecutionException{
-        NaturalLanguageTask rd = new NaturalLanguageTask(content);
-        rd.execute();
-        return rd.get();
-    }
-
 
     public void addImagesToFirebase() {
         Log.d("addImagesToFirebase", "IN THIS FUNCTION");
@@ -630,6 +643,13 @@ public class JournalEditorFragment extends Fragment {
         }
 
     }
+
+    private List<Double> getNLP(String content) throws InterruptedException, ExecutionException{
+        NaturalLanguageTask rd = new NaturalLanguageTask(content);
+        rd.execute();
+        return rd.get();
+    }
+
 
     private void makeToast(String message){
         Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_LONG);

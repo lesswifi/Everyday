@@ -84,20 +84,12 @@ public class JournalEntry {
         return mImagePaths;
     }
 
-    public void setmImagePath(String mImagePath) {
-        this.mImagePath = mImagePath;
     public void setmImagePaths(List<String> mImagePaths) {
         this.mImagePaths = mImagePaths;
     }
 
-    public boolean ismCloudImageExitst() {
-        return mCloudImageExitst;
-    }
     public void addmImagePath(String mImagePath) { this.mImagePaths.add(mImagePath); }
 
-    public void setmCloudImageExitst(boolean mCloudImageExitst) {
-        this.mCloudImageExitst = mCloudImageExitst;
-    }
     public void removemImagePath(String mImagePath) { this.mImagePaths.remove(mImagePath); }
 
     public String getmAudioPath() {
@@ -106,30 +98,6 @@ public class JournalEntry {
 
     public void setmAudioPath(String mAudioPath) {
         this.mAudioPath = mAudioPath;
-    }
-
-    public boolean ismCloudAudioExists() {
-        return mCloudAudioExists;
-    }
-
-    public void setmCloudAudioExists(boolean mCloudAudioExists) {
-        this.mCloudAudioExists = mCloudAudioExists;
-    }
-
-    public String getMsketchpath() {
-        return msketchpath;
-    }
-
-    public void setMsketchpath(String msketchpath) {
-        this.msketchpath = msketchpath;
-    }
-
-    public boolean isMcloudsketchExists() {
-        return mcloudsketchExists;
-    }
-
-    public void setMcloudsketchExists(boolean mcloudsketchExists) {
-        this.mcloudsketchExists = mcloudsketchExists;
     }
 
     public String getmWeather() {
