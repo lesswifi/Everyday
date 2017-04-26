@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "667376332991-48s05okkedr455n49p82d06foi27k84t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "compsci290.edu.duke.myeveryday",
+            "certificate_hash": "a33b3d339a5ceaf95aada402fae192cda7fb1d86"
+          }
+        },
+        {
+          "client_id": "667376332991-ug8mru2k2djo2pv5h8td9r6mg799dd41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "compsci290.edu.duke.myeveryday",
+            "certificate_hash": "3de0c89ca6fb2d15e8017355cf4b54bd0319fd6d"
+          }
+        },
+        {
           "client_id": "667376332991-6t7krpbmri4kgjgtbllfgmbitl52e72a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -30,6 +46,9 @@
       "api_key": [
         {
           "current_key": "AIzaSyBdEadPcT9xtDVM7ChOqHODeW9VfiKxtCY"
+        },
+        {
+          "current_key": "AIzaSyCf10HH2p-71Kn5ABCxJPIx6-NYbspY5Wo"
         }
       ],
       "services": {

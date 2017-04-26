@@ -17,9 +17,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,7 +49,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
-import compsci290.edu.duke.myeveryday.Authentication.SignedInActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
@@ -139,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot journalsnapshot: dataSnapshot.getChildren())
                 {
                     JournalEntry journal = journalsnapshot.getValue(JournalEntry.class);
+
                     journals.add(journal);
                 }
 

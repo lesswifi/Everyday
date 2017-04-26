@@ -1,5 +1,7 @@
 package compsci290.edu.duke.myeveryday.Models;
 
+import compsci290.edu.duke.myeveryday.Services.LatLng;
+
 /**
  * Created by wangerxiao on 4/17/17.
  */
@@ -21,6 +23,8 @@ public class JournalEntry {
     private String mTagID;
     private String mTagName;
     private String mJourneyType;
+    private LatLng mLatLng;
+    private String mLocation;
 
     public String getmID() {
         return mID;
@@ -148,5 +152,21 @@ public class JournalEntry {
 
     public void setmJourneyType(String mJourneyType) {
         this.mJourneyType = mJourneyType;
+    }
+
+    public LatLng getmLatLng() {
+        return mLatLng;
+    }
+
+    public void setmLatLng(LatLng latlng) {
+        this.mLatLng = latlng;
+    }
+
+    public String getmLocation() {
+        return mLocation;
+    }
+
+    public void setmLocation(String location) {
+        this.mLocation = location;
     }
 }

@@ -6,11 +6,12 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "compsci290.edu.duke.myeveryday"
-        minSdkVersion 21
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -41,7 +42,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.firebaseui:firebase-ui:1.0.1'
+    compile 'com.firebaseui:firebase-ui:1.1.0'
 
     compile 'com.google.firebase:firebase-storage:10.0.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -54,6 +55,10 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile 'com.google.android.gms:play-services-auth:10.0.1'
+    compile 'com.google.android.gms:play-services-location:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
+    compile 'com.ibm.watson.developer_cloud:java-sdk:3.7.2'
 }
 
 

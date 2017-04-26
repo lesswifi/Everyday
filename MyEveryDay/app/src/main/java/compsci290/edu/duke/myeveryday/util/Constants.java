@@ -50,4 +50,14 @@ public class Constants {
     public static final String FIREBASE_STORAGE_BUCKET = "gs://prontonotepad.appspot.com";
     public static final String IS_DUAL_SCREEN = "is_dual_screen";
     public static final String SKETCH_PATH = "sketch_path";
+
+    public static final int SUCCESS_RESULT = 0;
+    public static final int FAILURE_RESULT = 1;
+    public static final String PACKAGE_NAME =
+            "com.google.android.gms.location.sample.locationaddress";
+    public static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";
+    public static final String RESULT_DATA_KEY = PACKAGE_NAME +
+            ".RESULT_DATA_KEY";
+    public static final String LOCATION_DATA_EXTRA = PACKAGE_NAME +
+            ".LOCATION_DATA_EXTRA";
 }
