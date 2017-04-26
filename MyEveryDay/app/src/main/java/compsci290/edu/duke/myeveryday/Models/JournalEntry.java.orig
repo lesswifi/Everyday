@@ -1,9 +1,11 @@
 package compsci290.edu.duke.myeveryday.Models;
 
+<<<<<<< ours
+import compsci290.edu.duke.myeveryday.Services.LatLng;
+=======
 import java.util.ArrayList;
 import java.util.List;
-
-import compsci290.edu.duke.myeveryday.Services.LatLng;
+>>>>>>> theirs
 
 /**
  * Created by wangerxiao on 4/17/17.
@@ -16,13 +18,8 @@ public class JournalEntry {
     private long mDateCreated;
     private long mDateModified;
     private long mnextreminder;
-    private String mImagePath;
-    private boolean mCloudImageExitst;
     private List<String> mImagePaths = new ArrayList<String>();
     private String mAudioPath;
-    private boolean mCloudAudioExists;
-    private String msketchpath;
-    private boolean mcloudsketchExists;
     private String mWeather;
     private String mTagID;
     private String mTagName;
@@ -78,9 +75,6 @@ public class JournalEntry {
         this.mnextreminder = mnextreminder;
     }
 
-    public String getmImagePath() {
-        return mImagePath;
-    }
     public List<String> getmImagePaths() {
         return mImagePaths;
     }
