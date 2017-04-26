@@ -51,6 +51,17 @@ public class TimeUtils {
         return displayDate;
     }
 
+    public static String getReadableModifiedShortDate(long date){
+
+        String displayDate = new SimpleDateFormat("MMM dd").format(new Date(date));
+        return displayDate;
+    }
+
+    public static String getReadableModifiedTime(long date){
+        String displayTime = new SimpleDateFormat("h:mm a").format(new Date(date));
+        return displayTime;
+    }
+
 
     public static String getDueDate(long date){
 

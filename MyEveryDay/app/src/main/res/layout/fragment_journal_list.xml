@@ -6,11 +6,7 @@
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/note_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/margin_padding_small"
-        android:paddingLeft="@dimen/margin_padding_small"
-        android:paddingRight="@dimen/margin_padding_small"
-        android:paddingTop="@dimen/margin_padding_small" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/empty_text"

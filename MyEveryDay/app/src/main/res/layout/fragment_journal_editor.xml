@@ -82,7 +82,7 @@
         <EditText
             android:id="@+id/edit_text_journal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_tiny"
             android:background="#00000000"
             android:gravity="left|top"
@@ -93,5 +93,24 @@
             android:textSize="@dimen/text_size_lined_editor" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/audio_playback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:visibility="gone">
+    </Button>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:fillViewport="false">
+        <LinearLayout
+            android:id="@+id/photo_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
 
 </LinearLayout>

@@ -27,7 +27,7 @@ public class Constants {
 
     public static final String NOTE_CLOUD_END_POINT = "/notes";
     public static final String CATEGORY_CLOUD_END_POINT = "/categories";
-    public static final String ATTACHMENT_CLOUD_END_POINT = "/attachments";
+    public static final String PHOTO_CLOUD_END_POINT = "/photos";
     public static final String NOTE_ATTACHMENT_CLOUD_END_POINT = "/note_attachments";
     public static final String USERS_CLOUD_END_POINT = "/users/";
     public static final String SERIALZED_CATEGORY = "serialized_category";
@@ -42,7 +42,7 @@ public class Constants {
     public final static String MIME_TYPE_SKETCH = "image/png";
 
 
-    public final static String MIME_TYPE_IMAGE_EXT = ".jpeg";
+    public final static String MIME_TYPE_IMAGE_EXT = ".jpg";
     public final static String MIME_TYPE_AUDIO_EXT = ".amr";
     public final static String MIME_TYPE_SKETCH_EXT = ".png";
 
