@@ -49,10 +49,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
-import compsci290.edu.duke.myeveryday.Authentication.SignedInActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
+import compsci290.edu.duke.myeveryday.Tag.TagList;
 import compsci290.edu.duke.myeveryday.notes.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
             memailaddress = mFirebaseUser.getEmail();
 
-            String uid = mFirebaseUser.getUid();
+            //String uid = mFirebaseUser.getUid();
         }
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
@@ -235,9 +235,10 @@ public class MainActivity extends AppCompatActivity {
     {
         switch (position){
             case Constants.NOTES:
-                //Do Nothing, we are already on Notes
+                //Do Nothing, already on Notes
                 break;
             case Constants.CATEGORIES:
+                //Go to tagActivity
                 startActivity(new Intent(MainActivity.this, TagList.class));
                 break;
             case Constants.SETTINGS:

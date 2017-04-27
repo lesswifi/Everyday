@@ -1,34 +1,31 @@
-package compsci290.edu.duke.myeveryday.notes;
+package compsci290.edu.duke.myeveryday.Tag;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.util.Constants;
 
-public class AddJournalActivity extends AppCompatActivity {
+/**
+ * Created by wangerxiao on 4/23/17.
+ */
 
+public class TagList extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_journal);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setContentView(R.layout.tag_activity);
+        //Toolbar mtoolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(mtoolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (getIntent() != null && getIntent().hasExtra(Constants.SERIALIZED_NOTE)){
-            String serializedNote = getIntent().getStringExtra(Constants.SERIALIZED_NOTE);
-            openFragment(JournalEditorFragment.newInstance(serializedNote), getString(R.string.note_editor));
-        }
-        else{
-            openFragment(JournalEditorFragment.newInstance(""), getString(R.string.note_editor));
-        }
+        openFragment(new TagListFragment(), "Tags");
+
 
     }
-
-
 
     private void openFragment(Fragment fragment, String screenTitle){
         getSupportFragmentManager()
