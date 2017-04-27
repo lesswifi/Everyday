@@ -2,6 +2,7 @@ package compsci290.edu.duke.myeveryday.Tag;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
@@ -31,6 +33,9 @@ import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
+import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,12 +50,14 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
     RecyclerView mRecyclerView;
     @BindView(R.id.empty_text)
     TextView mEmptytext;
+    private FloatingActionButton mfab;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
     private DatabaseReference mTagCloudReference;
+    private AddTagFragment addtagdialog;
 
 
 
@@ -69,6 +76,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mdatabase = FirebaseDatabase.getInstance().getReference();
+
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
 
@@ -103,12 +111,27 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
             }
         });
 
+        mfab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        mfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displaytagdialog();
+            }
+        });
+
         mAdapter = new ListAdapter(mtags, getContext(),this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 
         return mrootview;
 
+
+    }
+
+    private void displaytagdialog() {
+        addtagdialog = AddTagFragment.newInstatnce("");
+        //bug may appear here
+        addtagdialog.show(getFragmentManager(), "Dialog");
 
     }
 
@@ -181,6 +204,12 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
 
     @Override
     public void onEditButtionClicked(Tag TagSelected) {
+
+        Gson gson = new Gson();
+        String serializedCategory = gson.toJson(TagSelected);
+
+        addtagdialog = AddTagFragment.newInstatnce(serializedCategory);
+        addtagdialog.show(getFragmentManager(), "Dialog");
 
     }
 

@@ -3,6 +3,7 @@ package compsci290.edu.duke.myeveryday.Tag;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -92,6 +93,7 @@ public class AddTagFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final AlertDialog.Builder addtagdialog = new AlertDialog.Builder(getActivity());
+
         if(savedInstanceState == null)
         {
             LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -105,6 +107,7 @@ public class AddTagFragment extends DialogFragment {
             addtagdialog.setCustomTitle(titleView);
 
             mTagEditText = (EditText)view.findViewById(R.id.edit_text_add_category);
+
             addtagdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -127,7 +130,7 @@ public class AddTagFragment extends DialogFragment {
 
         }
 
-    return addtagdialog.create();
+            return addtagdialog.create();
         }
 
     private void populatefields(Tag mtag) {
@@ -174,8 +177,6 @@ public class AddTagFragment extends DialogFragment {
 
     public void saveTag()
     {
-        if(mInEditMode)
-        {
             if(mtag != null)
             {
                 mtag.setmTagName(mTagEditText.getText().toString().trim());
@@ -189,7 +190,7 @@ public class AddTagFragment extends DialogFragment {
                 tag.setmTagID(mTagCloudReference.push().getKey());
                 mTagCloudReference.child(tag.getmTagID()).setValue(tag);
             }
-        }
+        
     }
 
 
