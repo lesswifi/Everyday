@@ -17,7 +17,7 @@ import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 
 /**
- * Created by wangerxiao on 4/24/17.
+ * Created by wangerxiao on 4/23/17.
  */
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {

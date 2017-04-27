@@ -190,7 +190,7 @@ public class AddTagFragment extends DialogFragment {
                 tag.setmTagID(mTagCloudReference.push().getKey());
                 mTagCloudReference.child(tag.getmTagID()).setValue(tag);
             }
-        
+
     }
 
 

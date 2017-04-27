@@ -1,6 +1,7 @@
 package compsci290.edu.duke.myeveryday.Tag;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,8 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,6 @@ import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
 
 
 /**
@@ -214,7 +212,41 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
     }
 
     @Override
-    public void onDeleteButtionBlicked(Tag TagSelected) {
+    public void onDeleteButtionBlicked(final Tag TagSelected) {
+        String title = getString(R.string.are_you_sure);
+        String message =  getString(R.string.action_delete) + " " + TagSelected.getmTagName();
+
+
+        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+        TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+        titleText.setText(title);
+        alertDialog.setCustomTitle(titleView);
+
+        alertDialog.setMessage(message);
+        alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Delete Category
+                int noteCount = getjournalcount(TagSelected.getmTagID());
+                if (noteCount > 0){
+                    Intent intent = new Intent(getContext(), DeleteTagIntentService.class);
+                    intent.putExtra(Constants.SELECTED_CATEGORY_ID, TagSelected.getmTagID());
+                    getActivity().startService(intent);
+                }else {
+                    mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
+                }
+
+            }
+        });
+        alertDialog.setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
 
     }
 }
