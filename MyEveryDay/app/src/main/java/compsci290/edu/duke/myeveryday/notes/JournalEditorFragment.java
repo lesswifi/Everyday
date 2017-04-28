@@ -250,8 +250,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         });
 
 
-
-
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
         getCurrentNode();
