@@ -49,8 +49,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -66,11 +69,15 @@ import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import compsci290.edu.duke.myeveryday.Listeners.TagSelectedListener;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
+import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.Services.LatLng;
 import compsci290.edu.duke.myeveryday.Services.WeatherService;
+import compsci290.edu.duke.myeveryday.Tag.SelectTagFragment;
 import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
@@ -100,7 +107,10 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     private View mRootView;
     private JournalEntry currentJournal = null;
+    private Tag currenttag = null;
     private boolean isInEditMode = false;
+    private List<Tag> mtags = new ArrayList<>();
+    private SelectTagFragment selecttagdialog;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -206,6 +216,26 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
+
+        mTagCloudReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot tagsnapshot: dataSnapshot.getChildren())
+                {
+                    Tag mtag = tagsnapshot.getValue(Tag.class);
+                    mtags.add(mtag);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
         getCurrentNode();
@@ -261,6 +291,39 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         mTitle.setHint(getString(R.string.placeholder_note_title));
         mContent.setText(journal.getmContent());
         mContent.setHint(getString(R.string.placeholder_note_text));
+    }
+
+    @OnClick(R.id.edit_text_tag)
+    public void showSelectedTag()
+    {
+        showchosendialog(mtags);
+    }
+
+    private void showchosendialog(List<Tag> mtags) {
+        selecttagdialog = SelectTagFragment.newInstance();
+        selecttagdialog.settags(mtags);
+
+        selecttagdialog.settagselectedlistner(new TagSelectedListener() {
+            @Override
+            public void onTagSelected(Tag TagSelected) {
+                selecttagdialog.dismiss();
+                mTag.setText(TagSelected.getmTagName());
+                currenttag = TagSelected;
+            }
+
+            @Override
+            public void onEditButtionClicked(Tag TagSelected) {
+
+            }
+
+            @Override
+            public void onDeleteButtionBlicked(Tag TagSelected) {
+
+            }
+        });
+
+        selecttagdialog.show(getFragmentManager(), "Dialog");
+
     }
 
 
