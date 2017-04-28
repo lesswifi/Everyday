@@ -494,7 +494,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         Log.d("JournalEditorFragment",mAddress);
         WeatherService ws = new WeatherService(mLastLocation);
         String weather = null;
-        List<Double> nlpResult = null;
+        Double nlpResult = 0.0;
         try {
             weather = ws.getWeather();
             nlpResult = getNLP(contentText);
@@ -504,7 +504,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             e.printStackTrace();
         }
         currentJournal.setmWeather(weather);
-        Log.d("JournalEditorFragment",weather);
+        currentJournal.setmSentimentScore(nlpResult);
         System.out.println("NLP");
         System.out.println(nlpResult);
 
@@ -602,7 +602,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     }
 
-    private List<Double> getNLP(String content) throws InterruptedException, ExecutionException{
+    private Double getNLP(String content) throws InterruptedException, ExecutionException{
         NaturalLanguageTask rd = new NaturalLanguageTask(content);
         rd.execute();
         return rd.get();

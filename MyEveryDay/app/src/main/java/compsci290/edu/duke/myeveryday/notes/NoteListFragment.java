@@ -92,11 +92,10 @@ public class NoteListFragment extends Fragment {
                 holder.title.setText(model.getmTitle());
                 holder.content.setText(model.getmContent());
                 StringBuilder sb = new StringBuilder();
-                sb.append(model.getmLocation());
-                sb.append(", ");
                 sb.append(model.getmWeather());
+                sb.append(", ");
+                sb.append(model.getmLocation());
                 holder.location_weather.setText(sb.toString());
-                
 
                 /*
                 String imageUrl = model.getmImagePaths().get(0);

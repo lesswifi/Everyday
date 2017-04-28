@@ -40,6 +40,7 @@
         <activity android:name=".Authentication.SignedInActivity" />
         <activity android:name=".Authentication.AuthUiActivity" />
         <activity android:name=".notes.AddJournalActivity" />
+        <activity android:name=".AnalyticsActivity" />
         <service
             android:name=".Services.WeatherService"
             android:exported="false" />

@@ -29,6 +29,7 @@ public class JournalEntry {
     private String mJourneyType;
     private LatLng mLatLng;
     private String mLocation;
+    private Double mSentimentScore;
 
     public String getmID() {
         return mID;
@@ -147,5 +148,13 @@ public class JournalEntry {
 
     public void setmLocation(String location) {
         this.mLocation = location;
+    }
+
+    public Double getmSentimentScore() {
+        return mSentimentScore;
+    }
+
+    public void setmSentimentScore(Double score) {
+        this.mSentimentScore = score;
     }
 }
