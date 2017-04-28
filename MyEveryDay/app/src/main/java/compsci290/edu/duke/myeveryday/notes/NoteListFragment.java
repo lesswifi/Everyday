@@ -8,15 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 
@@ -96,6 +91,11 @@ public class NoteListFragment extends Fragment {
             protected void populateViewHolder(NoteViewHolder holder, final JournalEntry model, int position) {
                 holder.title.setText(model.getmTitle());
                 holder.content.setText(model.getmContent());
+                StringBuilder sb = new StringBuilder();
+                sb.append(model.getmLocation());
+                sb.append(", ");
+                sb.append(model.getmWeather());
+                holder.location_weather.setText(sb.toString());
 
                 /*
                 String imageUrl = model.getmImagePaths().get(0);

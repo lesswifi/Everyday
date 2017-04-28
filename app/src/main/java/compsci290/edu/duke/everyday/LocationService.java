@@ -80,7 +80,7 @@ public class LocationService extends Activity implements GoogleApiClient.Connect
 
             } else {
 
-                // No explanation needed, we can request the permission.
+                // we can request the permission.
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST);
