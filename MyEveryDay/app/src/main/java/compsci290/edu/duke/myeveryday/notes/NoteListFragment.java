@@ -97,11 +97,12 @@ public class NoteListFragment extends Fragment {
                 holder.title.setText(model.getmTitle());
                 holder.content.setText(model.getmContent());
 
-                /*
-                String imageUrl = model.getmImagePaths().get(0);
+                String imageUrl = null;
+                if (!model.getmImagePaths().isEmpty()) {
+                    imageUrl = model.getmImagePaths().get(0);
+                }
                 CameraHelper.displayImageInView(getActivity(), imageUrl, holder.photo);
-                holder.gradient.setVisibility(View.VISIBLE);
-                */
+                holder.photo.setMaxHeight(400);
 
                 holder.card.setOnClickListener(new View.OnClickListener() {
                     @Override

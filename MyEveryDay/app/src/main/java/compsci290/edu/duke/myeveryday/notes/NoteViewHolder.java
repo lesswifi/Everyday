@@ -22,9 +22,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.image_view_note_photo)
     ImageView photo;
 
-    @BindView(R.id.view_gradient)
-    View gradient;
-
     @BindView(R.id.text_view_note_title)
     TextView title;
 
