@@ -31,15 +31,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.text_view_note_time)
     TextView noteTime;
 
-    /*
-    @BindView(R.id.image_view_expand)
-    ImageView delete;
-
-
-    @BindView(R.id.image_view) ImageView noteIcon;
-    @BindView(R.id.circle_image_view) ImageView noteCircleIcon;
-    */
-
     public NoteViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
