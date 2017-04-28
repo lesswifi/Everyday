@@ -4,12 +4,76 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/margin_padding_tiny"
-    android:paddingLeft="@dimen/margin_padding_tiny"
-    android:paddingRight="@dimen/margin_padding_tiny"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="compsci290.edu.duke.myeveryday.notes.JournalEditorFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:background="#000000"
+            android:fillViewport="true">
+            <LinearLayout
+                android:id="@+id/photo_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <TextView style="@style/EntryText"
+            android:id="@+id/date_created"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="Saturday April 8, 12:06 pm"/>
+
+        <EditText style="@style/ListEntryTitle"
+            android:id="@+id/edit_text_title"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:hint="@string/placeholder_note_title"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/edit_text_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/select_category"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_action_folder_open"
+            android:focusable="false"
+            />
+
+        <EditText style="@style/EntryText"
+            android:id="@+id/edit_text_journal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/placeholder_note_text"
+            android:inputType="textMultiLine"
+            android:minHeight="100dp"
+            android:scrollbars="none" />
+
+        <Button
+            android:id="@+id/audio_playback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:visibility="gone">
+        </Button>
+
+
+    </LinearLayout>
+
+    <!--
     <RelativeLayout
         android:id="@+id/toplayout1"
         android:layout_width="fill_parent"
@@ -112,5 +176,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal" />
     </HorizontalScrollView>
+    -->
 
 </LinearLayout>

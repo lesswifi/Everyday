@@ -365,6 +365,7 @@ public class JournalEditorFragment extends Fragment {
 
     private void populateImage(String imagePath, boolean isCloudImage) {
         ImageView image = new ImageView(getContext());
+        image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 700));
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
         if (isCloudImage) {
