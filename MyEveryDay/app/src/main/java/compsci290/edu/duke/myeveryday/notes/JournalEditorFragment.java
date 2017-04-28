@@ -74,12 +74,16 @@ import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.FileUtils;
+import compsci290.edu.duke.myeveryday.util.TimeUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class JournalEditorFragment extends Fragment {
+
+    @BindView(R.id.date_created)
+    TextView mDate;
 
     @BindView(R.id.edit_text_tag)
     EditText mTag;
@@ -174,14 +178,19 @@ public class JournalEditorFragment extends Fragment {
         getCurrentNode();
 
         if (currentJournal != null) {
+            mDate.setText(TimeUtils.getReadableModifiedDate(currentJournal.getmDateCreated()));
+
             mCloudPhotoPathList = (ArrayList<String>) currentJournal.getmImagePaths();
             for (int i = 0; i < mCloudPhotoPathList.size(); i++) {
                 populateImage(mCloudPhotoPathList.get(i), true);
             }
             mPlaybackAudioPath = currentJournal.getmAudioPath();
             if (mPlaybackAudioPath != null) {
+                AudioHelper.displayDuration(mPlaybackAudioPath, mAudioPlayback);
                 mAudioPlayback.setVisibility(View.VISIBLE);
             }
+        } else {
+            mDate.setText(TimeUtils.getReadableModifiedShortDate(System.currentTimeMillis()));
         }
 
         mAudioPlayback.setOnClickListener(new View.OnClickListener() {
@@ -194,15 +203,18 @@ public class JournalEditorFragment extends Fragment {
                         public void onCompletion(MediaPlayer mp) {
                             AudioHelper.stopPlayback(mPlayer);
                             mPlayer = null;
-                            mAudioPlayback.setText("Play");
+                            //mAudioPlayback.setText("Play");
+                            mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
                         }
                     });
-                    mAudioPlayback.setText("Stop");
+                    //mAudioPlayback.setText("Stop");
+                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                     AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
                 } else {
                     AudioHelper.stopPlayback(mPlayer);
                     mPlayer = null;
-                    mAudioPlayback.setText("Play");
+                    //mAudioPlayback.setText("Play");
+                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                 }
             }
         });
@@ -337,6 +349,7 @@ public class JournalEditorFragment extends Fragment {
                 AudioHelper.stopRecording(mRecorder);
                 mRecorder = null;
                 mPlaybackAudioPath = mAudioPath;
+                AudioHelper.displayDuration(mPlaybackAudioPath, mAudioPlayback);
                 mAudioPlayback.setVisibility(View.VISIBLE);
                 dialog.dismiss();
             }
@@ -365,7 +378,8 @@ public class JournalEditorFragment extends Fragment {
 
     private void populateImage(String imagePath, boolean isCloudImage) {
         ImageView image = new ImageView(getContext());
-        image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 700));
+
+        image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 1000));
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
         if (isCloudImage) {

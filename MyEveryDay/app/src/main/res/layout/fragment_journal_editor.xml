@@ -15,14 +15,13 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:background="#000000"
+            android:layout_gravity="center_horizontal"
             android:fillViewport="true">
             <LinearLayout
                 android:id="@+id/photo_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
@@ -30,43 +29,44 @@
             android:id="@+id/date_created"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:text="Saturday April 8, 12:06 pm"/>
+            android:layout_marginRight="15dp" />
 
         <EditText style="@style/ListEntryTitle"
             android:id="@+id/edit_text_title"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/placeholder_note_title"
             android:imeOptions="actionNext"/>
 
-        <EditText
+        <EditText style="@style/EntryTag"
             android:id="@+id/edit_text_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/select_category"
-            android:background="@android:color/transparent"
             android:clickable="true"
-            android:drawableLeft="@drawable/ic_action_folder_open"
             android:focusable="false"
+            android:textColorHint="@color/white"
             />
 
         <EditText style="@style/EntryText"
             android:id="@+id/edit_text_journal"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
             android:hint="@string/placeholder_note_text"
             android:inputType="textMultiLine"
-            android:minHeight="100dp"
             android:scrollbars="none" />
 
-        <Button
+        <Button style="?android:attr/borderlessButtonStyle"
             android:id="@+id/audio_playback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:background="@color/colorTimeline"
+            android:drawableLeft="@android:drawable/ic_media_play"
             android:visibility="gone">
         </Button>
 
