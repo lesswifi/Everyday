@@ -96,6 +96,7 @@ public class NoteListFragment extends Fragment {
                 sb.append(", ");
                 sb.append(model.getmWeather());
                 holder.location_weather.setText(sb.toString());
+                
 
                 /*
                 String imageUrl = model.getmImagePaths().get(0);
