@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -74,9 +75,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         @BindView(R.id.text_view_note_count)
         TextView mjournalcounttextview;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Tag tagtobedisplayed = mTag.get(getLayoutPosition());
+                    mtagselectedlistner.onTagSelected(tagtobedisplayed);
+                }
+            });
             editTag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

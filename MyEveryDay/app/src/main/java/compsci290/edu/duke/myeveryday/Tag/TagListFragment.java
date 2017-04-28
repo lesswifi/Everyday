@@ -32,6 +32,7 @@ import compsci290.edu.duke.myeveryday.Listeners.TagSelectedListener;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
+import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 
@@ -197,6 +198,18 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
 
     @Override
     public void onTagSelected(Tag TagSelected) {
+    //List the corresponding fragments
+        NoteListFragment mfragment = new NoteListFragment();
+        Bundle mbundle = new Bundle();
+        String tagselectedid = TagSelected.getmTagID();
+        mbundle.putString("Selected", tagselectedid);
+        mfragment.setArguments(mbundle);
+        int mid = ((ViewGroup)getView().getParent()).getId();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(mid, mfragment)
+                .commit();
+
 
     }
 
