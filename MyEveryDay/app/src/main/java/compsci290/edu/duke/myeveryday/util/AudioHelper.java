@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.Button;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +65,18 @@ public class AudioHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void displayDuration(String mAudioFilePath, Button mAudioPlayback) {
+        MediaPlayer testPlayer = new MediaPlayer();
+        try {
+            testPlayer.setDataSource(mAudioFilePath);
+            testPlayer.prepare();
+            mAudioPlayback.setText(TimeUtils.getTime(testPlayer.getDuration()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        testPlayer.release();
     }
 
     public static void stopPlayback(MediaPlayer mPlayer) {

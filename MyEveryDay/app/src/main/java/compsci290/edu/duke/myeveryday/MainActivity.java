@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot journalsnapshot: dataSnapshot.getChildren())
                 {
                     JournalEntry journal = journalsnapshot.getValue(JournalEntry.class);
-                    Log.d("order", String.valueOf(journal.getmDateCreated()));
                     journals.add(journal);
                 }
 
