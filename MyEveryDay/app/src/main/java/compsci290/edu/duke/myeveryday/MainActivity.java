@@ -53,6 +53,7 @@ import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
+import compsci290.edu.duke.myeveryday.Tag.TagList;
 import compsci290.edu.duke.myeveryday.notes.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
@@ -136,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot journalsnapshot: dataSnapshot.getChildren())
                 {
                     JournalEntry journal = journalsnapshot.getValue(JournalEntry.class);
-                    Log.d("order", String.valueOf(journal.getmDateCreated()));
                     journals.add(journal);
                 }
 

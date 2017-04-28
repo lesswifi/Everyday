@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -46,11 +47,15 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -66,15 +71,20 @@ import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import compsci290.edu.duke.myeveryday.Listeners.TagSelectedListener;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
+import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.Services.LatLng;
 import compsci290.edu.duke.myeveryday.Services.WeatherService;
+import compsci290.edu.duke.myeveryday.Tag.SelectTagFragment;
 import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
+import compsci290.edu.duke.myeveryday.util.TimeUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 
@@ -82,6 +92,12 @@ import io.fabric.sdk.android.services.concurrency.AsyncTask;
  * A simple {@link Fragment} subclass.
  */
 public class JournalEditorFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+    @BindView(R.id.action_save)
+    FloatingActionButton mSaveButton;
+
+    @BindView(R.id.date_created)
+    TextView mDate;
 
     @BindView(R.id.edit_text_tag)
     EditText mTag;
@@ -100,7 +116,10 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     private View mRootView;
     private JournalEntry currentJournal = null;
+    private Tag currenttag = null;
     private boolean isInEditMode = false;
+    private List<Tag> mtags = new ArrayList<>();
+    private SelectTagFragment selecttagdialog;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -201,24 +220,56 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         mRootView = inflater.inflate(R.layout.fragment_journal_editor, container, false);
         ButterKnife.bind(this, mRootView);
 
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateAndSaveContent();
+            }
+        });
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
+
+        mTagCloudReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot tagsnapshot: dataSnapshot.getChildren())
+                {
+                    Tag mtag = tagsnapshot.getValue(Tag.class);
+                    mtags.add(mtag);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
         getCurrentNode();
 
         if (currentJournal != null) {
+            mDate.setText(TimeUtils.getReadableModifiedDate(currentJournal.getmDateCreated()));
+
+            mTag.setText(currentJournal.getmTagName());
+
             mCloudPhotoPathList = (ArrayList<String>) currentJournal.getmImagePaths();
             for (int i = 0; i < mCloudPhotoPathList.size(); i++) {
                 populateImage(mCloudPhotoPathList.get(i), true);
             }
             mPlaybackAudioPath = currentJournal.getmAudioPath();
             if (mPlaybackAudioPath != null) {
+                AudioHelper.displayDuration(mPlaybackAudioPath, mAudioPlayback);
                 mAudioPlayback.setVisibility(View.VISIBLE);
             }
+        } else {
+            mDate.setText(TimeUtils.getReadableModifiedDate(System.currentTimeMillis()));
         }
 
         mAudioPlayback.setOnClickListener(new View.OnClickListener() {
@@ -231,15 +282,18 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                         public void onCompletion(MediaPlayer mp) {
                             AudioHelper.stopPlayback(mPlayer);
                             mPlayer = null;
-                            mAudioPlayback.setText("Play");
+                            //mAudioPlayback.setText("Play");
+                            mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
                         }
                     });
-                    mAudioPlayback.setText("Stop");
+                    //mAudioPlayback.setText("Stop");
+                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                     AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
                 } else {
                     AudioHelper.stopPlayback(mPlayer);
                     mPlayer = null;
-                    mAudioPlayback.setText("Play");
+                    //mAudioPlayback.setText("Play");
+                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                 }
             }
         });
@@ -263,6 +317,39 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         mContent.setHint(getString(R.string.placeholder_note_text));
     }
 
+    @OnClick(R.id.edit_text_tag)
+    public void showSelectedTag()
+    {
+        showchosendialog(mtags);
+    }
+
+    private void showchosendialog(List<Tag> mtags) {
+        selecttagdialog = SelectTagFragment.newInstance();
+        selecttagdialog.settags(mtags);
+
+        selecttagdialog.settagselectedlistner(new TagSelectedListener() {
+            @Override
+            public void onTagSelected(Tag TagSelected) {
+                selecttagdialog.dismiss();
+                mTag.setText(TagSelected.getmTagName());
+                currenttag = TagSelected;
+            }
+
+            @Override
+            public void onEditButtionClicked(Tag TagSelected) {
+
+            }
+
+            @Override
+            public void onDeleteButtionBlicked(Tag TagSelected) {
+
+            }
+        });
+
+        selecttagdialog.show(getFragmentManager(), "Dialog");
+
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
@@ -274,8 +361,8 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     public boolean onOptionsItemSelected(MenuItem item){
         PackageManager packageManager = getActivity().getPackageManager();
         switch (item.getItemId()){
-            case R.id.action_save:
-                validateAndSaveContent();
+            case R.id.action_delete:
+                promptForDelete(currentJournal);
                 break;
             case R.id.action_camera:
                 if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
@@ -374,6 +461,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 AudioHelper.stopRecording(mRecorder);
                 mRecorder = null;
                 mPlaybackAudioPath = mAudioPath;
+                AudioHelper.displayDuration(mPlaybackAudioPath, mAudioPlayback);
                 mAudioPlayback.setVisibility(View.VISIBLE);
                 dialog.dismiss();
             }
@@ -402,6 +490,8 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     private void populateImage(String imagePath, boolean isCloudImage) {
         ImageView image = new ImageView(getContext());
+
+        image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 1000));
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
         if (isCloudImage) {
@@ -440,6 +530,44 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         else {
             return true;
         }
+    }
+
+    private void promptForDelete(final JournalEntry journal){
+
+        String title = journal.getmTitle();
+        String message = "Delete " + title;
+
+        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+        TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+        titleText.setText(getString(R.string.are_you_sure));
+        alertDialog.setCustomTitle(titleView);
+
+        alertDialog.setMessage(message);
+        alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!TextUtils.isEmpty(journal.getmID())){
+                    Task<Void> voidTask = mcloudReference.child(journal.getmID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //if (mNoteFirebaseAdapter.getItemCount() < 1) {
+                              //  showEmptyText();
+                            //}
+                            startActivity(new Intent(getActivity(), MainActivity.class));
+                        }
+                    });
+                }
+            }
+        });
+        alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private void validateAndSaveContent() {
@@ -484,9 +612,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
         String contentText = mContent.getText().toString();
         currentJournal.setmContent(contentText);
-        currentJournal.setmDateCreated(System.currentTimeMillis());
-
-        currentJournal.setmContent(mContent.getText().toString());
 
         currentJournal.setmDateModified(System.currentTimeMillis());
         currentJournal.setmLocation(mAddress);

@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 
@@ -97,11 +98,12 @@ public class NoteListFragment extends Fragment {
                 sb.append(model.getmLocation());
                 holder.location_weather.setText(sb.toString());
 
-                /*
-                String imageUrl = model.getmImagePaths().get(0);
+                String imageUrl = null;
+                if (!model.getmImagePaths().isEmpty()) {
+                    imageUrl = model.getmImagePaths().get(0);
+                }
                 CameraHelper.displayImageInView(getActivity(), imageUrl, holder.photo);
-                holder.gradient.setVisibility(View.VISIBLE);
-                */
+                holder.photo.setMaxHeight(400);
 
                 holder.card.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -116,41 +118,6 @@ public class NoteListFragment extends Fragment {
 
                 holder.noteTime.setText(TimeUtils.getReadableModifiedShortDate(model.getmDateCreated()) + "\n" + TimeUtils.getReadableModifiedTime(model.getmDateCreated()));
 
-                /*
-                holder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        promptForDelete(model);
-                    }
-                });
-
-
-                try {
-                    if (model.getmJourneyType().equals(Constants.NOTE_TYPE_AUDIO)){
-                        Glide.with(getContext()).load(R.drawable.headphone_button).into(holder.noteCircleIcon);
-                    }else if (model.getmJourneyType().equals(Constants.NOTE_TYPE_REMINDER)){
-                        Glide.with(getContext()).load(R.drawable.appointment_reminder).into(holder.noteCircleIcon);
-                    } else if (model.getmJourneyType().equals(Constants.NOTE_TYPE_IMAGE)){
-                        //Show the image
-                    }else {                   //Show TextView Image
-
-                        String firstLetter = model.getmTitle().substring(0, 1);
-                        ColorGenerator generator = ColorGenerator.MATERIAL;
-                        int color = generator.getRandomColor();
-
-                        holder.noteCircleIcon.setVisibility(View.GONE);
-                        holder.noteIcon.setVisibility(View.VISIBLE);
-
-                        TextDrawable drawable = TextDrawable.builder()
-                                .buildRound(firstLetter, color);
-                        holder.noteIcon.setImageDrawable(drawable);
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                */
-
             }
         };
 
@@ -164,42 +131,6 @@ public class NoteListFragment extends Fragment {
         return mRootView;
     }
 
-    private void promptForDelete(final JournalEntry journal){
-
-        String title = journal.getmTitle();
-        String message = "Delete " + title;
-
-        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
-        TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
-        titleText.setText(getString(R.string.are_you_sure));
-        alertDialog.setCustomTitle(titleView);
-
-        alertDialog.setMessage(message);
-        alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!TextUtils.isEmpty(journal.getmID())){
-                    Task<Void> voidTask = mcloudReference.child(journal.getmID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            if (mNoteFirebaseAdapter.getItemCount() < 1) {
-                                showEmptyText();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
 
     public void showEmptyText() {
         mRecyclerView.setVisibility(View.GONE);

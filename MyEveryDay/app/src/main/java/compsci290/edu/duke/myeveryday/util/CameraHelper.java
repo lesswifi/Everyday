@@ -48,6 +48,7 @@ public class CameraHelper {
         Glide.with(context)
                 .load(imagePath)
                 .fitCenter()
+                //.centerCrop()
                 .into(image);
     }
 

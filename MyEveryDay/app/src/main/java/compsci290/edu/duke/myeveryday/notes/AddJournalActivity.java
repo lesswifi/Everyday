@@ -40,4 +40,18 @@ public class AddJournalActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(screenTitle);
     }
 
+    @Override
+    public void onBackPressed() {
+        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        } else {
+            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
+
 }
