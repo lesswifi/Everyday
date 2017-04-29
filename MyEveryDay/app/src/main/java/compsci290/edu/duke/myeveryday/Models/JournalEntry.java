@@ -150,11 +150,10 @@ public class JournalEntry {
         this.mLocation = location;
     }
 
-    public Double getmSentimentScore() {
-        return mSentimentScore;
-    }
-
     public void setmSentimentScore(Double score) {
         this.mSentimentScore = score;
+    }
+    public Double getmSentimentScore() {
+        return mSentimentScore;
     }
 }

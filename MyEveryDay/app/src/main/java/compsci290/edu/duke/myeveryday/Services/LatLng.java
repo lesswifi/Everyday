@@ -25,6 +25,13 @@ public class LatLng {
     public Double getLongitude() {
         return mLongitude;
     }
+    public void setLatitude(Double latitude) {
+        this.mLatitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.mLongitude = longitude;
+    }
 
 
 }

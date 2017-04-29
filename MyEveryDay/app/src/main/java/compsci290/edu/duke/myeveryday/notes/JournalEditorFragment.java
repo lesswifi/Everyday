@@ -631,7 +631,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmWeather(weather);
         currentJournal.setmSentimentScore(nlpResult);
         System.out.println("NLP");
-        System.out.println(nlpResult);
+        System.out.println(currentJournal.getmSentimentScore());
 
         AsyncTask addMedia = new AsyncTask() {
             @Override

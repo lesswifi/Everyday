@@ -26,7 +26,7 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,Double> {
     private NaturalLanguageUnderstanding mService;
     private String mInput;
     private AnalysisResults mResults;
-    private Double mSentimentScore;
+    private Double mSentimentScore = 0.0;
 
 
     public NaturalLanguageTask(String input) {mInput = input;}
@@ -74,7 +74,9 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,Double> {
 
         //EmotionResult er = results.getEmotion();
         List<KeywordsResult> keywordResults = response.getKeywords();
-        mSentimentScore = keywordResults.get(0).getSentiment().getScore();
+        if(keywordResults.size() > 0) {
+            mSentimentScore = keywordResults.get(0).getSentiment().getScore();
+        }
 
         System.out.println(response.toString());
 //        List<TargetedEmotionResults> emotionResults = results.getEmotion().getTargets();
