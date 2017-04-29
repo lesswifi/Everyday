@@ -20,8 +20,13 @@ public class TagList extends AppCompatActivity {
         //Toolbar mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(mtoolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setnavigationdrawer(savedInstanceState);
         openFragment(new TagListFragment(), "Tags");
 
+
+    }
+
+    private void setnavigationdrawer(Bundle savedInstanceState) {
 
     }
 

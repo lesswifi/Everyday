@@ -17,7 +17,11 @@ public class SampleData {
         List<String> categoryNames = new ArrayList<>();
 
         categoryNames.add("Family");
-        categoryNames.add("Word");
+        categoryNames.add("Food");
+        categoryNames.add("Music");
+        categoryNames.add("Dream");
+        categoryNames.add("Sports");
+        categoryNames.add("Travel");
         categoryNames.add("Productivity");
         categoryNames.add("Personal");
         categoryNames.add("Finance");

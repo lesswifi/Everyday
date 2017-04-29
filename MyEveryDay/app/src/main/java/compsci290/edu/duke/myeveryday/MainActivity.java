@@ -342,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        addInitialTagToFirebase();
         //addDefaultData();
         //DatabaseReference temp = mdatabase.child("temp");
         //temp.setValue("a test");
