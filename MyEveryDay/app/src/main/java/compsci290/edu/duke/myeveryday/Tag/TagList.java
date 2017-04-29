@@ -16,7 +16,7 @@ public class TagList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tag_activity);
+        setContentView(R.layout.activity_tag);
         //Toolbar mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(mtoolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
