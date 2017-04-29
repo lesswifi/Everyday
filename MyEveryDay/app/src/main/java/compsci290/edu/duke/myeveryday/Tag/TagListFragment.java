@@ -207,6 +207,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         int mid = ((ViewGroup)getView().getParent()).getId();
         getFragmentManager()
                 .beginTransaction()
+                .addToBackStack("journal")
                 .replace(mid, mfragment)
                 .commit();
 
@@ -225,7 +226,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
     }
 
     @Override
-    public void onDeleteButtionBlicked(final Tag TagSelected) {
+    public void onDeleteButtonClicked(final Tag TagSelected) {
         String title = getString(R.string.are_you_sure);
         String message =  getString(R.string.action_delete) + " " + TagSelected.getmTagName();
 

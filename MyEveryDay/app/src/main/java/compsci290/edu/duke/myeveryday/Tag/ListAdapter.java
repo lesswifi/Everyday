@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -99,7 +98,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Tag tagtobechanged = mTag.get(getLayoutPosition());
-                    mtagselectedlistner.onDeleteButtionBlicked(tagtobechanged);
+                    mtagselectedlistner.onDeleteButtonClicked(tagtobechanged);
                 }
             });
         }

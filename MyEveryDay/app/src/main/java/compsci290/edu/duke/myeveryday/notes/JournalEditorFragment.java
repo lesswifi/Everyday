@@ -341,7 +341,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             }
 
             @Override
-            public void onDeleteButtionBlicked(Tag TagSelected) {
+            public void onDeleteButtonClicked(Tag TagSelected) {
 
             }
         });

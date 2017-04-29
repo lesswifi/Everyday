@@ -9,6 +9,6 @@ import compsci290.edu.duke.myeveryday.Models.Tag;
 public interface TagSelectedListener {
     void onTagSelected(Tag TagSelected);
     void onEditButtionClicked(Tag TagSelected);
-    void onDeleteButtionBlicked(Tag TagSelected);
+    void onDeleteButtonClicked(Tag TagSelected);
 }
 

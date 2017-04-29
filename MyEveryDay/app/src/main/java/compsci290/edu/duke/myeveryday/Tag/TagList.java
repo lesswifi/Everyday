@@ -41,14 +41,16 @@ public class TagList extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
-        int count = getFragmentManager().getBackStackEntryCount();
-        if(count == 0)
-            super.onBackPressed();
-        else
-        {
-            getFragmentManager().popBackStack();
+    public void onBackPressed() {
+        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        } else {
+            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
