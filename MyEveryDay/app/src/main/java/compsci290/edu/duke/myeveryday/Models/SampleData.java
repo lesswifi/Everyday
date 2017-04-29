@@ -35,7 +35,7 @@ public class SampleData {
     }
 
 
-    public static List<JournalEntry> getSampleNotes() {
+    /*public static List<JournalEntry> getSampleNotes() {
 
         List<JournalEntry> notes = new ArrayList<>();
         //create the dummy note
@@ -102,6 +102,6 @@ public class SampleData {
         notes.add(note5);
 
         return notes;
-    }
+    }*/
 }
 
