@@ -863,40 +863,41 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
             // Should we show an explanation?
             requestLocationPermissions();
+        }
 
-            // we can request the permission.
-            ActivityCompat.requestPermissions(mActivity,
-                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST);
+        // we can request the permission.
+        ActivityCompat.requestPermissions(mActivity,
+                new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST);
 
-            // Create the location request
-            mLocationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(UPDATE_INTERVAL)
-                    .setFastestInterval(FASTEST_INTERVAL);
+        // Create the location request
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(UPDATE_INTERVAL)
+                .setFastestInterval(FASTEST_INTERVAL);
 
 
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                    mLocationRequest, this);
-            // Get last known recent location.
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                mLocationRequest, this);
+        // Get last known recent location.
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-            // Note that this can be NULL if last location isn't already known.
-            if (mLastLocation != null) {
-                // Print current location if not null
-                Log.d("DEBUG", "current location: " + mLastLocation.toString());
+        // Note that this can be NULL if last location isn't already known.
+        if (mLastLocation != null) {
+            // Print current location if not null
+            Log.d("DEBUG", "current location: " + mLastLocation.toString());
 
-                Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
-                try {
-                    List<Address> address = geocoder.getFromLocation(mLastLocation.getLatitude(),mLastLocation.getLongitude(),1);
-                    mAddress = address.get(0).getThoroughfare().toString();
-                    Log.d("JournalEditorFragment", mAddress);
-                    mLatLng = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+            Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
+            try {
+                List<Address> address = geocoder.getFromLocation(mLastLocation.getLatitude(),mLastLocation.getLongitude(),1);
+                mAddress = address.get(0).getThoroughfare().toString();
+                Log.d("JournalEditorFragment", mAddress);
+                mLatLng = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            }
+
+        }
+
     }
 
 

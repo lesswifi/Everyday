@@ -229,7 +229,7 @@ public class AnalyticsActivity extends Activity{
     }
 
     public void displayJournalPreview(JournalEntry journal) {
-        //NoteViewHolder holder = new NoteViewHolder(this.findViewById());
+        //NoteViewHolder holder = new NoteViewHolder(findViewById());
         TextView title = (TextView) findViewById(R.id.text_view_note_title);
         TextView content = (TextView) findViewById(R.id.text_view_note_content);
         title.setText(journal.getmTitle());

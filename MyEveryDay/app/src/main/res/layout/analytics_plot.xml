@@ -24,7 +24,7 @@
         android:layout_width="fill_parent"
 
 
-        android:layout_height="00dp"
+        android:layout_height="300dp"
         android:layout_gravity="top"
         ap:titleTextSize="20dp"
         ap:rangeTitle="sentiment score"
