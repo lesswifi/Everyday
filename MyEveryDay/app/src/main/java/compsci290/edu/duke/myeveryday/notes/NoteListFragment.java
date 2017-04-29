@@ -41,7 +41,6 @@ public class NoteListFragment extends Fragment {
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
     private DatabaseReference mTagCloudReference;
-    private DatabaseReference mselectedrefence;
     private String mselectedtagid;
 
     private FirebaseRecyclerAdapter<JournalEntry, NoteViewHolder> mNoteFirebaseAdapter;
