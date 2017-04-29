@@ -3,14 +3,21 @@ package compsci290.edu.duke.myeveryday.notes;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Camera;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -23,6 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,11 +121,13 @@ public class NoteListFragment extends Fragment {
             protected void populateViewHolder(NoteViewHolder holder, final JournalEntry model, int position) {
                 holder.title.setText(model.getmTitle());
                 holder.content.setText(model.getmContent());
-                StringBuilder sb = new StringBuilder();
-                sb.append(model.getmWeather());
-                sb.append(", ");
-                sb.append(model.getmLocation());
-                holder.location_weather.setText(sb.toString());
+
+                String weatherIconUrl = null;
+                if (model.getmWeather() != null && model.getmWeather().startsWith("http")) {
+                    weatherIconUrl = model.getmWeather();
+                }
+                CameraHelper.displayImageInView(getActivity(), weatherIconUrl, holder.weather_icon);
+                holder.location_weather.setText(model.getmLocation());
 
                 String imageUrl = null;
                 if (!model.getmImagePaths().isEmpty()) {
@@ -147,46 +160,6 @@ public class NoteListFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mNoteFirebaseAdapter);
         return mRootView;
-    }
-
-
-
-
-    private void promptForDelete(final JournalEntry journal){
-
-        String title = journal.getmTitle();
-        String message = "Delete " + title;
-
-        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
-        TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
-        titleText.setText(getString(R.string.are_you_sure));
-        alertDialog.setCustomTitle(titleView);
-
-        alertDialog.setMessage(message);
-        alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!TextUtils.isEmpty(journal.getmID())){
-                    Task<Void> voidTask = mcloudReference.child(journal.getmID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            if (mNoteFirebaseAdapter.getItemCount() < 1) {
-                                showEmptyText();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        alertDialog.show();
     }
 
 

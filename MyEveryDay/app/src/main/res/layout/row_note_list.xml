@@ -55,13 +55,24 @@
                     <TextView style="@style/ListEntryPreview"
                         android:id="@+id/text_view_note_content" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
+                        <ImageView
+                            android:id="@+id/weather_icon"
+                            android:layout_height="30dp"
+                            android:layout_width="wrap_content">
+                        </ImageView>
 
-                    <TextView style="@style/ListEntryPreview"
-                        android:background="@color/transparent"
-                        android:textStyle="bold"
-                        android:textSize="13dp"
-                        android:id="@+id/text_view_note_location_weather" />
+                        <TextView style="@style/ListEntryPreview"
+                            android:background="@color/transparent"
+                            android:textStyle="bold"
+                            android:textSize="13dp"
+                            android:id="@+id/text_view_note_location_weather" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
