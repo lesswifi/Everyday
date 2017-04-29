@@ -156,6 +156,9 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     static final int EXTERNAL_PERMISSION_REQUEST = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_AUDIO_RECORD = 2;
+    static final int ACCESS_COARSE_LOCATION = 3;
+    static final int ACCESS_FINE_LOCATION = 4;
+
 
 
     public JournalEditorFragment() {
@@ -545,6 +548,27 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         }
     }
 
+    private void requestLocationPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION);
+
+            }
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION);
+            }
+        }
+
+    }
+
+
+
+
     private void promptForDelete(final JournalEntry journal){
 
         String title = journal.getmTitle();
@@ -659,7 +683,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmDateModified(System.currentTimeMillis());
         currentJournal.setmLocation(mAddress);
         currentJournal.setmLatLng(mLatLng);
-        Log.d("JournalEditorFragment",mAddress);
+
 
         WeatherService ws = new WeatherService(mLastLocation);
         String weatherIconUrl = null;
@@ -677,6 +701,8 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         System.out.println("NLP");
         System.out.println(currentJournal.getmSentimentScore());
     }
+
+
 
     public void addImagesToFirebase() {
         Log.d("addImagesToFirebase", "IN THIS FUNCTION");
@@ -773,55 +799,51 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         // Request location updates
         if (ContextCompat.checkSelfPermission(mActivity,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            requestLocationPermissions();
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+            // we can request the permission.
+            ActivityCompat.requestPermissions(mActivity,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST);
 
-            } else {
+            // Create the location request
+            mLocationRequest = LocationRequest.create()
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    .setInterval(UPDATE_INTERVAL)
+                    .setFastestInterval(FASTEST_INTERVAL);
 
-                // we can request the permission.
-                ActivityCompat.requestPermissions(mActivity,
-                        new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST);
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                    mLocationRequest, this);
+            // Get last known recent location.
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+            // Note that this can be NULL if last location isn't already known.
+            if (mLastLocation != null) {
+                // Print current location if not null
+                Log.d("DEBUG", "current location: " + mLastLocation.toString());
+
+                Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
+                try {
+                    List<Address> address = geocoder.getFromLocation(mLastLocation.getLatitude(),mLastLocation.getLongitude(),1);
+                    mAddress = address.get(0).getThoroughfare().toString();
+                    Log.d("JournalEditorFragment", mAddress);
+                    mLatLng = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-        }
-        // Create the location request
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(UPDATE_INTERVAL)
-                .setFastestInterval(FASTEST_INTERVAL);
-
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                mLocationRequest, this);
-        // Get last known recent location.
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        // Note that this can be NULL if last location isn't already known.
-        if (mLastLocation != null) {
-            // Print current location if not null
-            Log.d("DEBUG", "current location: " + mLastLocation.toString());
-
-            Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
-            try {
-                List<Address> address = geocoder.getFromLocation(mLastLocation.getLatitude(),mLastLocation.getLongitude(),1);
-                mAddress = address.get(0).getThoroughfare().toString();
-                Log.d("JournalEditorFragment", mAddress);
-                mLatLng = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-
-        }
-
-
     }
+
+
+
+
 
 
     public void onLocationChanged(Location location) {

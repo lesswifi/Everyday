@@ -9,7 +9,6 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidplot.Region;
 import com.androidplot.ui.Size;
@@ -66,24 +65,10 @@ public class AnalyticsActivity extends Activity{
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         setContentView(R.layout.analytics_plot);
-        plot = (XYPlot) findViewById(R.id.plot);
-        PanZoom.attach(plot);
-        plot.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    onPlotClicked(new PointF(motionEvent.getX(), motionEvent.getY()));
-                }
-                return true;
-            }
-        });
-        selectionWidget = new TextLabelWidget(plot.getLayoutManager(),
-                new Size(
-                        PixelUtils.dpToPix(100), SizeMode.ABSOLUTE,
-                        PixelUtils.dpToPix(100), SizeMode.ABSOLUTE),
-                TextOrientation.HORIZONTAL);
 
-        selectionWidget.getLabelPaint().setTextSize(PixelUtils.dpToPix(16));
+
+        plotSetup();
+
 
 
         mJournals = new ArrayList<>();
@@ -118,6 +103,26 @@ public class AnalyticsActivity extends Activity{
 
 
 
+    public void plotSetup() {
+        plot = (XYPlot) findViewById(R.id.plot);
+        PanZoom.attach(plot);
+        plot.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    onPlotClicked(new PointF(motionEvent.getX(), motionEvent.getY()));
+                }
+                return true;
+            }
+        });
+        selectionWidget = new TextLabelWidget(plot.getLayoutManager(),
+                new Size(
+                        PixelUtils.dpToPix(100), SizeMode.ABSOLUTE,
+                        PixelUtils.dpToPix(100), SizeMode.ABSOLUTE),
+                TextOrientation.HORIZONTAL);
+
+        selectionWidget.getLabelPaint().setTextSize(PixelUtils.dpToPix(16));
+    }
 
     public void showGraph(ArrayList<JournalEntry> journals){
 
@@ -224,6 +229,7 @@ public class AnalyticsActivity extends Activity{
     }
 
     public void displayJournalPreview(JournalEntry journal) {
+        //NoteViewHolder holder = new NoteViewHolder(this.findViewById());
         TextView title = (TextView) findViewById(R.id.text_view_note_title);
         TextView content = (TextView) findViewById(R.id.text_view_note_content);
         title.setText(journal.getmTitle());
