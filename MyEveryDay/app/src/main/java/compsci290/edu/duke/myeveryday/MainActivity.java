@@ -18,8 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
@@ -206,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
                         new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
-                        new PrimaryDrawerItem().withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(Constants.SETTINGS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -259,10 +256,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Constants.CATEGORIES:
                 startActivity(new Intent(MainActivity.this, TagList.class));
-                break;
-            case Constants.SETTINGS:
-                //Go to Settings
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(MainActivity.this, AnalyticsActivity.class));
@@ -330,30 +323,6 @@ public class MainActivity extends AppCompatActivity {
     @MainThread
     private void showSnackbar(@StringRes int errorMessageRes) {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
