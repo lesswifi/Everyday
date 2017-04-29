@@ -282,17 +282,14 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                         public void onCompletion(MediaPlayer mp) {
                             AudioHelper.stopPlayback(mPlayer);
                             mPlayer = null;
-                            //mAudioPlayback.setText("Play");
                             mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
                         }
                     });
-                    //mAudioPlayback.setText("Stop");
                     mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                     AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
                 } else {
                     AudioHelper.stopPlayback(mPlayer);
                     mPlayer = null;
-                    //mAudioPlayback.setText("Play");
                     mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                 }
             }
@@ -585,13 +582,32 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             return;
         }
 
-        try {
-            addNotetoFirebase();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        AsyncTask saveNote = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                String result = isInEditMode ? "Updating note..." : "Adding note...";
+                makeToast(result);
+            }
 
-        startActivity(new Intent(getActivity(), MainActivity.class));
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                try {
+                    addNotetoFirebase();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            };
+
+            @Override
+            protected void onPostExecute(Object o) {
+                Log.d("validateAndSave", currentJournal.getmImagePaths().toString());
+                mcloudReference.child(currentJournal.getmID()).setValue(currentJournal);
+                startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        }.execute();
+
 
     }
 
@@ -607,6 +623,9 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             currentJournal.setmID(key);
             currentJournal.setmDateCreated(System.currentTimeMillis());
         }
+
+        addImagesToFirebase();
+        addAudioToFirebase();
 
         //Add Tags to Firebase
         if(currenttag != null)
@@ -625,6 +644,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmLocation(mAddress);
         currentJournal.setmLatLng(mLatLng);
         Log.d("JournalEditorFragment",mAddress);
+
         WeatherService ws = new WeatherService(mLastLocation);
         String weatherIconUrl = null;
         Double nlpResult = 0.0;
@@ -640,27 +660,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmSentimentScore(nlpResult);
         System.out.println("NLP");
         System.out.println(currentJournal.getmSentimentScore());
-
-        AsyncTask addMedia = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                addImagesToFirebase();
-                addAudioToFirebase();
-                return null;
-            };
-
-            @Override
-            protected void onPostExecute(Object o) {
-                //super.onPostExecute(o);
-                mcloudReference.child(currentJournal.getmID()).setValue(currentJournal);
-                String result = isInEditMode ? "Note updated" : "Note added";
-                makeToast(result);
-                Log.d("onPostExecute", "added");
-            }
-        }.execute();
-
-        //startActivity(new Intent(getActivity(), MainActivity.class));
-
     }
 
     public void addImagesToFirebase() {
