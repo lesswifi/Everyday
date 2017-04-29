@@ -626,17 +626,17 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmLatLng(mLatLng);
         Log.d("JournalEditorFragment",mAddress);
         WeatherService ws = new WeatherService(mLastLocation);
-        String weather = null;
+        String weatherIconUrl = null;
         Double nlpResult = 0.0;
         try {
-            weather = ws.getWeather();
+            weatherIconUrl = ws.getWeatherIcon();
             nlpResult = getNLP(contentText);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        currentJournal.setmWeather(weather);
+        currentJournal.setmWeather(weatherIconUrl);
         currentJournal.setmSentimentScore(nlpResult);
         System.out.println("NLP");
         System.out.println(currentJournal.getmSentimentScore());

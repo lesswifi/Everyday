@@ -1,5 +1,6 @@
 package compsci290.edu.duke.myeveryday.Services;
 
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
 
@@ -18,6 +19,7 @@ import compsci290.edu.duke.myeveryday.util.RetrieveDataTask;
 public class WeatherService {
 
     private String weatherRequestURL = "http://api.openweathermap.org/data/2.5/weather?lat=";
+    private String weatherIconRequestURL = "http://openweathermap.org/img/w/";
     private Location mLastLocation;
     private String mResult;
 
@@ -33,7 +35,7 @@ public class WeatherService {
     }
 
 
-    public String getWeather() throws ExecutionException, InterruptedException {
+    public String getWeatherIcon() throws ExecutionException, InterruptedException {
         weatherRequestURL = weatherRequestURL + ((int) mLastLocation.getLatitude()) + "&lon=" + ((int) mLastLocation.getLongitude()) + "&APPID=b3024c1cc8918c53bcc2403f42e34473";
         Log.d("Weather Service", weatherRequestURL);
         RetrieveDataTask rd = new RetrieveDataTask(weatherRequestURL);
@@ -45,14 +47,13 @@ public class WeatherService {
             JSONObject object = (JSONObject) new JSONTokener(mResult).nextValue();
 
             JSONObject weather = object.getJSONArray("weather").getJSONObject(0);
-            String description = weather.getString("description");
-            Log.d("Weather Service", description);
-            return description;
+            String icon = weather.getString("icon");
+            Log.d("Weather Service", icon);
+            return weatherIconRequestURL + icon + ".png";
         } catch (JSONException e) {
             // Appropriate error handling code
         }
         return null;
     }
-
 
 }
