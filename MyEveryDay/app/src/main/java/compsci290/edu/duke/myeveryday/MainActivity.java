@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
         setnavigationdrawer(savedInstanceState);
 
 
+            addDefaultTag();
+
     }
 
 
@@ -227,8 +229,6 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-
-        addDefaultData();
         openFragment(new NoteListFragment(), "Journals");
 
         }
@@ -342,10 +342,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-        addInitialTagToFirebase();
-        //addDefaultData();
-        //DatabaseReference temp = mdatabase.child("temp");
-        //temp.setValue("a test");
     }
 
     private void openFragment(Fragment fragment, String screenTitle){
@@ -359,14 +355,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //Starts here is for testing the funcationality of the app
-    public void addDefaultData()
+    public void addDefaultTag()
     {
-        msharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        msharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         meditor = msharedPreferences.edit();
+
         if (msharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            addinitialdatatofirebase();
-            addInitialTagToFirebase();
             meditor.putBoolean(Constants.FIRST_RUN, false).commit();
+            addInitialTagToFirebase();
         }
     }
 
@@ -381,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void addinitialdatatofirebase()
+    /*public void addinitialdatatofirebase()
     {
         List<JournalEntry> sampleNotes = SampleData.getSampleNotes();
         for (JournalEntry note: sampleNotes){
@@ -391,5 +387,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 }

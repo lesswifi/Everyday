@@ -31,6 +31,9 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.text_view_note_location_weather)
     TextView location_weather;
 
+    @BindView(R.id.weather_icon)
+    ImageView weather_icon;
+
     @BindView(R.id.text_view_note_time)
     TextView noteTime;
 
