@@ -35,6 +35,7 @@
                 android:id="@+id/rootView"
                 style="@style/ListEntryCard">
 
+
                 <ImageView
                     android:id="@+id/image_view_note_photo"
                     android:layout_width="match_parent"
@@ -43,10 +44,8 @@
                     android:scaleType="centerCrop"/>
 
                 <View
-                    android:id="@+id/view_gradient"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:layout_height="match_parent"
                     android:background="@drawable/gradient"/>
 
                 <LinearLayout style="@style/ListEntryCardLayout">
@@ -59,7 +58,8 @@
 
 
                     <TextView style="@style/ListEntryPreview"
-                        android:background="@color/cardview_light_background"
+                        android:background="@color/transparent"
+                        android:textStyle="bold"
                         android:textSize="13dp"
                         android:id="@+id/text_view_note_location_weather" />
 

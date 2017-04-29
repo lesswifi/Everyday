@@ -10,6 +10,8 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Ca
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsResult;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.SentimentOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.TargetedSentimentResults;
 
 import java.util.ArrayList;
@@ -19,11 +21,12 @@ import java.util.List;
  * Created by Divya on 4/24/17.
  */
 
-public class NaturalLanguageTask extends AsyncTask<String,Void,List<Double>> {
+public class NaturalLanguageTask extends AsyncTask<String,Void,Double> {
 
     private NaturalLanguageUnderstanding mService;
     private String mInput;
     private AnalysisResults mResults;
+    private Double mSentimentScore;
 
 
     public NaturalLanguageTask(String input) {mInput = input;}
@@ -32,7 +35,7 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,List<Double>> {
 
     }
 
-    protected List<Double> doInBackground(String... input) {
+    protected Double doInBackground(String... input) {
         mService = new NaturalLanguageUnderstanding(
                 NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
                 "df206c3c-914d-49cd-8812-e6ab2bb487c6",
@@ -51,6 +54,7 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,List<Double>> {
                 .limit(2)
                 .build();
 
+
         Features features = new Features.Builder()
                 .entities(entitiesOptions)
                 .keywords(keywordsOptions)
@@ -65,7 +69,13 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,List<Double>> {
                 .analyze(parameters)
                 .execute();
 
+        SentimentOptions sentiment = new SentimentOptions.Builder()
+                .build();
+
         //EmotionResult er = results.getEmotion();
+        List<KeywordsResult> keywordResults = response.getKeywords();
+        mSentimentScore = keywordResults.get(0).getSentiment().getScore();
+
         System.out.println(response.toString());
 //        List<TargetedEmotionResults> emotionResults = results.getEmotion().getTargets();
 //        List<Double> emotions = new ArrayList<Double>(emotionResults.size());
@@ -73,9 +83,14 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,List<Double>> {
 //            EmotionScores emotionScores = emotionResult.getEmotion();
 //            emotions.add(emotionScores.getAnger());
 //        }
-        return null;
+        return mSentimentScore;
 
     }
+
+    protected Double getSentimentScore() {
+        return mSentimentScore;
+    }
+
 
 
 

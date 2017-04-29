@@ -28,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 
@@ -110,16 +111,17 @@ public class NoteListFragment extends Fragment {
                 holder.title.setText(model.getmTitle());
                 holder.content.setText(model.getmContent());
                 StringBuilder sb = new StringBuilder();
-                sb.append(model.getmLocation());
-                sb.append(", ");
                 sb.append(model.getmWeather());
+                sb.append(", ");
+                sb.append(model.getmLocation());
                 holder.location_weather.setText(sb.toString());
 
-                /*
-                String imageUrl = model.getmImagePaths().get(0);
+                String imageUrl = null;
+                if (!model.getmImagePaths().isEmpty()) {
+                    imageUrl = model.getmImagePaths().get(0);
+                }
                 CameraHelper.displayImageInView(getActivity(), imageUrl, holder.photo);
-                holder.gradient.setVisibility(View.VISIBLE);
-                */
+                holder.photo.setMaxHeight(400);
 
                 holder.card.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -134,41 +136,6 @@ public class NoteListFragment extends Fragment {
 
                 holder.noteTime.setText(TimeUtils.getReadableModifiedShortDate(model.getmDateCreated()) + "\n" + TimeUtils.getReadableModifiedTime(model.getmDateCreated()));
 
-                /*
-                holder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        promptForDelete(model);
-                    }
-                });
-
-
-                try {
-                    if (model.getmJourneyType().equals(Constants.NOTE_TYPE_AUDIO)){
-                        Glide.with(getContext()).load(R.drawable.headphone_button).into(holder.noteCircleIcon);
-                    }else if (model.getmJourneyType().equals(Constants.NOTE_TYPE_REMINDER)){
-                        Glide.with(getContext()).load(R.drawable.appointment_reminder).into(holder.noteCircleIcon);
-                    } else if (model.getmJourneyType().equals(Constants.NOTE_TYPE_IMAGE)){
-                        //Show the image
-                    }else {                   //Show TextView Image
-
-                        String firstLetter = model.getmTitle().substring(0, 1);
-                        ColorGenerator generator = ColorGenerator.MATERIAL;
-                        int color = generator.getRandomColor();
-
-                        holder.noteCircleIcon.setVisibility(View.GONE);
-                        holder.noteIcon.setVisibility(View.VISIBLE);
-
-                        TextDrawable drawable = TextDrawable.builder()
-                                .buildRound(firstLetter, color);
-                        holder.noteIcon.setImageDrawable(drawable);
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                */
-
             }
         };
 
@@ -182,6 +149,7 @@ public class NoteListFragment extends Fragment {
         return mRootView;
     }
 
+<<<<<<< HEAD
     private void function() {
     }
 
@@ -221,6 +189,8 @@ public class NoteListFragment extends Fragment {
         });
         alertDialog.show();
     }
+=======
+>>>>>>> master
 
     public void showEmptyText() {
         mRecyclerView.setVisibility(View.GONE);

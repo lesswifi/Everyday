@@ -10,6 +10,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -59,6 +60,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.0.1'
     compile 'com.ibm.watson.developer_cloud:java-sdk:3.7.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile "com.androidplot:androidplot-core:1.4.2"
 }
 
 

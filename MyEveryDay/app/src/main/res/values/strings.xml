@@ -63,7 +63,7 @@
     <string name="placeholder_note_title">Enter note title</string>
     <string name="tag_name">Select Tag name</string>
     <string name="action_save">Save</string>
-    <string name="select_category">Select Category</string>
+    <string name="select_category">#note</string>
     <string name="hint_enter_category">Enter category name</string>
     <string name="dialog_title">Title</string>
     <string name="edit_category">Edit Category</string>
