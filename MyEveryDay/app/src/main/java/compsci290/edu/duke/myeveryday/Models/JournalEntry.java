@@ -71,17 +71,6 @@ public class JournalEntry {
         this.mDateModified = mDateModified;
     }
 
-    public long getMnextreminder() {
-        return mnextreminder;
-    }
-
-    public void setMnextreminder(long mnextreminder) {
-        this.mnextreminder = mnextreminder;
-    }
-
-    public String getmImagePath() {
-        return mImagePath;
-    }
     public List<String> getmImagePaths() {
         return mImagePaths;
     }
@@ -91,8 +80,6 @@ public class JournalEntry {
     }
 
     public void addmImagePath(String mImagePath) { this.mImagePaths.add(mImagePath); }
-
-    public void removemImagePath(String mImagePath) { this.mImagePaths.remove(mImagePath); }
 
     public String getmAudioPath() {
         return mAudioPath;

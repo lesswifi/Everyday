@@ -303,6 +303,34 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 }
             }
         });
+        mAudioPlayback.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+                TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+                titleText.setText(getString(R.string.are_you_sure));
+                alertDialog.setCustomTitle(titleView);
+
+                alertDialog.setMessage("Delete this audio?");
+                alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPlaybackAudioPath = null;
+                        mAudioPlayback.setVisibility(View.GONE);
+                    }
+                });
+                alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+            }
+        });
 
 
         return mRootView;
@@ -504,19 +532,46 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         }
     }
 
-    private void populateImage(String imagePath, boolean isCloudImage) {
-        ImageView image = new ImageView(getContext());
-
+    private void populateImage(final String imagePath, final boolean isCloudImage) {
+        final ImageView image = new ImageView(getContext());
         image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 1000));
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
-        if (isCloudImage) {
-            // delete button removes image view
-            // and removes file path from mCloudPhotoPathList
-        } else {
-            // delete button removes image view
-        }
+
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+                TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+                titleText.setText(getString(R.string.are_you_sure));
+                alertDialog.setCustomTitle(titleView);
+
+                alertDialog.setMessage("Delete this photo?");
+                alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPhotoGallery.removeView(image);
+                        if (isCloudImage) {
+                            mCloudPhotoPathList.remove(imagePath);
+                        } else {
+                            mPhotoPathList.remove(imagePath);
+                        }
+                    }
+                });
+                alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+            }
+        });
     }
+
 
     private boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -707,7 +762,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     public void addImagesToFirebase() {
         Log.d("addImagesToFirebase", "IN THIS FUNCTION");
         // Updates cloud photos to remove the URLs deleted during editing
-        // currentJournal.setmImagePaths(mCloudPhotoPathList);
+        currentJournal.setmImagePaths(mCloudPhotoPathList);
 
         // Adds local images
         ArrayList<UploadTask> taskList = new ArrayList<UploadTask>();
@@ -745,6 +800,9 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     public void addAudioToFirebase() {
         if (mAudioPath == null) {
+            if (mPlaybackAudioPath == null) {
+                currentJournal.setmAudioPath(null);
+            }
             return;
         }
 

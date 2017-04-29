@@ -16,176 +16,78 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_check_white_24dp" />
+    
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fillViewport="true">
-            <LinearLayout
-                android:id="@+id/photo_gallery"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fillViewport="true">
+                <LinearLayout
+                    android:id="@+id/photo_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <TextView style="@style/EntryText"
+                android:id="@+id/date_created"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <EditText style="@style/ListEntryTitle"
+                android:id="@+id/edit_text_title"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/placeholder_note_title"
+                android:imeOptions="actionNext"/>
+
+            <EditText style="@style/EntryTag"
+                android:id="@+id/edit_text_tag"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/select_category"
+                android:clickable="true"
+                android:focusable="false"
+                android:textColorHint="@color/white"
+                />
+
+            <EditText style="@style/EntryText"
+                android:id="@+id/edit_text_journal"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:hint="@string/placeholder_note_text"
+                android:inputType="textMultiLine"
+                android:scrollbars="none" />
+
+            <Button style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/audio_playback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
-
-        <TextView style="@style/EntryText"
-            android:id="@+id/date_created"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
-
-        <EditText style="@style/ListEntryTitle"
-            android:id="@+id/edit_text_title"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/placeholder_note_title"
-            android:imeOptions="actionNext"/>
-
-        <EditText style="@style/EntryTag"
-            android:id="@+id/edit_text_tag"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/select_category"
-            android:clickable="true"
-            android:focusable="false"
-            android:textColorHint="@color/white"
-            />
-
-        <EditText style="@style/EntryText"
-            android:id="@+id/edit_text_journal"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"
-            android:hint="@string/placeholder_note_text"
-            android:inputType="textMultiLine"
-            android:scrollbars="none" />
-
-        <Button style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/audio_playback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="15dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:background="@color/colorTimeline"
-            android:drawableLeft="@android:drawable/ic_media_play"
-            android:visibility="gone">
-        </Button>
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:background="@color/colorTimeline"
+                android:drawableLeft="@android:drawable/ic_media_play"
+                android:visibility="gone">
+            </Button>
 
 
-    </LinearLayout>
-
-    <!--
-    <RelativeLayout
-        android:id="@+id/toplayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/margin_padding_tiny"
-        android:paddingLeft="@dimen/margin_padding_tiny"
-        android:paddingTop="@dimen/margin_padding_tiny">
-
-        <EditText
-            android:id="@+id/edit_text_tag"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_padding_large"
-            android:textSize="@dimen/margin_padding_xxnormal"
-            android:hint="@string/select_category"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_action_folder_open"
-            android:focusable="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="@dimen/margin_padding_tiny"
-            />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/primary_text" />
-
-    <RelativeLayout
-        android:id="@+id/toplayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/margin_padding_tiny"
-        android:paddingLeft="@dimen/margin_padding_tiny"
-        android:paddingTop="@dimen/margin_padding_tiny">
-
-        <EditText
-            android:id="@+id/edit_text_title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_padding_xxlarge"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/margin_padding_tiny"
-            android:background="@android:color/transparent"
-            android:hint="@string/placeholder_note_title"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords"
-            android:textSize="@dimen/text_size_xxnormal" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/primary_text" />
-
-    <RelativeLayout
-        android:id="@+id/toplayout_journal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/margin_padding_tiny"
-        android:paddingLeft="@dimen/margin_padding_tiny"
-        android:paddingTop="@dimen/margin_padding_tiny">
-
-        <EditText
-            android:id="@+id/edit_text_journal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_tiny"
-            android:background="#00000000"
-            android:gravity="left|top"
-            android:hint="@string/placeholder_note_text"
-            android:inputType="textMultiLine"
-            android:minHeight="100dp"
-            android:scrollbars="none"
-            android:textSize="@dimen/text_size_lined_editor" />
-
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/audio_playback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:visibility="gone">
-    </Button>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:fillViewport="false">
-        <LinearLayout
-            android:id="@+id/photo_gallery"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
-    -->
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
