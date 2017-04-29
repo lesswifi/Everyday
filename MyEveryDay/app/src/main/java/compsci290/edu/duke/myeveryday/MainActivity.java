@@ -32,6 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -45,6 +47,7 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.KeyboardUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
     private DatabaseReference mTagCloudReference;
+    private DatabaseReference mdefaultdatareference;
     private FloatingActionButton mFab;
     private Activity mActivity;
     private String mUsername;
@@ -74,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences msharedPreferences;
     SharedPreferences.Editor meditor;
-
+    private String storestringdmap;
     private AccountHeader mHeader = null;
     private Drawer mDrawer = null;
+    HashMap<String, String> mmap= new HashMap<>();
 
     private static final String ANONYMOUS = "Anonymous";
     public static final String ANONYMOUS_PHOTO_URL = "https://dl.dropboxusercontent.com/u/15447938/notepadapp/anon_user_48dp.png";
@@ -119,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
+        //mdefaultdatareference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + "DefaultTagAdded");
+        //mdefaultdatareference.child(mdefaultdatareference.push().getKey()).setValue("Something");
         mActivity = this;
         journals = new ArrayList<>();
 
@@ -152,7 +159,18 @@ public class MainActivity extends AppCompatActivity {
         setnavigationdrawer(savedInstanceState);
 
 
+        SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
+        storestringdmap = msp.getString("Map", null);
+        if(storestringdmap!=null) {
+            Gson mg = new Gson();
+            mmap = mg.fromJson(storestringdmap, new TypeToken<HashMap<String, String>>(){}.getType());
+            if(mmap.get(mFirebaseUser.getUid()) == null )
             addDefaultTag();
+        }
+        else
+        {
+            addDefaultTag();
+        }
 
     }
 
@@ -360,10 +378,15 @@ public class MainActivity extends AppCompatActivity {
         msharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         meditor = msharedPreferences.edit();
 
-        if (msharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            meditor.putBoolean(Constants.FIRST_RUN, false).commit();
-            addInitialTagToFirebase();
-        }
+        //if (msharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
+            //meditor.putBoolean(Constants.FIRST_RUN, false).commit();
+        mmap.put(mFirebaseUser.getUid(), "Yeah");
+        Gson gson = new Gson();
+        String storemap = gson.toJson(mmap);
+        meditor.putString("Map",storemap);
+        meditor.commit();
+        addInitialTagToFirebase();
+
     }
 
     private void addInitialTagToFirebase() {
