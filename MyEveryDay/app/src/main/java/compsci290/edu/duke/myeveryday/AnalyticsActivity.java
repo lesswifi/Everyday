@@ -8,6 +8,8 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidplot.Region;
 import com.androidplot.ui.Size;
@@ -209,12 +211,24 @@ public class AnalyticsActivity extends Activity{
             selectionWidget.setText("no selection");
             System.out.println("no selection");
         } else {
+
             selectionWidget.setText("Selected: " + selection.second.getmTitle() + " value: " + selection.second.getmSentimentScore() );
-            System.out.println("Selected: " + selection.second.getmTitle() + "value: " + selection.second.getmSentimentScore());
+            System.out.println("Selected: " + selection.second.getmTitle() + " Value: " + selection.second.getmSentimentScore());
+            displayJournalPreview(selection.second);
+
+
         }
         //selection.second.getTitle()
         //selection.second.getY(selection.first)
         plot.redraw();
+    }
+
+    public void displayJournalPreview(JournalEntry journal) {
+        TextView title = (TextView) findViewById(R.id.text_view_note_title);
+        TextView content = (TextView) findViewById(R.id.text_view_note_content);
+        title.setText(journal.getmTitle());
+        content.setText(journal.getmContent());
+
     }
 
 }
