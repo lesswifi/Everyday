@@ -607,6 +607,14 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             currentJournal.setmID(key);
             currentJournal.setmDateCreated(System.currentTimeMillis());
         }
+
+        //Add Tags to Firebase
+        if(currenttag != null)
+        {
+            currentJournal.setmTagID(currenttag.getmTagID());
+            currentJournal.setmTagName(currenttag.getmTagName());
+        }
+
         Log.d("Journal editor", mTitle.getText().toString());
         currentJournal.setmTitle(mTitle.getText().toString());
 

@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
             memailaddress = mFirebaseUser.getEmail();
 
-            String uid = mFirebaseUser.getUid();
+            //String uid = mFirebaseUser.getUid();
         }
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
@@ -342,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        addInitialTagToFirebase();
         //addDefaultData();
         //DatabaseReference temp = mdatabase.child("temp");
         //temp.setValue("a test");
@@ -357,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(screenTitle);
     }
 
+//Starts here is for testing the funcationality of the app
     public void addDefaultData()
     {
         msharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
