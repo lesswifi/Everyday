@@ -149,9 +149,8 @@ public class NoteListFragment extends Fragment {
         return mRootView;
     }
 
-<<<<<<< HEAD
-    private void function() {
-    }
+
+
 
     private void promptForDelete(final JournalEntry journal){
 
@@ -189,8 +188,7 @@ public class NoteListFragment extends Fragment {
         });
         alertDialog.show();
     }
-=======
->>>>>>> master
+
 
     public void showEmptyText() {
         mRecyclerView.setVisibility(View.GONE);
