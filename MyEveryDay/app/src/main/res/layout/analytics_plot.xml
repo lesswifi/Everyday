@@ -5,12 +5,20 @@
 
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
-        style="@style/APDefacto.Light"
+
         android:layout_width="fill_parent"
+        android:layout_marginBottom="200dp"
         android:layout_height="fill_parent"
-        ap:title="A Simple XY Plot"
-        ap:rangeTitle="range"
-        ap:domainTitle="domain"
+        androidPlot.graphBackgroundColor="#f5f5f5"
+        ap:titleTextSize="20dp"
+        ap:rangeTitle="sentiment score"
+        ap:domainTitle="time"
+        ap:marginLeft="5dp"
+        ap:marginRight="5dp"
+        ap:theme="@style/AppTheme"
+        ap:backgroundColor="#f5f5f5"
         ap:lineLabels="left|bottom"
-        ap:lineLabelRotationBottom="-45"/>
+        ap:lineLabelRotationBottom="-45" />
+
+
 </LinearLayout>

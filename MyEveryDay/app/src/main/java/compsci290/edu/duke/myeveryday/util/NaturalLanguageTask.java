@@ -79,12 +79,7 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,Double> {
         }
 
         System.out.println(response.toString());
-//        List<TargetedEmotionResults> emotionResults = results.getEmotion().getTargets();
-//        List<Double> emotions = new ArrayList<Double>(emotionResults.size());
-//        for(TargetedEmotionResults emotionResult: emotionResults) {
-//            EmotionScores emotionScores = emotionResult.getEmotion();
-//            emotions.add(emotionScores.getAnger());
-//        }
+
         return mSentimentScore;
 
     }
