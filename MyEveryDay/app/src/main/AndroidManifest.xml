@@ -37,9 +37,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Authentication.AuthUiActivity" />
-        <activity android:name=".Journals.AddJournalActivity" />
+        <activity android:name=".Journals.AddJournalActivity" android:configChanges="orientation|screenSize"/>
         <activity android:name = ".Tag.TagList"/>
-        <activity android:name=".AnalyticsActivity" />
+        <activity android:name=".AnalyticsActivity" android:configChanges="orientation|screenSize"/>
         <activity android:name=".AtlasActivity" />
         <service
             android:name=".Services.WeatherService"

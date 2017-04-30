@@ -27,7 +27,7 @@ import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment is called by
  */
 public class AddTagFragment extends DialogFragment {
     private EditText mTagEditText;
