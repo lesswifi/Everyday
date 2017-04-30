@@ -86,6 +86,7 @@ import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
+import compsci290.edu.duke.myeveryday.util.OrientationUtils;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
@@ -182,6 +183,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                     .build();
         }
     }
+
 
     public void onStart() {
         mGoogleApiClient.connect();
@@ -286,16 +288,19 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
+                            OrientationUtils.unlockOrientation(getActivity());
                             AudioHelper.stopPlayback(mPlayer);
                             mPlayer = null;
                             mAudioPlayback.clearAnimation();
                             mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
                         }
                     });
+                    OrientationUtils.lockOrientation(getActivity());
                     mAudioPlayback.setAnimation(mAnimation);
                     mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                     AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
                 } else {
+                    OrientationUtils.unlockOrientation(getActivity());
                     AudioHelper.stopPlayback(mPlayer);
                     mPlayer = null;
                     mAudioPlayback.clearAnimation();
@@ -445,6 +450,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     }
 
     private void launchRecorder() {
+        OrientationUtils.lockOrientation(getActivity());
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View titleView = (View) inflater.inflate(R.layout.dialog_title, null);
@@ -473,6 +479,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                OrientationUtils.unlockOrientation(getActivity());
                 dialog.dismiss();
             }
         });
@@ -499,6 +506,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 mPlaybackAudioPath = mAudioPath;
                 AudioHelper.displayDuration(mPlaybackAudioPath, mAudioPlayback);
                 mAudioPlayback.setVisibility(View.VISIBLE);
+                OrientationUtils.unlockOrientation(getActivity());
                 dialog.dismiss();
             }
         });
@@ -538,6 +546,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
 
+        // Add delete listener
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -548,7 +557,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 titleText.setText(getString(R.string.are_you_sure));
                 alertDialog.setCustomTitle(titleView);
 
-                alertDialog.setMessage("Delete this photo?");
+                alertDialog.setMessage("Delete this photo? This cannot be undone.");
                 alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -571,6 +580,8 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             }
         });
     }
+
+
 
 
     private boolean isStoragePermissionGranted() {
@@ -620,8 +631,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         }
 
     }
-
-
 
 
     private void promptForDelete(final JournalEntry journal){
