@@ -101,7 +101,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     public static final String ANONYMOUS_EMAIL = "anonymous@noemail.com";
 
     @BindView(android.R.id.content) View mRootView;
-    @BindView(R.id.toolbar)
+    @BindView(R.id.toolbar3)
     Toolbar toolbar;
 
     @Override
@@ -143,7 +143,7 @@ public class AnalyticsActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         mActivity = this;
@@ -199,9 +199,9 @@ public class AnalyticsActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
                         new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
                         new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
-                        new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -249,7 +249,7 @@ public class AnalyticsActivity extends AppCompatActivity {
         switch (position){
             case Constants.NOTES:
                 //Do Nothing, we are already on Notes
-                //startActivity(new Intent(AnalyticsActivity.this, MainActivity.class));
+                startActivity(new Intent(AnalyticsActivity.this, MainActivity.class));
                 break;
             case Constants.CATEGORIES:
                 startActivity(new Intent(AnalyticsActivity.this, TagList.class));
