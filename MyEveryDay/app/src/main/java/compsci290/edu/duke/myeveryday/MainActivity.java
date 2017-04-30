@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mcloudReference;
     private DatabaseReference mTagCloudReference;
     private DatabaseReference mdefaultdatareference;
+    private DatabaseReference muserdatareference;
     private FloatingActionButton mFab;
     private Activity mActivity;
     private String mUsername;
@@ -122,6 +123,26 @@ public class MainActivity extends AppCompatActivity {
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
 
+        muserdatareference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid());
+        muserdatareference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.hasChild("add"))
+                    addInitialTagToFirebase();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        //mdefaultdatareference.child().setValue("something");
+        //mdefaultdatareference.child(mdefaultdatareference.push().getKey()).setValue("Something");
+
+
+
 
         mActivity = this;
         journals = new ArrayList<>();
@@ -155,7 +176,12 @@ public class MainActivity extends AppCompatActivity {
 
         setnavigationdrawer(savedInstanceState);
 
+
+
+        /*SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
+=======
         SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
+>>>>>>> origin/master
         storestringdmap = msp.getString("Map", null);
         if(storestringdmap!=null) {
             Gson mg = new Gson();
@@ -166,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             addDefaultTag();
-        }
+        }*/
 
     }
 
@@ -345,21 +371,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //Starts here is for testing the funcationality of the app
-    public void addDefaultTag()
-    {
-        msharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        meditor = msharedPreferences.edit();
+    //public void addDefaultTag()
+    //{
+        //msharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //meditor = msharedPreferences.edit();
 
         //if (msharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
             //meditor.putBoolean(Constants.FIRST_RUN, false).commit();
-        mmap.put(mFirebaseUser.getUid(), "Yeah");
-        Gson gson = new Gson();
-        String storemap = gson.toJson(mmap);
-        meditor.putString("Map",storemap);
-        meditor.commit();
-        addInitialTagToFirebase();
+        //mmap.put(mFirebaseUser.getUid(), "Yeah");
+        //Gson gson = new Gson();
+        //String storemap = gson.toJson(mmap);
+        //meditor.putString("Map",storemap);
+        //meditor.commit();
+        //addInitialTagToFirebase();
 
-    }
+    //}
 
     private void addInitialTagToFirebase() {
 
@@ -370,6 +396,9 @@ public class MainActivity extends AppCompatActivity {
             category.setmTagID(mTagCloudReference.push().getKey());
             mTagCloudReference.child(category.getmTagID()).setValue(category);
         }
+        mdefaultdatareference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + "/add");
+        mdefaultdatareference.push().setValue("Yes");
+
     }
 
     /*public void addinitialdatatofirebase()
