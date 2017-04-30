@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.androidplot.Region;
 import com.androidplot.ui.Size;
@@ -41,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -59,9 +60,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
+import compsci290.edu.duke.myeveryday.Journals.AddJournalActivity;
+import compsci290.edu.duke.myeveryday.Journals.NoteViewHolder;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Tag.TagList;
-import compsci290.edu.duke.myeveryday.Tag.TagListFragment;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.MyXYSeries;
 
@@ -77,7 +80,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
     private static ArrayList<JournalEntry> mJournals;
-
+    private FloatingActionButton mFab;
 
     private TextLabelWidget selectionWidget;
 
@@ -451,12 +454,59 @@ public class AnalyticsActivity extends AppCompatActivity {
         plot.redraw();
     }
 
-    public void displayJournalPreview(JournalEntry journal) {
-        //NoteViewHolder holder = new NoteViewHolder(findViewById());
-        TextView title = (TextView) findViewById(R.id.text_view_note_title);
-        TextView content = (TextView) findViewById(R.id.text_view_note_content);
-        title.setText(journal.getmTitle());
-        content.setText(journal.getmContent());
+    public void displayJournalPreview(final JournalEntry journal) {
+        NoteViewHolder holder = new NoteViewHolder(this.findViewById(android.R.id.content));
+
+
+//        TextView title = (TextView) findViewById(R.id.text_view_note_title);
+//        TextView content = (TextView) findViewById(R.id.text_view_note_content);
+//        title.setText(journal.getmTitle());
+//        content.setText(journal.getmContent());
+//
+//        String weatherIconUrl = null;
+//        if (journal.getmWeather() != null && journal.getmWeather().startsWith("http")) {
+//            weatherIconUrl = journal.getmWeather();
+//        }
+//        CameraHelper.displayImageInView(getApplicationContext(), weatherIconUrl, R.id.weather_icon);
+//        R.id.text_view_note_location_weather.setText(journal.getmLocation());
+//
+//        String imageUrl = null;
+//        if (!journal.getmImagePaths().isEmpty()) {
+//            imageUrl = journal.getmImagePaths().get(0);
+//        }
+//        CameraHelper.displayImageInView(getApplicationContext(), imageUrl, holder.photo);
+//        R.id.image_view_note_photo.setMaxHeight(400);
+
+        holder.title.setText(journal.getmTitle());
+        holder.content.setText(journal.getmContent());
+
+        String weatherIconUrl = null;
+        if (journal.getmWeather() != null && journal.getmWeather().startsWith("http")) {
+            weatherIconUrl = journal.getmWeather();
+        }
+        CameraHelper.displayImageInView(getApplicationContext(), weatherIconUrl, holder.weather_icon);
+        holder.location_weather.setText(journal.getmLocation());
+
+        String imageUrl = null;
+        if (!journal.getmImagePaths().isEmpty()) {
+            imageUrl = journal.getmImagePaths().get(0);
+        }
+        CameraHelper.displayImageInView(getApplicationContext(), imageUrl, holder.photo);
+        holder.photo.setMaxHeight(400);
+
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setVisibility(View.VISIBLE);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gson gson = new Gson();
+                String serializedJournal = gson.toJson(journal);
+                Intent editIntent = new Intent(getApplicationContext(), AddJournalActivity.class);
+                editIntent.putExtra(Constants.SERIALIZED_NOTE, serializedJournal);
+                startActivity(editIntent);
+            }
+        });
+
 
     }
 
