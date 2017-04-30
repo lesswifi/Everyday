@@ -26,10 +26,12 @@ import com.androidplot.ui.SizeMode;
 import com.androidplot.ui.TextOrientation;
 import com.androidplot.ui.widget.TextLabelWidget;
 import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PanZoom;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.StepMode;
 import com.androidplot.xy.XYPlot;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,6 +69,8 @@ import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.MyXYSeries;
+
+import static android.R.color.transparent;
 
 
 /**
@@ -337,6 +341,8 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     public void plotSetup() {
         plot = (XYPlot) findViewById(R.id.plot);
+        plot.setRangeBoundaries(-1, 1, BoundaryMode.FIXED);
+
         PanZoom.attach(plot);
         plot.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -478,7 +484,6 @@ public class AnalyticsActivity extends AppCompatActivity {
             imageUrl = journal.getmImagePaths().get(0);
         }
         CameraHelper.displayImageInView(getApplicationContext(), imageUrl, holder.photo);
-        holder.photo.setMaxHeight(400);
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mFab.setVisibility(View.VISIBLE);
