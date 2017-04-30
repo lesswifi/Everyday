@@ -18,6 +18,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
 
