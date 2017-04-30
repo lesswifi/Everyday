@@ -40,8 +40,6 @@ public class AddTagFragment extends DialogFragment {
     private FloatingActionButton mFab;
 
 
-
-
     public AddTagFragment() {
         // Required empty public constructor
     }

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="compsci290.edu.duke.myeveryday.notes.AddJournalActivity">
+    tools:context="compsci290.edu.duke.myeveryday.Journals.AddJournalActivity">
 
-    <!--<android.support.design.widget.AppBarLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -19,7 +19,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>-->
+    </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_add_journal"
         android:id="@+id/container"/>

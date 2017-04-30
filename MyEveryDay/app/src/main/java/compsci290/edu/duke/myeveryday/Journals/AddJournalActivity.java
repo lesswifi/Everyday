@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.notes;
+package compsci290.edu.duke.myeveryday.Journals;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,17 +6,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class AddJournalActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_journal);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getIntent() != null && getIntent().hasExtra(Constants.SERIALIZED_NOTE)){
             String serializedNote = getIntent().getStringExtra(Constants.SERIALIZED_NOTE);

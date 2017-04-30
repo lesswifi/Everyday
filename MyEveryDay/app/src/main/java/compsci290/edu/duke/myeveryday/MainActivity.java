@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
@@ -55,8 +54,8 @@ import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.Tag.TagList;
-import compsci290.edu.duke.myeveryday.notes.AddJournalActivity;
-import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
+import compsci290.edu.duke.myeveryday.Journals.AddJournalActivity;
+import compsci290.edu.duke.myeveryday.Journals.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
@@ -122,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
-        //mdefaultdatareference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + "DefaultTagAdded");
-        //mdefaultdatareference.child(mdefaultdatareference.push().getKey()).setValue("Something");
+
+
         mActivity = this;
         journals = new ArrayList<>();
 
@@ -155,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setnavigationdrawer(savedInstanceState);
-
 
         SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
         storestringdmap = msp.getString("Map", null);
@@ -210,8 +208,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null && drawerItem instanceof Nameable){
-                            String name = ((Nameable) drawerItem).getName().getText(mActivity);
-                            toolbar.setTitle(name);
+                            //String name = ((Nameable) drawerItem).getName().getText(mActivity);
+                            toolbar.setTitle("Journals");
                         }
 
                         if (drawerItem != null){
@@ -380,4 +378,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     }*/
+    @Override
+    public void onBackPressed() {
+        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        } else {
+            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
 }

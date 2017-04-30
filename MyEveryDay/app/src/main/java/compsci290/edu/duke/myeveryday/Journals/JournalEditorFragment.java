@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.notes;
+package compsci290.edu.duke.myeveryday.Journals;
 
 
 import android.Manifest;
