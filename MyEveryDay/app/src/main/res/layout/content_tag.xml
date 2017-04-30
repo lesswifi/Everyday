@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="compsci290.edu.duke.myeveryday.Tag.TagList"
+    tools:context="compsci290.edu.duke.myeveryday.Tag.TagListActivity"
     tools:showIn="@layout/tag_activity">
 
 </RelativeLayout>

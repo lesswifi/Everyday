@@ -42,7 +42,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
 public class TagListFragment extends Fragment implements TagSelectedListener {
     private List<JournalEntry> mjournals;
     private List<Tag> mtags;
-    private ListAdapter mAdapter;
+    private TagListAdapter mAdapter;
     private View mrootview;
 
     @BindView(R.id.tag_recycler_view)
@@ -118,7 +118,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
             }
         });
 
-        mAdapter = new ListAdapter(mtags, getContext(),this);
+        mAdapter = new TagListAdapter(mtags, getContext(),this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 

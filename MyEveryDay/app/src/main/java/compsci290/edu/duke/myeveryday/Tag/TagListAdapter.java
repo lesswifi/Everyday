@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,26 +21,26 @@ import compsci290.edu.duke.myeveryday.R;
  * Created by wangerxiao on 4/23/17.
  */
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHolder> {
     private List<Tag> mTag;
     private final Context mContext;
     private final TagSelectedListener mtagselectedlistner;
 
-    public ListAdapter(List<Tag> mTag, Context mContext, TagSelectedListener mtagselectedlistner) {
+    public TagListAdapter(List<Tag> mTag, Context mContext, TagSelectedListener mtagselectedlistner) {
         this.mTag = mTag;
         this.mContext = mContext;
         this.mtagselectedlistner = mtagselectedlistner;
     }
 
     @Override
-    public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_tag_list, parent, false);
+    public TagListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_list, parent, false);
         ViewHolder holder = new ViewHolder(row);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(ListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(TagListAdapter.ViewHolder holder, int position) {
         Tag tag = mTag.get(position);
         holder.mTagname.setText(tag.getmTagName());
         int numNote;
@@ -66,9 +67,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.image_button_edit_category)
-        ImageButton editTag;
+        ImageView editTag;
         @BindView(R.id.image_button_delete_category)
-        ImageButton deleteTag;
+        ImageView deleteTag;
         @BindView(R.id.text_view_category_name)
         TextView mTagname;
         @BindView(R.id.text_view_note_count)

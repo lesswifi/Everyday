@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -29,8 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -55,7 +52,7 @@ import compsci290.edu.duke.myeveryday.Journals.NoteListFragment;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
-import compsci290.edu.duke.myeveryday.Tag.TagList;
+import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
@@ -281,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 //Do Nothing, we are already on Notes
                 break;
             case Constants.CATEGORIES:
-                startActivity(new Intent(MainActivity.this, TagList.class));
+                startActivity(new Intent(MainActivity.this, TagListActivity.class));
                 break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(MainActivity.this, AnalyticsActivity.class));

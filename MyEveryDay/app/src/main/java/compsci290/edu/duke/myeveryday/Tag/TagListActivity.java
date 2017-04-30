@@ -45,7 +45,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
  * Created by wangerxiao on 4/23/17.
  */
 
-public class TagList extends AppCompatActivity {
+public class TagListActivity extends AppCompatActivity {
 
     private String mUsername;
     private String mPhotoURL;
@@ -154,7 +154,7 @@ public class TagList extends AppCompatActivity {
                 {
                     @Override
                     public void onDrawerOpened(View drawerView) {
-                        KeyboardUtil.hideKeyboard(TagList.this);
+                        KeyboardUtil.hideKeyboard(TagListActivity.this);
 
                     }
 
@@ -181,12 +181,12 @@ public class TagList extends AppCompatActivity {
         switch (position){
             case Constants.NOTES:
                 //Do Nothing, we are already on Notes
-                //startActivity(new Intent(TagList.this, MainActivity.class));
+                //startActivity(new Intent(TagListActivity.this, MainActivity.class));
                 break;
             case Constants.CATEGORIES:
                 break;
             case Constants.ANALYTICS:
-                startActivity(new Intent(TagList.this, AnalyticsActivity.class));
+                startActivity(new Intent(TagListActivity.this, AnalyticsActivity.class));
                 break;
             case Constants.LOGOUT:
                 logout();
