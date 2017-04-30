@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.notes;
+package compsci290.edu.duke.myeveryday.Journals;
 
 
 import android.Manifest;
@@ -86,6 +86,7 @@ import compsci290.edu.duke.myeveryday.util.AudioHelper;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
+import compsci290.edu.duke.myeveryday.util.OrientationUtils;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
@@ -156,6 +157,9 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     static final int EXTERNAL_PERMISSION_REQUEST = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_AUDIO_RECORD = 2;
+    static final int ACCESS_COARSE_LOCATION = 3;
+    static final int ACCESS_FINE_LOCATION = 4;
+
 
 
     public JournalEditorFragment() {
@@ -179,6 +183,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                     .build();
         }
     }
+
 
     public void onStart() {
         mGoogleApiClient.connect();
@@ -283,21 +288,52 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
+                            OrientationUtils.unlockOrientation(getActivity());
                             AudioHelper.stopPlayback(mPlayer);
                             mPlayer = null;
                             mAudioPlayback.clearAnimation();
                             mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
                         }
                     });
+                    OrientationUtils.lockOrientation(getActivity());
                     mAudioPlayback.setAnimation(mAnimation);
                     mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                     AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
                 } else {
+                    OrientationUtils.unlockOrientation(getActivity());
                     AudioHelper.stopPlayback(mPlayer);
                     mPlayer = null;
                     mAudioPlayback.clearAnimation();
                     mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
                 }
+            }
+        });
+        mAudioPlayback.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+                TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+                titleText.setText(getString(R.string.are_you_sure));
+                alertDialog.setCustomTitle(titleView);
+
+                alertDialog.setMessage("Delete this audio?");
+                alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPlaybackAudioPath = null;
+                        mAudioPlayback.setVisibility(View.GONE);
+                    }
+                });
+                alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
             }
         });
 
@@ -414,6 +450,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     }
 
     private void launchRecorder() {
+        OrientationUtils.lockOrientation(getActivity());
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View titleView = (View) inflater.inflate(R.layout.dialog_title, null);
@@ -442,6 +479,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                OrientationUtils.unlockOrientation(getActivity());
                 dialog.dismiss();
             }
         });
@@ -468,6 +506,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 mPlaybackAudioPath = mAudioPath;
                 AudioHelper.displayDuration(mPlaybackAudioPath, mAudioPlayback);
                 mAudioPlayback.setVisibility(View.VISIBLE);
+                OrientationUtils.unlockOrientation(getActivity());
                 dialog.dismiss();
             }
         });
@@ -501,19 +540,49 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         }
     }
 
-    private void populateImage(String imagePath, boolean isCloudImage) {
-        ImageView image = new ImageView(getContext());
-
+    private void populateImage(final String imagePath, final boolean isCloudImage) {
+        final ImageView image = new ImageView(getContext());
         image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 1000));
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
-        if (isCloudImage) {
-            // delete button removes image view
-            // and removes file path from mCloudPhotoPathList
-        } else {
-            // delete button removes image view
-        }
+
+        // Add delete listener
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+                TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+                titleText.setText(getString(R.string.are_you_sure));
+                alertDialog.setCustomTitle(titleView);
+
+                alertDialog.setMessage("Delete this photo? This cannot be undone.");
+                alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPhotoGallery.removeView(image);
+                        if (isCloudImage) {
+                            mCloudPhotoPathList.remove(imagePath);
+                        } else {
+                            mPhotoPathList.remove(imagePath);
+                        }
+                    }
+                });
+                alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+            }
+        });
     }
+
+
+
 
     private boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -544,6 +613,25 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             return true;
         }
     }
+
+    private void requestLocationPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION);
+
+            }
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION);
+            }
+        }
+
+    }
+
 
     private void promptForDelete(final JournalEntry journal){
 
@@ -659,7 +747,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmDateModified(System.currentTimeMillis());
         currentJournal.setmLocation(mAddress);
         currentJournal.setmLatLng(mLatLng);
-        Log.d("JournalEditorFragment",mAddress);
+
 
         WeatherService ws = new WeatherService(mLastLocation);
         String weatherIconUrl = null;
@@ -678,10 +766,12 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         System.out.println(currentJournal.getmSentimentScore());
     }
 
+
+
     public void addImagesToFirebase() {
         Log.d("addImagesToFirebase", "IN THIS FUNCTION");
         // Updates cloud photos to remove the URLs deleted during editing
-        // currentJournal.setmImagePaths(mCloudPhotoPathList);
+        currentJournal.setmImagePaths(mCloudPhotoPathList);
 
         // Adds local images
         ArrayList<UploadTask> taskList = new ArrayList<UploadTask>();
@@ -719,6 +809,9 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     public void addAudioToFirebase() {
         if (mAudioPath == null) {
+            if (mPlaybackAudioPath == null) {
+                currentJournal.setmAudioPath(null);
+            }
             return;
         }
 
@@ -773,24 +866,18 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         // Request location updates
         if (ContextCompat.checkSelfPermission(mActivity,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // we can request the permission.
-                ActivityCompat.requestPermissions(mActivity,
-                        new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST);
-            }
+            requestLocationPermissions();
         }
+
+        // we can request the permission.
+        ActivityCompat.requestPermissions(mActivity,
+                new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST);
+
         // Create the location request
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -820,26 +907,21 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
         }
 
-
     }
-
 
     public void onLocationChanged(Location location) {
         // New location has now been determined
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        // You can now create a LatLng Object for use with maps
+        // Create a LatLng Object for use with maps
         com.google.android.gms.maps.model.LatLng latLng = new com.google.android.gms.maps.model.LatLng(location.getLatitude(), location.getLongitude());
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {
         if (i == CAUSE_SERVICE_DISCONNECTED) {
-            //Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
+            makeToast("Disconnected. Please re-connect.");
         } else if (i == CAUSE_NETWORK_LOST) {
-            //Toast.makeText(this, "Network lost. Please re-connect.", Toast.LENGTH_SHORT).show();
+            makeToast("Network lost. Please re-connect.");
         }
     }
 

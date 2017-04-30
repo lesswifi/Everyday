@@ -32,7 +32,7 @@ import compsci290.edu.duke.myeveryday.Listeners.TagSelectedListener;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
+import compsci290.edu.duke.myeveryday.Journals.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 
@@ -210,8 +210,6 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
                 .addToBackStack("journal")
                 .replace(mid, mfragment)
                 .commit();
-
-
     }
 
     @Override

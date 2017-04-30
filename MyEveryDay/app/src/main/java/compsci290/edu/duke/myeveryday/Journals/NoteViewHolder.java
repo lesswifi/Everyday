@@ -1,5 +1,6 @@
-package compsci290.edu.duke.myeveryday.notes;
+package compsci290.edu.duke.myeveryday.Journals;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,25 +18,27 @@ import compsci290.edu.duke.myeveryday.R;
 public class NoteViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.rootView)
-    CardView card;
+    public CardView card;
 
     @BindView(R.id.image_view_note_photo)
-    ImageView photo;
+    public ImageView photo;
 
     @BindView(R.id.text_view_note_title)
-    TextView title;
+    public TextView title;
 
     @BindView(R.id.text_view_note_content)
-    TextView content;
+    public TextView content;
 
     @BindView(R.id.text_view_note_location_weather)
-    TextView location_weather;
+    public TextView location_weather;
 
     @BindView(R.id.weather_icon)
-    ImageView weather_icon;
+    public ImageView weather_icon;
+
 
     @BindView(R.id.text_view_note_time)
-    TextView noteTime;
+    @Nullable
+    public TextView noteTime;
 
     public NoteViewHolder(View itemView) {
         super(itemView);

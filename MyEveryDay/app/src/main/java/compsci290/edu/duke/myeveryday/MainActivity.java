@@ -17,9 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
@@ -57,8 +54,8 @@ import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.Tag.TagList;
-import compsci290.edu.duke.myeveryday.notes.AddJournalActivity;
-import compsci290.edu.duke.myeveryday.notes.NoteListFragment;
+import compsci290.edu.duke.myeveryday.Journals.AddJournalActivity;
+import compsci290.edu.duke.myeveryday.Journals.NoteListFragment;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
@@ -125,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
+
         muserdatareference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid());
         muserdatareference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -142,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
         //mdefaultdatareference.child().setValue("something");
         //mdefaultdatareference.child(mdefaultdatareference.push().getKey()).setValue("Something");
+
+
+
+
         mActivity = this;
         journals = new ArrayList<>();
 
@@ -175,7 +177,11 @@ public class MainActivity extends AppCompatActivity {
         setnavigationdrawer(savedInstanceState);
 
 
+
         /*SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
+=======
+        SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
+>>>>>>> origin/master
         storestringdmap = msp.getString("Map", null);
         if(storestringdmap!=null) {
             Gson mg = new Gson();
@@ -222,15 +228,16 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
                         new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
-                        new PrimaryDrawerItem().withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(Constants.SETTINGS),
+                        new PrimaryDrawerItem().withName("Atlas").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.ATLAS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
+
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null && drawerItem instanceof Nameable){
-                            String name = ((Nameable) drawerItem).getName().getText(mActivity);
-                            toolbar.setTitle(name);
+                            //String name = ((Nameable) drawerItem).getName().getText(mActivity);
+                            toolbar.setTitle("Journals");
                         }
 
                         if (drawerItem != null){
@@ -276,12 +283,11 @@ public class MainActivity extends AppCompatActivity {
             case Constants.CATEGORIES:
                 startActivity(new Intent(MainActivity.this, TagList.class));
                 break;
-            case Constants.SETTINGS:
-                //Go to Settings
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(MainActivity.this, AnalyticsActivity.class));
+                break;
+            case Constants.ATLAS:
+                startActivity(new Intent(MainActivity.this, AtlasActivity.class));
                 break;
             case Constants.LOGOUT:
                 logout();
@@ -348,30 +354,6 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onResume()
     {
@@ -430,4 +412,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     }*/
+    @Override
+    public void onBackPressed() {
+        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        } else {
+            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
 }
