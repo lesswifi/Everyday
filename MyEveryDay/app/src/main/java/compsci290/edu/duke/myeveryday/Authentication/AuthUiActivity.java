@@ -1,6 +1,7 @@
 package compsci290.edu.duke.myeveryday.Authentication;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.StringRes;
@@ -8,12 +9,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.AuthUI.IdpConfig;
 import com.firebase.ui.auth.ui.ResultCodes;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +37,9 @@ public class AuthUiActivity extends AppCompatActivity {
     @BindView(android.R.id.content)
     View mRootView;
 
+    @BindView(R.id.sign_in)
+    Button mSignIn;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +50,20 @@ public class AuthUiActivity extends AppCompatActivity {
             finish();
         }
 
-        startActivityForResult(
-                AuthUI.getInstance().createSignInIntentBuilder()
-                        //.setTheme(AuthUI.getDefaultTheme())
-                        //.setLogo(getSelectedLogo())
-                        .setProviders(getSelectedProviders())
-                        //.setTosUrl(getSelectedTosUrl())
-                        //.setIsSmartLockEnabled(mEnableSmartLock.isChecked())
-                        .build(),
-                RC_SIGN_IN);
+        setContentView(R.layout.activity_auth);
+        ButterKnife.bind(this);
 
         Log.d("selected provider", getSelectedProviders()+"");
+    }
+
+    @OnClick(R.id.sign_in)
+    public void signIn(View view) {
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                        .setTheme(R.style.AppTheme)
+                        .setProviders(getSelectedProviders())
+                        .build(),
+                RC_SIGN_IN);
     }
 
 
