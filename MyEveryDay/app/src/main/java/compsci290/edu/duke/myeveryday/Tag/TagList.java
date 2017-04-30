@@ -36,6 +36,7 @@ import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.AnalyticsActivity;
+import compsci290.edu.duke.myeveryday.AtlasActivity;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.R;
@@ -133,6 +134,7 @@ public class TagList extends AppCompatActivity {
                         new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
                         new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
+                        new PrimaryDrawerItem().withName("Atlas").withIcon(GoogleMaterial.Icon.gmd_map).withIdentifier(Constants.ATLAS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -169,10 +171,11 @@ public class TagList extends AppCompatActivity {
 
                     }
                 })
-                .withFireOnInitialOnClick(true)
-                .withSavedInstance(savedInstanceState)
+                //.withFireOnInitialOnClick(true)
+                //.withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
+        mDrawer.setSelection(Constants.CATEGORIES);
 
     }
 
@@ -191,6 +194,8 @@ public class TagList extends AppCompatActivity {
             case Constants.LOGOUT:
                 logout();
                 break;
+            case Constants.ATLAS:
+                startActivity(new Intent(TagList.this, AtlasActivity.class));
             case Constants.DELETE:
                 deleteAccountClicked();
                 break;

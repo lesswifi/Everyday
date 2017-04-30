@@ -228,10 +228,11 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 })
-                .withFireOnInitialOnClick(true)
-                .withSavedInstance(savedInstanceState)
+                //.withFireOnInitialOnClick(true)
+                //.withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
+        mDrawer.setSelection(Constants.NOTES);
     }
 
     public void onTouchDrawer(int position) {
