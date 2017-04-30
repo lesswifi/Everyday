@@ -900,27 +900,19 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     }
 
-
-
-
-
-
     public void onLocationChanged(Location location) {
         // New location has now been determined
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        // You can now create a LatLng Object for use with maps
+        // Create a LatLng Object for use with maps
         com.google.android.gms.maps.model.LatLng latLng = new com.google.android.gms.maps.model.LatLng(location.getLatitude(), location.getLongitude());
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {
         if (i == CAUSE_SERVICE_DISCONNECTED) {
-            //Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
+            makeToast("Disconnected. Please re-connect.");
         } else if (i == CAUSE_NETWORK_LOST) {
-            //Toast.makeText(this, "Network lost. Please re-connect.", Toast.LENGTH_SHORT).show();
+            makeToast("Network lost. Please re-connect.");
         }
     }
 

@@ -457,26 +457,6 @@ public class AnalyticsActivity extends AppCompatActivity {
     public void displayJournalPreview(final JournalEntry journal) {
         NoteViewHolder holder = new NoteViewHolder(this.findViewById(android.R.id.content));
 
-
-//        TextView title = (TextView) findViewById(R.id.text_view_note_title);
-//        TextView content = (TextView) findViewById(R.id.text_view_note_content);
-//        title.setText(journal.getmTitle());
-//        content.setText(journal.getmContent());
-//
-//        String weatherIconUrl = null;
-//        if (journal.getmWeather() != null && journal.getmWeather().startsWith("http")) {
-//            weatherIconUrl = journal.getmWeather();
-//        }
-//        CameraHelper.displayImageInView(getApplicationContext(), weatherIconUrl, R.id.weather_icon);
-//        R.id.text_view_note_location_weather.setText(journal.getmLocation());
-//
-//        String imageUrl = null;
-//        if (!journal.getmImagePaths().isEmpty()) {
-//            imageUrl = journal.getmImagePaths().get(0);
-//        }
-//        CameraHelper.displayImageInView(getApplicationContext(), imageUrl, holder.photo);
-//        R.id.image_view_note_photo.setMaxHeight(400);
-
         holder.title.setText(journal.getmTitle());
         holder.content.setText(journal.getmContent());
 

@@ -7,10 +7,11 @@ package compsci290.edu.duke.myeveryday.util;
 public class Constants {
     public final static int NOTES = 1;
     public final static int CATEGORIES = 2;
-    public final static int SETTINGS = 3;
+    public final static int ATLAS = 3;
     public final static int LOGOUT = 4;
     public final static int DELETE = 5;
     public final static int ANALYTICS = 6;
+
 
 
     public final static String NOTE_TYPE_TEXT = "text";

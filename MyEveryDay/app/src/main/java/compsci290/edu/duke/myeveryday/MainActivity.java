@@ -202,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
                         new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
+                        new PrimaryDrawerItem().withName("Atlas").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.ATLAS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
+
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -257,6 +259,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(MainActivity.this, AnalyticsActivity.class));
+                break;
+            case Constants.ATLAS:
+                startActivity(new Intent(MainActivity.this, AtlasActivity.class));
                 break;
             case Constants.LOGOUT:
                 logout();
