@@ -37,11 +37,8 @@ public class NoteListFragment extends Fragment {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
-    private DatabaseReference mTagCloudReference;
     private String mselectedtagid;
-
     private FirebaseRecyclerAdapter<JournalEntry, NoteViewHolder> mNoteFirebaseAdapter;
-
     private View mRootView;
 
     @BindView(R.id.note_recycler_view)
@@ -72,7 +69,7 @@ public class NoteListFragment extends Fragment {
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
-        mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
+        //mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
         // Inflate the layout for this fragment
 
         Query journalquery ;

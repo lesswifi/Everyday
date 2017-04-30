@@ -263,6 +263,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                 break;
             case Constants.ATLAS:
                 startActivity(new Intent(AnalyticsActivity.this, AtlasActivity.class));
+                break;
             case Constants.DELETE:
                 deleteAccountClicked();
                 break;
