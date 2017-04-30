@@ -209,7 +209,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null && drawerItem instanceof Nameable){
                             //String name = ((Nameable) drawerItem).getName().getText(mActivity);
-                            toolbar.setTitle("Tags");
+                            toolbar.setTitle("Analytics");
                         }
 
                         if (drawerItem != null){
