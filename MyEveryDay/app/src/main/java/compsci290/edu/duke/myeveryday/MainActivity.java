@@ -3,7 +3,6 @@ package compsci290.edu.duke.myeveryday;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -71,19 +70,18 @@ public class MainActivity extends AppCompatActivity {
     private String memailaddress;
     private List<JournalEntry> journals;
 
-    private SharedPreferences msharedPreferences;
-    SharedPreferences.Editor meditor;
-    private String storestringdmap;
+
     private AccountHeader mHeader = null;
     private Drawer mDrawer = null;
-    HashMap<String, String> mmap= new HashMap<>();
 
     private static final String ANONYMOUS = "Anonymous";
     public static final String ANONYMOUS_PHOTO_URL = "https://dl.dropboxusercontent.com/u/15447938/notepadapp/anon_user_48dp.png";
     public static final String ANONYMOUS_EMAIL = "anonymous@noemail.com";
 
-    @BindView(android.R.id.content) View mRootView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(android.R.id.content)
+    View mRootView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
 
     @Override
@@ -96,24 +94,19 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if(mFirebaseUser == null)
-        {
+        if (mFirebaseUser == null) {
             startActivity(new Intent(this, AuthUiActivity.class));
             finish();
             return;
-        }
-        else
-        {
+        } else {
             //user is logged in
             mUsername = mFirebaseUser.getDisplayName();
             //if photourl is not loaded
-            if(mFirebaseUser.getPhotoUrl() != null)
-            {
-            mPhotoURL = mFirebaseUser.getPhotoUrl().toString();
+            if (mFirebaseUser.getPhotoUrl() != null) {
+                mPhotoURL = mFirebaseUser.getPhotoUrl().toString();
             }
             memailaddress = mFirebaseUser.getEmail();
 
-            //String uid = mFirebaseUser.getUid();
         }
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
@@ -124,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         muserdatareference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.hasChild("add"))
+                if (!dataSnapshot.hasChild("add"))
                     addInitialTagToFirebase();
             }
 
@@ -133,12 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-        //mdefaultdatareference.child().setValue("something");
-        //mdefaultdatareference.child(mdefaultdatareference.push().getKey()).setValue("Something");
-
-
 
 
         mActivity = this;
@@ -156,8 +143,7 @@ public class MainActivity extends AppCompatActivity {
         mcloudReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot journalsnapshot: dataSnapshot.getChildren())
-                {
+                for (DataSnapshot journalsnapshot : dataSnapshot.getChildren()) {
                     JournalEntry journal = journalsnapshot.getValue(JournalEntry.class);
                     journals.add(journal);
                 }
@@ -172,35 +158,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setnavigationdrawer(savedInstanceState);
+        openFragment(new NoteListFragment(), "Journals");
 
-
-
-        /*SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
-=======
-        SharedPreferences msp = PreferenceManager.getDefaultSharedPreferences(this);
->>>>>>> origin/master
-        storestringdmap = msp.getString("Map", null);
-        if(storestringdmap!=null) {
-            Gson mg = new Gson();
-            mmap = mg.fromJson(storestringdmap, new TypeToken<HashMap<String, String>>(){}.getType());
-            if(mmap.get(mFirebaseUser.getUid()) == null )
-            addDefaultTag();
-        }
-        else
-        {
-            addDefaultTag();
-        }*/
 
     }
 
 
+    public void setnavigationdrawer(Bundle savedInstanceState) {
 
-
-
-    public void setnavigationdrawer(Bundle savedInstanceState)
-    {
-
-        mUsername = TextUtils.isEmpty(mUsername)? ANONYMOUS:mUsername;
+        mUsername = TextUtils.isEmpty(mUsername) ? ANONYMOUS : mUsername;
         memailaddress = TextUtils.isEmpty(memailaddress) ? ANONYMOUS_EMAIL : memailaddress;
         mPhotoURL = TextUtils.isEmpty(mPhotoURL) ? ANONYMOUS_PHOTO_URL : mPhotoURL;
 
@@ -232,12 +198,12 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null && drawerItem instanceof Nameable){
+                        if (drawerItem != null && drawerItem instanceof Nameable) {
                             //String name = ((Nameable) drawerItem).getName().getText(mActivity);
                             toolbar.setTitle("Journals");
                         }
 
-                        if (drawerItem != null){
+                        if (drawerItem != null) {
                             //handle on navigation drawer item
                             onTouchDrawer((int) drawerItem.getIdentifier());
                         }
@@ -245,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 })
-                .withOnDrawerListener(new Drawer.OnDrawerListener()
-                {
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         KeyboardUtil.hideKeyboard(MainActivity.this);
@@ -263,17 +228,15 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 })
-                .withFireOnInitialOnClick(true)
-                .withSavedInstance(savedInstanceState)
+                //.withFireOnInitialOnClick(true)
+                //.withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-        openFragment(new NoteListFragment(), "Journals");
+        mDrawer.setSelection(Constants.NOTES);
+    }
 
-        }
-
-    public void onTouchDrawer(int position)
-    {
-        switch (position){
+    public void onTouchDrawer(int position) {
+        switch (position) {
             case Constants.NOTES:
                 //Do Nothing, we are already on Notes
                 break;
@@ -295,8 +258,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void logout()
-    {
+    public void logout() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -352,12 +314,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
-    private void openFragment(Fragment fragment, String screenTitle){
+    private void openFragment(Fragment fragment, String screenTitle) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -367,27 +328,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(screenTitle);
     }
 
-//Starts here is for testing the funcationality of the app
-    //public void addDefaultTag()
-    //{
-        //msharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //meditor = msharedPreferences.edit();
-
-        //if (msharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            //meditor.putBoolean(Constants.FIRST_RUN, false).commit();
-        //mmap.put(mFirebaseUser.getUid(), "Yeah");
-        //Gson gson = new Gson();
-        //String storemap = gson.toJson(mmap);
-        //meditor.putString("Map",storemap);
-        //meditor.commit();
-        //addInitialTagToFirebase();
-
-    //}
 
     private void addInitialTagToFirebase() {
 
         List<String> categoryNames = SampleData.getSampleCategories();
-        for (String categoryName: categoryNames){
+        for (String categoryName : categoryNames) {
             Tag category = new Tag();
             category.setmTagName(categoryName);
             category.setmTagID(mTagCloudReference.push().getKey());
@@ -398,17 +343,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*public void addinitialdatatofirebase()
-    {
-        List<JournalEntry> sampleNotes = SampleData.getSampleNotes();
-        for (JournalEntry note: sampleNotes){
-            String key = mcloudReference.push().getKey();
-            note.setmID(key);
-            mcloudReference.child(key).setValue(note);
-        }
-
-
-    }*/
     @Override
     public void onBackPressed() {
         int fragments = getSupportFragmentManager().getBackStackEntryCount();
