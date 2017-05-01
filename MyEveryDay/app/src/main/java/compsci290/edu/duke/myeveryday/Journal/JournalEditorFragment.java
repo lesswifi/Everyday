@@ -268,6 +268,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
         getCurrentNode();
 
+        // Initialize with current journal's content and media
         if (currentJournal != null) {
             mDate.setText(TimeUtils.getReadableModifiedDate(currentJournal.getmDateCreated()));
 
@@ -287,63 +288,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         }
 
         createFlashingButtonAnimation();
-        mAudioPlayback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPlayer == null) {
-                    mPlayer = new MediaPlayer();
-                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            OrientationUtils.unlockOrientation(getActivity());
-                            AudioHelper.stopPlayback(mPlayer);
-                            mPlayer = null;
-                            mAudioPlayback.clearAnimation();
-                            mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
-                        }
-                    });
-                    OrientationUtils.lockOrientation(getActivity());
-                    mAudioPlayback.setAnimation(mAnimation);
-                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
-                    AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
-                } else {
-                    OrientationUtils.unlockOrientation(getActivity());
-                    AudioHelper.stopPlayback(mPlayer);
-                    mPlayer = null;
-                    mAudioPlayback.clearAnimation();
-                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
-                }
-            }
-        });
-        mAudioPlayback.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
-                TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
-                titleText.setText(getString(R.string.are_you_sure));
-                alertDialog.setCustomTitle(titleView);
-
-                alertDialog.setMessage("Delete this audio?");
-                alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPlaybackAudioPath = null;
-                        mAudioPlayback.setVisibility(View.GONE);
-                    }
-                });
-                alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-                return true;
-            }
-        });
-
+        setupAudioPlaybackButton();
 
         return mRootView;
     }
@@ -442,10 +387,79 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupAudioPlaybackButton() {
+        mAudioPlayback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // If nothing is playing, start playback, lock orientation, and flash animation
+                if (mPlayer == null) {
+                    mPlayer = new MediaPlayer();
+                    // When the file is complete, stop playback, unlock, and stop flashing
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            OrientationUtils.unlockOrientation(getActivity());
+                            AudioHelper.stopPlayback(mPlayer);
+                            mPlayer = null;
+                            mAudioPlayback.clearAnimation();
+                            mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_play), null, null, null);
+                        }
+                    });
+                    OrientationUtils.lockOrientation(getActivity());
+                    mAudioPlayback.setAnimation(mAnimation);
+                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
+                    AudioHelper.startPlayback(mPlayer, mPlaybackAudioPath);
+                } else {
+                    // If clicked in the middle of playback, stop playback, unlock, and stop flashing
+                    OrientationUtils.unlockOrientation(getActivity());
+                    AudioHelper.stopPlayback(mPlayer);
+                    mPlayer = null;
+                    mAudioPlayback.clearAnimation();
+                    mAudioPlayback.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getActivity(), android.R.drawable.ic_media_pause), null, null, null);
+                }
+            }
+        });
+
+        // Listen for a long click to prompt for delete
+        mAudioPlayback.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
+                TextView titleText = (TextView)titleView.findViewById(R.id.text_view_dialog_title);
+                titleText.setText(getString(R.string.are_you_sure));
+                alertDialog.setCustomTitle(titleView);
+
+                alertDialog.setMessage("Delete this audio?");
+                alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Set audio paths to null and hide playback button
+                        mAudioPath = null;
+                        mPlaybackAudioPath = null;
+                        mAudioPlayback.setVisibility(View.GONE);
+                    }
+                });
+                alertDialog.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+            }
+        });
+    }
+
     private void launchCamera() {
+        // Create an intent to take a photo
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         File photoFile;
+
+        // Create a photo file and save the path
         try {
             photoFile = CameraHelper.createImageFile(getActivity());
             mPhotoPathList.add(photoFile.getAbsolutePath());
@@ -454,6 +468,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             return;
         }
 
+        // Open the camera and save the photo that it takes to the newly made file
         if (photoFile != null) {
             Uri photoUri = FileProvider.getUriForFile(getActivity(),
                     "compsci290.edu.duke.myeveryday.fileprovider",
@@ -465,6 +480,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     }
 
     private void launchRecorder() {
+        // Open a dialog to prompt the user to start recording and lock orientation
         OrientationUtils.lockOrientation(getActivity());
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -476,6 +492,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         alertDialog.setPositiveButton("Start", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // Create an audio file and save the path, then save recording to newly made file
                 if (mRecorder == null) {
                     try {
                         File audioFile = AudioHelper.createAudioFile();
@@ -501,7 +518,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
         alertDialog.show();
 
-
     }
 
     private void promptToStopRecording() {
@@ -513,6 +529,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         titleText.setText("Recording...");
         alertDialog.setCustomTitle(titleView);
 
+        // Set the playback path to the new local file and unlock orientation
         alertDialog.setPositiveButton("Stop", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -531,6 +548,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     }
 
+    // Flashing button animation for when audio is playing
     private void createFlashingButtonAnimation() {
         mAnimation = new AlphaAnimation(1, 0);
         mAnimation.setDuration(500);
@@ -556,12 +574,13 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     }
 
     private void populateImage(final String imagePath, final boolean isCloudImage) {
+        // Creates image view and adds to photo gallery
         final ImageView image = new ImageView(getContext());
         image.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 1000));
         mPhotoGallery.addView(image);
         CameraHelper.displayImageInView(getContext(), imagePath, image);
 
-        // Add delete listener
+        // Listen for long click to prompt for delete
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -573,6 +592,8 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 alertDialog.setCustomTitle(titleView);
 
                 alertDialog.setMessage("Delete this photo? This cannot be undone.");
+
+                // Remove imageview and remove the imagePath from either the local or cloud path list
                 alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -595,8 +616,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             }
         });
     }
-
-
 
 
     private boolean isStoragePermissionGranted() {
@@ -668,9 +687,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                     Task<Void> voidTask = mcloudReference.child(journal.getmID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            //if (mNoteFirebaseAdapter.getItemCount() < 1) {
-                              //  showEmptyText();
-                            //}
                             startActivity(new Intent(getActivity(), MainActivity.class));
                         }
                     });
@@ -731,8 +747,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     }
 
 
-
-
     private void addNotetoFirebase() throws ExecutionException, InterruptedException {
 
         if (currentJournal == null){
@@ -788,7 +802,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         // Updates cloud photos to remove the URLs deleted during editing
         currentJournal.setmImagePaths(mCloudPhotoPathList);
 
-        // Adds local images
+        // Creates list of upload tasks to save local photo files to Firebase
         ArrayList<UploadTask> taskList = new ArrayList<UploadTask>();
         for (int i = 0; i < mPhotoPathList.size(); i++) {
             String localPhotoPath = mPhotoPathList.get(i);
@@ -804,6 +818,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // Save the uploaded Firebase url to the journal
                     String uploadedImagePath = taskSnapshot.getDownloadUrl().toString();
                     currentJournal.addmImagePath(uploadedImagePath);
                     Log.d("onSuccess", uploadedImagePath);
@@ -812,6 +827,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             taskList.add(uploadTask);
         }
 
+        // Wait for all uploads and saves before moving on
         try {
             Tasks.await(Tasks.whenAll(taskList));
         } catch (ExecutionException e) {
@@ -823,13 +839,16 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     }
 
     public void addAudioToFirebase() {
+        // If user has not recorded audio in this edit/add session, don't need to save to Firebase
         if (mAudioPath == null) {
+            // For the case where the entry used to have audio but the user deleted it
             if (mPlaybackAudioPath == null) {
                 currentJournal.setmAudioPath(null);
             }
             return;
         }
 
+        // Create upload task to upload locally saved audio file to Firebase
         Uri file = Uri.fromFile(new File(mAudioPath));
         StorageReference audioRef = mStorageReference.child("audio/" + file.getLastPathSegment());
         UploadTask uploadTask = audioRef.putFile(file);
@@ -842,12 +861,14 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Save the uploaded Firebase url to the journal
                 String uploadedAudioPath = taskSnapshot.getDownloadUrl().toString();
                 currentJournal.setmAudioPath(uploadedAudioPath);
                 Log.d("onSuccess", uploadedAudioPath);
             }
         });
 
+        // Wait for upload and save to complete before moving on
         try {
             Tasks.await(uploadTask);
         } catch (ExecutionException e) {
@@ -867,7 +888,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     private void makeToast(String message){
         Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_LONG);
-
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.primary));
         TextView tv = (TextView)snackBarView.findViewById(android.support.design.R.id.snackbar_text);
