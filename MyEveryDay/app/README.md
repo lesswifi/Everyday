@@ -1,10 +1,10 @@
 # Everyday
 
 ## Contents
-* [Download the app](#Download)
-* [User documentation](#User)
-* [Developer documentation](#Developer)
-* [Testing documentation](#Testing)
+* [Download the app](#download)
+* [User documentation](#user)
+* [Developer documentation](#developer)
+* [Testing documentation](#testing)
 
 ## Download the app
  Clone or download this git repo. Open the project in Android Studio. Connect your Android device to your computer, and run the app.
