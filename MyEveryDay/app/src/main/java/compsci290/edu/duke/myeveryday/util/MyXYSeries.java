@@ -17,10 +17,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 
 
-/**
- * Edited by Divya on 4/29/17.
- */
-
 
 /*
  * Copyright 2015 AndroidPlot.com
@@ -40,7 +36,10 @@ import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 
 
 /**
- * A convenience class used to create instances of XYPlot generated from Lists of Numbers.
+ * Edited by Divya on 4/29/17 to allow plots to be created with JournalEntry objects
+ *
+ * A convenience class used to create instances of MyXYPlot generated from Lists of Numbers.
+ *
  */
 public class MyXYSeries implements EditableXYSeries, OrderedXYSeries, PlotListener {
 

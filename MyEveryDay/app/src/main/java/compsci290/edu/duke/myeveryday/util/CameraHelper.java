@@ -21,7 +21,7 @@ public class CameraHelper {
         File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,
-                Constants.MIME_TYPE_IMAGE_EXT,
+                ".jpg",
                 storageDir
         );
         return image;
@@ -31,7 +31,6 @@ public class CameraHelper {
         Glide.with(context)
                 .load(imagePath)
                 .fitCenter()
-                //.centerCrop()
                 .into(image);
     }
 

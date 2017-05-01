@@ -13,6 +13,8 @@ import compsci290.edu.duke.myeveryday.util.RetrieveDataTask;
 
 /**
  * Created by Divya on 4/20/17.
+ *
+ * WeatherService sets up a call to the OpenWeatherAPI and processes the returned JSON.
  */
 
 public class WeatherService {
@@ -21,6 +23,7 @@ public class WeatherService {
     private String weatherIconRequestURL = "http://openweathermap.org/img/w/";
     private Location mLastLocation;
     private String mResult;
+    private String TAG = "WeatherService";
 
     // Default no argument instructor
     public WeatherService() {
@@ -28,29 +31,23 @@ public class WeatherService {
     }
 
     public WeatherService(Location location) {
-        // request weather from api
         mLastLocation = location;
-
     }
 
 
     public String getWeatherIcon() throws ExecutionException, InterruptedException {
         weatherRequestURL = weatherRequestURL + ((int) mLastLocation.getLatitude()) + "&lon=" + ((int) mLastLocation.getLongitude()) + "&APPID=b3024c1cc8918c53bcc2403f42e34473";
-        Log.d("Weather Service", weatherRequestURL);
         RetrieveDataTask rd = new RetrieveDataTask(weatherRequestURL);
         rd.execute();
         mResult = rd.get();
-        Log.d("Weather Service", mResult);
 
         try {
             JSONObject object = (JSONObject) new JSONTokener(mResult).nextValue();
-
             JSONObject weather = object.getJSONArray("weather").getJSONObject(0);
             String icon = weather.getString("icon");
-            Log.d("Weather Service", icon);
             return weatherIconRequestURL + icon + ".png";
         } catch (JSONException e) {
-            // Appropriate error handling code
+            Log.d(TAG,"JSONException");
         }
         return null;
     }
