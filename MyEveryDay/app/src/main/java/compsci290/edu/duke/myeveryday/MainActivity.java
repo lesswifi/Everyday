@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-        mDrawer.setSelection(Constants.JOURNALS);
+        mDrawer.setSelection(Constants.JOURNALS, false);
     }
 
     public void onTouchDrawer(int position) {
