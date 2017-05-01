@@ -11,6 +11,8 @@ import java.net.URL;
 
 /**
  * Created by Divya on 4/20/17.
+ *
+ * RetrieveDataTask is an AsyncTask called by the WeatherService to make an API call not on the main UI thread
  */
 
 public class RetrieveDataTask extends AsyncTask<Void, Void, String> {
@@ -28,8 +30,6 @@ public class RetrieveDataTask extends AsyncTask<Void, Void, String> {
     }
 
     protected String doInBackground(Void... urls) {
-        //String email = emailText.getText().toString();
-        // Do some validation here
 
         try {
             URL url = new URL(mRequestURL);
@@ -66,9 +66,7 @@ public class RetrieveDataTask extends AsyncTask<Void, Void, String> {
         if(response == null) {
             response = "THERE WAS AN ERROR";
         }
-        //progressBar.setVisibility(View.GONE);
         Log.i("INFO", response);
-        //responseView.setText(response);
     }
 
 

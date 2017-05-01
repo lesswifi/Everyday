@@ -31,7 +31,6 @@ import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PanZoom;
 import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.StepMode;
 import com.androidplot.xy.XYPlot;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,11 +69,12 @@ import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.MyXYSeries;
 
-import static android.R.color.transparent;
-
 
 /**
  * Created by Divya on 4/27/17.
+ *
+ * AnalyticsActivity displays the sentiment analysis data received from IBM Watson's Natural Language Understanding,
+ * and allows users to view the corresponding journal entries from a graph.
  */
 public class AnalyticsActivity extends AppCompatActivity {
 
@@ -364,37 +364,23 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     public void showGraph(ArrayList<JournalEntry> journals){
 
-        System.out.println(mJournals);
-        System.out.println(journals);
-        // initialize our XYPlot reference:
-
-        // create a couple arrays of y-values to plot:
-        //final Number[] domainLabels = {1};
         List<Integer> domainLabels = new ArrayList<Integer>();
         for(int i = 1; i <= journals.size(); i++) {
             domainLabels.add(i);
         }
-        //Number[] series1Numbers = {1, 4, 2, 8, 4, 16, 8, 32, 16, 64};
 
-
-        // turn the above arrays into XYSeries':
-        // (Y_VALS_ONLY means use the element index as the x value)
+        // Turn the above arrays into XYSeries':
         series = new MyXYSeries(journals, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Sentiment Analytics");
 
-
-        // create formatters to use for drawing a series using LineAndPointRenderer
+        // Create formatters to use for drawing a series using LineAndPointRenderer
         // and configure them from xml:
         LineAndPointFormatter series1Format =
                 new LineAndPointFormatter(this, R.xml.line_point_formatter_with_labels);
 
-
-
-        // just for fun, add some smoothing to the lines:
-        // see: http://androidplot.com/smooth-curves-and-androidplot/
         series1Format.setInterpolationParams(
                 new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
 
-        // add a new series' to the xyplot:
+        // Add a new series' to the xyplot:
         plot.addSeries(series, series1Format);
 
 
@@ -402,7 +388,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     private void onPlotClicked(PointF point) {
 
-        // make sure the point lies within the graph area.  we use gridrect
+        // Make sure the point lies within the graph area.  we use gridrect
         // because it accounts for margins and padding as well.
         if (plot.getGraph().getGridRect().contains(point.x, point.y)) {
             Number x = plot.getXVal(point.x);
@@ -415,7 +401,7 @@ public class AnalyticsActivity extends AppCompatActivity {
             double xDistance = 0;
             double yDistance = 0;
 
-            // find the closest value to the selection:
+            // Find the closest value to the selection:
 
             for (int i = 0; i < series.size(); i++) {
                 Number thisX = series.getX(i);
@@ -446,23 +432,14 @@ public class AnalyticsActivity extends AppCompatActivity {
 
 
         } else {
-            // if the press was outside the graph area, deselect:
+            // If the press was outside the graph area, deselect:
             selection = null;
         }
 
-        if(selection == null) {
-            selectionWidget.setText("no selection");
-            System.out.println("no selection");
-        } else {
-
-            selectionWidget.setText("Selected: " + selection.second.getmTitle() + " value: " + selection.second.getmSentimentScore() );
-            System.out.println("Selected: " + selection.second.getmTitle() + " Value: " + selection.second.getmSentimentScore());
+        if(selection != null) {
             displayJournalPreview(selection.second);
-
-
         }
-        //selection.second.getTitle()
-        //selection.second.getY(selection.first)
+
         plot.redraw();
     }
 
