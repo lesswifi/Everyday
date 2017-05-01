@@ -1,9 +1,15 @@
 # Everyday
 
+## Contents
+* [Download the app](#Download)
+* [User documentation](#User)
+* [Developer documentation](#Developer)
+* [Testing documentation](#Testing)
+
 ## Download the app
  Clone or download this git repo. Open the project in Android Studio. Connect your Android device to your computer, and run the app.
 
-## For users
+## User documentation
 ### Making an account
 When you open Everyday for the first time, get started by logging into your Google account.
 
@@ -49,8 +55,49 @@ Select the `menu` button in the top right and select `Atlas`. Here you can see y
 ### Analytics
 Select the `menu` button in the top right and select `Analytics`. Here you can see your entries plotted over time based on their sentiment scores. Click a point on the plot to see the note it's associated with.
 
-## For developers
+### Logging out
+Select `Logout` from the sidebar menu.
 
+### Deleting your account
+Select `Delete account!` at the bottom of the sidebar menu.
+
+## Developer documentation
+Refer to our in-code comments for detailed explanations. Below are some helpful starting points for functionality you might be interested in.
+
+### Authentication
+See `Authentication/AuthUiActivity`.
+
+### Journal entries
+
+#### Fields
+All fields in a journal entry are defined in `Models/JournalEntry`.
+
+### List of entries
+`MainActivity` calls `Journal/JournalListFragment`, which sets up a RecyclerView of `Journal/JournalViewHolder`s. Each journal entry preview is displayed with layout from `layout/row_note_list.xml`.
+
+#### Add/create a new entry
+When prompted to view an entry, the app opens `Journal/AddJournalActivity`, which creates `Journal/JournalEditorFragment`. This fragment handles all editing and previewing of title, content, images, audio, and asking permission for images and audio.
+
+#### Saving an entry
+This all takes place in `Journal/JournalEditorFragment`.
+When the save button is clicked, `validateAndSaveContent()` is called, which starts an AsyncTask that runs `addNoteToFirebase()` in the background. This ensures that photos and audios can completely be uploaded to Firebase storage and their URLs saved before the journal entry is updated. In `addNoteToFirebase()`, all content is updated, photos and audio are uploaded and saved, and NLP analysis is done.
+
+### Tags
+
+#### Fields
+All fields in a journal entry are defined in `Models/Tag`.
+
+### List of tags
+`Tag/TagListActivity` opens `Tag/TagListFragment` which lists the tags using `Tag/TagListAdaptor`.
+
+### Edit tags
+See `Tag/AddTagFragment`, `Tag/SelectTagFragment` and `Tag/TagDialogAdaptor`.
+
+### Analytics
+`AnalyticsActivity` gets journal entries from Firebase and displays their sentiment scores on an XYPlot.
+
+### Atlas
+`AtlasActivity` gets journal entries from Firebase and displays them on a map using the Google Maps API.
 
 ## Testing Documentation
 
@@ -79,8 +126,8 @@ The app prompts the user to make a choice as to whether they would like to accep
 
 ### Multiple Devices
 
-When a user is logged into multiple devices, the default set up of the app is the same as if they were to only be logged into one device. 
+When a user is logged into multiple devices, the default set up of the app is the same as if they were to only be logged into one device.
 
 ### Firebase Testing
 
-We ensured that changing categories (a shared attribute among journal entries) changes the individual journal entry attribute values. 
+We ensured that changing categories (a shared attribute among journal entries) changes the individual journal entry attribute values.
