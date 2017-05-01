@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.Journals;
+package compsci290.edu.duke.myeveryday.Journal;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.Util.Constants;
 
 public class AddJournalActivity extends AppCompatActivity {
 

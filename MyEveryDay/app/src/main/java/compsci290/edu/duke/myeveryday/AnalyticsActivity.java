@@ -60,13 +60,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
-import compsci290.edu.duke.myeveryday.Journals.AddJournalActivity;
-import compsci290.edu.duke.myeveryday.Journals.NoteViewHolder;
+import compsci290.edu.duke.myeveryday.Journal.AddJournalActivity;
+import compsci290.edu.duke.myeveryday.Journal.JournalViewHolder;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
-import compsci290.edu.duke.myeveryday.util.CameraHelper;
-import compsci290.edu.duke.myeveryday.util.Constants;
-import compsci290.edu.duke.myeveryday.util.MyXYSeries;
+import compsci290.edu.duke.myeveryday.Util.CameraHelper;
+import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.Util.MyXYSeries;
 
 
 /**
@@ -459,7 +459,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     public void displayJournalPreview(final JournalEntry journal) {
-        NoteViewHolder holder = new NoteViewHolder(this.findViewById(android.R.id.content));
+        JournalViewHolder holder = new JournalViewHolder(this.findViewById(android.R.id.content));
 
         holder.title.setText(journal.getmTitle());
         holder.content.setText(journal.getmContent());

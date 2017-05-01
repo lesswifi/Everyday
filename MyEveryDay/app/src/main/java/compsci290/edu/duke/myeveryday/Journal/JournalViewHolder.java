@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.Journals;
+package compsci290.edu.duke.myeveryday.Journal;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -15,7 +15,7 @@ import compsci290.edu.duke.myeveryday.R;
  * Created by FD on 4/18/2017.
  */
 
-public class NoteViewHolder extends RecyclerView.ViewHolder {
+public class JournalViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.rootView)
     public CardView card;
@@ -40,7 +40,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     @Nullable
     public TextView noteTime;
 
-    public NoteViewHolder(View itemView) {
+    public JournalViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

@@ -18,7 +18,7 @@ import java.util.List;
 
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.Tag;
-import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.Util.Constants;
 
 /**
  * Created by wangerxiao on 4/27/17.

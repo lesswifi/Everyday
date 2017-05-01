@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Authentication.AuthUiActivity" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Journals.AddJournalActivity" android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Journal.AddJournalActivity" android:configChanges="orientation|screenSize"/>
         <activity android:name=".Tag.TagListActivity" android:configChanges="orientation|screenSize"/>
         <activity android:name=".AnalyticsActivity" android:configChanges="orientation|screenSize"/>
         <service

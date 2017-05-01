@@ -1,6 +1,5 @@
 package compsci290.edu.duke.myeveryday.Services;
 
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
 
@@ -10,7 +9,7 @@ import org.json.JSONTokener;
 
 import java.util.concurrent.ExecutionException;
 
-import compsci290.edu.duke.myeveryday.util.RetrieveDataTask;
+import compsci290.edu.duke.myeveryday.Util.RetrieveDataTask;
 
 /**
  * Created by Divya on 4/20/17.

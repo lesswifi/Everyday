@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.Util.Constants;
 
 /**
  * This fragment is called by

@@ -1,11 +1,7 @@
 package compsci290.edu.duke.myeveryday.Models;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-
-import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
  * Created by yx78 on 4/15/17.

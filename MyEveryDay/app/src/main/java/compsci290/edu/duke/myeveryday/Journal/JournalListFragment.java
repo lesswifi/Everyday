@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.Journals;
+package compsci290.edu.duke.myeveryday.Journal;
 
 
 import android.content.Intent;
@@ -24,21 +24,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.util.CameraHelper;
-import compsci290.edu.duke.myeveryday.util.Constants;
-import compsci290.edu.duke.myeveryday.util.TimeUtils;
+import compsci290.edu.duke.myeveryday.Util.CameraHelper;
+import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.Util.TimeUtils;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by fd53 on 4/20/17.
+ * This is the JournalList Fragment. It's called by MainActivity and it opens the
+ * RecyclerView for the JournalList. It displays the preview of journals for current users.
+ *
  */
-public class NoteListFragment extends Fragment {
+public class JournalListFragment extends Fragment {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mdatabase;
     private DatabaseReference mcloudReference;
     private String mselectedtagid;
-    private FirebaseRecyclerAdapter<JournalEntry, NoteViewHolder> mNoteFirebaseAdapter;
+    private FirebaseRecyclerAdapter<JournalEntry, JournalViewHolder> mNoteFirebaseAdapter;
     private View mRootView;
 
     @BindView(R.id.note_recycler_view)
@@ -48,7 +51,7 @@ public class NoteListFragment extends Fragment {
     TextView mEmptyText;
     
 
-    public NoteListFragment() {
+    public JournalListFragment() {
         // Required empty public constructor
     }
 
@@ -84,10 +87,10 @@ public class NoteListFragment extends Fragment {
             journalquery = mcloudReference.orderByChild("mDateCreated");
         }
 
-        mNoteFirebaseAdapter = new FirebaseRecyclerAdapter<JournalEntry, NoteViewHolder>(
+        mNoteFirebaseAdapter = new FirebaseRecyclerAdapter<JournalEntry, JournalViewHolder>(
                 JournalEntry.class,
                 R.layout.row_note_list,
-                NoteViewHolder.class,
+                JournalViewHolder.class,
                 journalquery) {
 
             @Override
@@ -101,7 +104,7 @@ public class NoteListFragment extends Fragment {
             }
 
             @Override
-            protected void populateViewHolder(NoteViewHolder holder, final JournalEntry model, int position) {
+            protected void populateViewHolder(JournalViewHolder holder, final JournalEntry model, int position) {
                 holder.title.setText(model.getmTitle());
                 holder.content.setText(model.getmContent());
 

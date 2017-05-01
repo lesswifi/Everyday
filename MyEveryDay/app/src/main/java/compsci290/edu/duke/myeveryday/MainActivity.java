@@ -40,19 +40,18 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.KeyboardUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
-import compsci290.edu.duke.myeveryday.Journals.AddJournalActivity;
-import compsci290.edu.duke.myeveryday.Journals.NoteListFragment;
+import compsci290.edu.duke.myeveryday.Journal.AddJournalActivity;
+import compsci290.edu.duke.myeveryday.Journal.JournalListFragment;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
-import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.Util.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setnavigationdrawer(savedInstanceState);
-        openFragment(new NoteListFragment(), "Journals");
+        openFragment(new JournalListFragment(), "Journals");
 
 
     }

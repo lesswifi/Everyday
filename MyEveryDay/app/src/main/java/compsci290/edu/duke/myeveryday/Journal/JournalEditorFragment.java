@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.Journals;
+package compsci290.edu.duke.myeveryday.Journal;
 
 
 import android.Manifest;
@@ -82,18 +82,25 @@ import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.Services.LatLng;
 import compsci290.edu.duke.myeveryday.Services.WeatherService;
 import compsci290.edu.duke.myeveryday.Tag.SelectTagFragment;
-import compsci290.edu.duke.myeveryday.util.AudioHelper;
-import compsci290.edu.duke.myeveryday.util.CameraHelper;
-import compsci290.edu.duke.myeveryday.util.Constants;
-import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
-import compsci290.edu.duke.myeveryday.util.OrientationUtils;
-import compsci290.edu.duke.myeveryday.util.TimeUtils;
+import compsci290.edu.duke.myeveryday.Util.AudioHelper;
+import compsci290.edu.duke.myeveryday.Util.CameraHelper;
+import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.Util.NaturalLanguageTask;
+import compsci290.edu.duke.myeveryday.Util.OrientationUtils;
+import compsci290.edu.duke.myeveryday.Util.TimeUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by fd53 on 4/20/17.
+ * This is the JournalEditor Fragment. It's called by AddJournalActivity and it opens the
+ * EditView for users to write journal. If the intent was created by clicking on the existing journal,
+ * the journal information would be passed in, and the inflater would inflate the EditView automatically.
+ * If the intent is created by clicking on adding new journal button, it would allow user to create
+ * a new journal and save. It also includes Audio, Photo and delete function.
+ *
  */
+
 public class JournalEditorFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     @BindView(R.id.action_save)
