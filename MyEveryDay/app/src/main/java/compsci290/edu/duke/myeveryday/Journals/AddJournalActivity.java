@@ -26,19 +26,17 @@ public class AddJournalActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (getIntent() != null && getIntent().hasExtra(Constants.SERIALIZED_NOTE)){
+        if (getIntent() != null && getIntent().hasExtra(Constants.SERIALIZED_NOTE)) {
             String serializedNote = getIntent().getStringExtra(Constants.SERIALIZED_NOTE);
             openFragment(JournalEditorFragment.newInstance(serializedNote), getString(R.string.note_editor));
-        }
-        else{
+        } else {
             openFragment(JournalEditorFragment.newInstance(""), getString(R.string.note_editor));
         }
 
     }
 
 
-
-    private void openFragment(Fragment fragment, String screenTitle){
+    private void openFragment(Fragment fragment, String screenTitle) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

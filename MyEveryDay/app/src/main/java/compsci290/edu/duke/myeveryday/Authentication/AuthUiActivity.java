@@ -1,7 +1,6 @@
 package compsci290.edu.duke.myeveryday.Authentication;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.StringRes;
@@ -27,13 +26,15 @@ import java.util.List;
 
 import butterknife.BindView;
 /**
- * Created by wangerxiao on 4/17/17.
+ * Created by yx78 on 4/17/17.
+ * This is the signin activity. We use FirebaseUI libaray for firebase authentication.
+ * We allow users to log in and sign up through Google accounts
  */
 
 public class AuthUiActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
 
-
+    // Use ButterKnife API to bind view
     @BindView(android.R.id.content)
     View mRootView;
 
@@ -43,17 +44,15 @@ public class AuthUiActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //Check if user has already logged in
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
+            //if already logged in, go to mainactivity
             startActivity(new Intent(AuthUiActivity.this, MainActivity.class));
             finish();
         }
-
         setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
-
-        Log.d("selected provider", getSelectedProviders()+"");
     }
 
     @OnClick(R.id.sign_in)
@@ -81,18 +80,20 @@ public class AuthUiActivity extends AppCompatActivity {
     @MainThread
     private void handleSignInResponse(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            //if login is successful, go to mainactivity
             startActivity(new Intent(AuthUiActivity.this, MainActivity.class));
-            //startActivity(SignedInActivity.createIntent(this, IdpResponse.fromResultIntent(data)));
             finish();
             return;
         }
 
         if (resultCode == RESULT_CANCELED) {
+            //if login failed, display this message
             showSnackbar(R.string.sign_in_cancelled);
             return;
         }
 
         if (resultCode == ResultCodes.RESULT_NO_NETWORK) {
+            // if there's no internet connection, display the message below
             showSnackbar(R.string.no_internet_connection);
             return;
         }
@@ -106,7 +107,8 @@ public class AuthUiActivity extends AppCompatActivity {
     @MainThread
     private List<IdpConfig> getSelectedProviders() {
         List<IdpConfig> selectedProviders = new ArrayList<>();
-
+        // set configuration providers to google
+        // and allow users to sign in through google
         selectedProviders.add(
                 new IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER)
                         .setPermissions(getGooglePermissions())

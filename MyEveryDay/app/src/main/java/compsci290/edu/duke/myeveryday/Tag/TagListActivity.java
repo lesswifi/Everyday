@@ -62,13 +62,13 @@ public class TagListActivity extends AppCompatActivity {
     public static final String ANONYMOUS_PHOTO_URL = "https://dl.dropboxusercontent.com/u/15447938/notepadapp/anon_user_48dp.png";
     public static final String ANONYMOUS_EMAIL = "anonymous@noemail.com";
 
-    @BindView(android.R.id.content) View mRootView;
+    @BindView(android.R.id.content)
+    View mRootView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag);
 
@@ -80,19 +80,15 @@ public class TagListActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if(mFirebaseUser == null)
-        {
+        if (mFirebaseUser == null) {
             startActivity(new Intent(this, AuthUiActivity.class));
             finish();
             return;
-        }
-        else
-        {
+        } else {
             //user is logged in
             mUsername = mFirebaseUser.getDisplayName();
             //if photourl is not loaded
-            if(mFirebaseUser.getPhotoUrl() != null)
-            {
+            if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoURL = mFirebaseUser.getPhotoUrl().toString();
             }
             memailaddress = mFirebaseUser.getEmail();
@@ -103,12 +99,11 @@ public class TagListActivity extends AppCompatActivity {
 
         setnavigationdrawer(savedInstanceState);
 
-
     }
 
     private void setnavigationdrawer(Bundle savedInstanceState) {
 
-        mUsername = TextUtils.isEmpty(mUsername)? ANONYMOUS:mUsername;
+        mUsername = TextUtils.isEmpty(mUsername) ? ANONYMOUS : mUsername;
         memailaddress = TextUtils.isEmpty(memailaddress) ? ANONYMOUS_EMAIL : memailaddress;
         mPhotoURL = TextUtils.isEmpty(mPhotoURL) ? ANONYMOUS_PHOTO_URL : mPhotoURL;
 
@@ -139,12 +134,12 @@ public class TagListActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null && drawerItem instanceof Nameable){
+                        if (drawerItem != null && drawerItem instanceof Nameable) {
                             //String name = ((Nameable) drawerItem).getName().getText(mActivity);
                             toolbar.setTitle("Tags");
                         }
 
-                        if (drawerItem != null){
+                        if (drawerItem != null) {
                             //handle on navigation drawer item
                             onTouchDrawer((int) drawerItem.getIdentifier());
                         }
@@ -152,8 +147,7 @@ public class TagListActivity extends AppCompatActivity {
                         return false;
                     }
                 })
-                .withOnDrawerListener(new Drawer.OnDrawerListener()
-                {
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         KeyboardUtil.hideKeyboard(TagListActivity.this);
@@ -178,9 +172,8 @@ public class TagListActivity extends AppCompatActivity {
         openFragment(new TagListFragment(), "Tags");
     }
 
-    public void onTouchDrawer(int position)
-    {
-        switch (position){
+    public void onTouchDrawer(int position) {
+        switch (position) {
             case Constants.NOTES:
                 //Do Nothing, we are already on Notes
                 startActivity(new Intent(TagListActivity.this, MainActivity.class));
@@ -196,14 +189,16 @@ public class TagListActivity extends AppCompatActivity {
             case Constants.LOGOUT:
                 logout();
                 break;
+            case Constants.ATLAS:
+                startActivity(new Intent(TagListActivity.this, AtlasActivity.class));
+                break;
             case Constants.DELETE:
                 deleteAccountClicked();
                 break;
         }
     }
 
-    public void logout()
-    {
+    public void logout() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -259,12 +254,11 @@ public class TagListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
-    private void openFragment(Fragment fragment, String screenTitle){
+    private void openFragment(Fragment fragment, String screenTitle) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
