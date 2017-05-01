@@ -1,58 +1,129 @@
 <resources>
-    <string name="app_name">Everyday</string>
-    
-    <string name="title_text">Google Sign-In\nQuickstart</string>
+    <string name="app_name">EveryDay</string>
+    <string name="no_notes_found">No Journal found, use the + button to start</string>
+    <string name="name_auth_ui">EveryDay Login</string>
+    <string name="action_settings">Settings</string>
+    <string name="launch_title">EveryDay Login</string>
+    <string name="signed_in_header">You are signed in!</string>
+    <string name="sign_out">Sign out</string>
+    <string name="title_activity_login">LoginActivity</string>
 
-    <!-- Sign-in status messages -->
-    <string name="signed_in_fmt">Signed in as: %s</string>
-    <string name="signed_in">Signed in</string>
-    <string name="signing_in">Signing in…</string>
-    <string name="signed_out">Signed out</string>
-    <string name="signed_in_err">"Error: please check logs."</string>
-    <string name="error_null_person">
-        Error: Plus.PeopleApi.getCurrentPerson returned null. Ensure that the Google+ API is
-        enabled for your project, you have a properly configured google-services.json file
-        and that your device has an internet connection.
-    </string>
-    <string name="loading">Loading…</string>
-    <string name="auth_code_fmt">Auth Code: %s</string>
-    <string name="id_token_fmt">ID Token: %s</string>
+    <!-- strings for Authentication activities -->
+    <eat-comment />
+    <string name="sign_in">Start</string>
+    <string name="green_theme">Green Theme</string>
+    <string name="purple_theme">Purple Theme</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="use_theme_header">Choose Color Theme:</string>
+    <string name="logo_header">Logo:</string>
+    <string name="firebase_logo_label">Firebase Auth</string>
+    <string name="google_logo_label">Google</string>
+    <string name="no_logo_label">None</string>
+    <string name="auth_providers_header">Use auth providers:</string>
+    <string name="email_label">Email</string>
+    <string name="facebook_label">Facebook</string>
+    <string name="facebook_label_missing_config">Facebook - configuration missing</string>
+    <string name="twitter_label">Twitter</string>
+    <string name="twitter_label_missing_config">Twitter - configuration missing</string>
+    <string name="google_label">Google</string>
+    <string name="google_label_missing_config">Google - configuration missing</string>
+    <string name="google_tos_label">Google TOS</string>
+    <string name="firebase_tos_label">Firebase TOS</string>
+    <string name="tos_header">Terms of Service URL:</string>
+    <string name="unknown_response">Unexpected onActivityResult response code</string>
+    <string name="unknown_sign_in_response">Unknown response from AuthUI sign-in</string>
+    <string name="sign_in_cancelled">Sign in cancelled</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="delete_account_label">Delete account</string>
+    <string name="sign_out_failed">Sign out failed</string>
+    <string name="delete_account_failed">Delete account failed</string>
+    <string name="user_profile_header">User profile:</string>
+    <string name="profile_picture_content_desc">Profile picture</string>
+    <string name="default_theme">Default theme</string>
+    <string name="configuration_required">Configuration is required - see README.md</string>
+    <string name="other_options_header">Other Options:</string>
+    <string name="enable_smartlock">Enable SmartLock for Passwords</string>
+    <string name="rational_image_perm">This sample will read an image from local storage to upload to Firebase Storage.</string>
+    <string name="anonymous_auth_failed_toast">Authentication failed, uploads and downloads will not work.</string>
+    <string name="anonymous_auth_failed_msg">Anonymous authentication failed. Make sure your device is online and that Anonymous Auth is configured in your Firebase project(https://console.firebase.google.com/project/_/authentication/providers)</string>
+    <string name="extra_google_scopes">Example extra Google scopes</string>
+    <string name="games">Games</string>
+    <string name="extra_facebook_scopes">Example extra Facebook scopes</string>
+    <string name="friends">Friends</string>
+    <string name="photos">Photos</string>
+    <string name="idp_token">IDP Token</string>
+    <string name="idp_secret">IDP Secret</string>
 
-    <!-- Google Play Services error for Toast -->
-    <string name="play_services_error_fmt">Google Play Services Error: %i</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_add_note">AddNoteActivity</string>
+    <string name="note_editor">Note Editor</string>
+    <string name="title_activity_sample">SampleActivity</string>
+    <string name="placeholder_note_text">Enter note</string>
+    <string name="placeholder_note_title">Enter note title</string>
+    <string name="tag_name">Select Tag name</string>
+    <string name="action_save">Save</string>
+    <string name="select_category">#note</string>
+    <string name="hint_enter_category">Enter Tag name</string>
+    <string name="dialog_title">Title</string>
+    <string name="edit_category">Edit Tag</string>
+    <string name="add_category">Add Tag</string>
+    <string name="category_name_is_required">Tag name is required</string>
+    <string name="no_category">No Tag</string>
+    <string name="title_is_required">Title is required</string>
+    <string name="note_is_required">Content is required</string>
+    <string name="no_category_found">No Tag found</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_yes">Ok</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="title_activity_note_details">NoteDetailsActivity</string>
+    <string name="category">Category</string>
+    <string name="action_edit">Play</string>
+    <string name="action_play">Play</string>
+    <string name="note_detail">Note Detail</string>
+    <string name="action_send">Send</string>
+    <string name="action_nfc">NFC Beam</string>
+    <string name="action_record">Record</string>
+    <string name="action_camera">Picture</string>
+    <string name="action_sketch">Sketch</string>
+    <string name="action_file">Files</string>
+    <string name="action_alarm">Reminder</string>
+    <string name="share_using">Share using</string>
+    <string name="error_no_mic">No Microphone found</string>
+    <string name="start">Start</string>
+    <string name="stop_recording">Stop Recording</string>
+    <string name="stop">Stop</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="error_no_camera">No camera found</string>
+    <string name="unable_to_get_image">Unable to capture image</string>
+    <string name="image_attachment">Image</string>
+    <string name="save">Save</string>
+    <string name="erase">Erase</string>
+    <string name="title_activity_reminder">ReminderActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
-    <!-- Button labels -->
-    <string name="sign_out">Sign Out</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="refresh_token">Get Fresh Token</string>
+    <string name="column_title">title</string>
+    <string name="column_date_created">dateCreated</string>
+    <string name="column_date_modified">dateModified</string>
+    <string name="sort_order">sort_order</string>
+    <string name="sort_order_ascending">ascending</string>
+    <string name="sort_order_descending">descending</string>
 
-    <!-- Content Description for images -->
-    <string name="desc_google_icon">Google Logo</string>
 
-    <!-- Rationale for asking for Contacts -->
-    <string name="contacts_permission_rationale">Contacts access is needed in order to retrieve your email address.</string>
+    <string-array name="sortOptionsEntries">
+        <item>Title</item>
+        <item>Date Added</item>
+        <item>Date Modified</item>
+    </string-array>
 
-    <!-- Activity Names and Descriptions -->
-    <string name="name_sign_in_activity">SignInActivity</string>
-    <string name="desc_sign_in_activity">Signing in, signing out, and revoking access.</string>
-    <string name="desc_sign_in_activity_scopes">Signing in, signing out, and revoking access with Google Drive permissions.</string>
+    <string-array name="sortOptionsValues">
+        <item>@string/column_title</item>
+        <item>@string/column_date_modified</item>
+        <item>@string/column_date_modified</item>
+    </string-array>
+    <string name="title_activity_atlas">Map</string>
 
-    <string name="name_id_token_activity">IdTokenActivity</string>
-    <string name="desc_id_token_activity">Retrieving an ID Token for the user.</string>
 
-    <string name="desc_auth_code_activity">Demonstrate retrieving an auth code for authorizing your server.</string>
-    <string name="name_auth_code_activity">ServerAuthCodeActivity</string>
-
-    <string name="desc_rest_activity">Demonstrate using Google Sign In with a Google REST API</string>
-    <string name="name_rest_activity">RestApiActivity</string>
-
-    <!-- Messages for the Rest API activity -->
-    <string name="connections_fmt">Connections: %1$s</string>
-    <string name="msg_contacts_failed">Get contacts failed.</string>
-
-    <!-- TODO(user): replace with your real server client ID -->
-    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
-         from https://console.developers.google.com/ -->
-    <string name="server_client_id">345699927650-bn07i278get1p3eogns1gbshs903hmfe.apps.googleusercontent.com</string>
 </resources>
-
