@@ -745,7 +745,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
 
     }
-    
+
 
     private void addNotetoFirebase() throws ExecutionException, InterruptedException {
 
