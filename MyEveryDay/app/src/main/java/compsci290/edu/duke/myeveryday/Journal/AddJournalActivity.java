@@ -11,6 +11,13 @@ import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
+/**
+ * Created by FD on 4/20/17.
+ * This is the Activity to add journal. It opens Journal Editor Fragment and get serialized
+ * notes from JournalList Fragment.
+ *
+ */
+
 public class AddJournalActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)

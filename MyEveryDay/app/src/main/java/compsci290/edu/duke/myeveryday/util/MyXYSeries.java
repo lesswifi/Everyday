@@ -120,7 +120,9 @@ public class MyXYSeries implements EditableXYSeries, OrderedXYSeries, PlotListen
         ArrayList<Double> scores = new ArrayList<>(model.size());
         journals = model;
         for(JournalEntry journal: model) {
-            scores.add(journal.getmSentimentScore());
+            double roundedSentimentScore = Math.round(journal.getmSentimentScore() * 100);
+            roundedSentimentScore = roundedSentimentScore / 100;
+            scores.add(roundedSentimentScore);
         }
         setModel(scores, format);
     }
