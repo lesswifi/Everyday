@@ -9,7 +9,7 @@ import org.json.JSONTokener;
 
 import java.util.concurrent.ExecutionException;
 
-import compsci290.edu.duke.myeveryday.Util.RetrieveDataTask;
+import compsci290.edu.duke.myeveryday.util.RetrieveDataTask;
 
 /**
  * Created by Divya on 4/20/17.

@@ -24,9 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.Util.CameraHelper;
-import compsci290.edu.duke.myeveryday.Util.Constants;
-import compsci290.edu.duke.myeveryday.Util.TimeUtils;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
+import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.util.TimeUtils;
 
 /**
  * Created by fd53 on 4/20/17.

@@ -82,12 +82,12 @@ import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.Services.LatLng;
 import compsci290.edu.duke.myeveryday.Services.WeatherService;
 import compsci290.edu.duke.myeveryday.Tag.SelectTagFragment;
-import compsci290.edu.duke.myeveryday.Util.AudioHelper;
-import compsci290.edu.duke.myeveryday.Util.CameraHelper;
-import compsci290.edu.duke.myeveryday.Util.Constants;
-import compsci290.edu.duke.myeveryday.Util.NaturalLanguageTask;
-import compsci290.edu.duke.myeveryday.Util.OrientationUtils;
-import compsci290.edu.duke.myeveryday.Util.TimeUtils;
+import compsci290.edu.duke.myeveryday.util.AudioHelper;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
+import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.util.NaturalLanguageTask;
+import compsci290.edu.duke.myeveryday.util.OrientationUtils;
+import compsci290.edu.duke.myeveryday.util.TimeUtils;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 

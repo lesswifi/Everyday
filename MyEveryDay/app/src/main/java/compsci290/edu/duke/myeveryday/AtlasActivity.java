@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 import compsci290.edu.duke.myeveryday.Journal.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
-import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class AtlasActivity extends FragmentActivity implements OnMapReadyCallback {
 

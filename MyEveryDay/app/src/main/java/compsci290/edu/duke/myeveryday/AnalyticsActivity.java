@@ -64,9 +64,9 @@ import compsci290.edu.duke.myeveryday.Journal.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.Journal.JournalViewHolder;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
-import compsci290.edu.duke.myeveryday.Util.CameraHelper;
-import compsci290.edu.duke.myeveryday.Util.Constants;
-import compsci290.edu.duke.myeveryday.Util.MyXYSeries;
+import compsci290.edu.duke.myeveryday.util.CameraHelper;
+import compsci290.edu.duke.myeveryday.util.Constants;
+import compsci290.edu.duke.myeveryday.util.MyXYSeries;
 
 
 /**

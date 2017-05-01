@@ -23,7 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
  * This fragment is called by
