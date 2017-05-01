@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,7 +93,22 @@ public class AtlasActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        setUpMap();
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for(JournalEntry journal : mJournals) {
+            // get the marker Id as String
+            String id =  mMap.addMarker(getMarkerForObject(journal)).getId();
+            //add the marker ID to Map this way you are not holding on to  GoogleMap object
+            markerMap.put(id, journal);
+            builder.include(getLatLng(journal));
+        }
+        LatLngBounds bounds = builder.build();
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+
+        mMap.animateCamera(cu);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -107,30 +124,18 @@ public class AtlasActivity extends FragmentActivity implements OnMapReadyCallbac
             }
         });
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new com.google.android.gms.maps.model.LatLng(36.000565,-78.9393579), 15));
-    }
-
-    public void setUpMap() {
-        for(JournalEntry journal : mJournals) {
-            //mMap.addMarker(getMarkerForObject(journal));
-            // get the marker Id as String
-            String id =  mMap.addMarker(getMarkerForObject(journal)).getId();
-            //add the marker ID to Map this way you are not holding on to  GoogleMap object
-            markerMap.put(id, journal);
-
-        }
-
-        for(String key : markerMap.keySet()) {
-
-            System.out.println(markerMap.get(key));
-        }
 
     }
+
 
     public MarkerOptions getMarkerForObject(JournalEntry journal) {
-        com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(journal.getmLatLng().getLatitude(), journal.getmLatLng().getLongitude());
-        MarkerOptions marker = new MarkerOptions().position(location).title(journal.getmTitle());
+        MarkerOptions marker = new MarkerOptions().position(getLatLng(journal)).title(journal.getmTitle());
         return marker;
+    }
+
+    public com.google.android.gms.maps.model.LatLng getLatLng(JournalEntry journal) {
+        com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(journal.getmLatLng().getLatitude(), journal.getmLatLng().getLongitude());
+        return location;
     }
 
 

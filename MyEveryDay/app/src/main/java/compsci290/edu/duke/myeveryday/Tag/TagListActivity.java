@@ -46,7 +46,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
  * Created by yx78 on 4/20/17.
  */
 
-public class TagListActivity extends AppCompatActivity {
+public class TagListActivity extends AppCompatActivity{
 
     private String mUsername;
     private String mPhotoURL;

@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
     public void onTouchDrawer(int position) {
         switch (position) {
             case Constants.JOURNALS:
-                //Do Nothing, we are already on Notes
+
                 break;
             case Constants.TAGS:
                 startActivity(new Intent(MainActivity.this, TagListActivity.class));
