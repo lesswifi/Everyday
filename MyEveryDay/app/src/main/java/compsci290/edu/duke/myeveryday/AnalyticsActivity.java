@@ -145,6 +145,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Analytics");
         ButterKnife.bind(this);
         mActivity = this;
 
@@ -210,6 +211,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null && drawerItem instanceof Nameable){
                             toolbar.setTitle("Analytics");
+
                         }
 
                         if (drawerItem != null){
@@ -242,7 +244,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-        mDrawer.setSelection(Constants.ANALYTICS);
+        mDrawer.setSelection(Constants.ANALYTICS, false);
     }
 
     public void onTouchDrawer(int position)
