@@ -635,8 +635,15 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     private void promptForDelete(final JournalEntry journal){
 
-        String title = journal.getmTitle();
-        String message = "Delete " + title;
+        String message;
+
+        if (journal.getmTitle() != null){
+            String title = journal.getmTitle();
+            message = "Delete " + title;
+        }else{
+            message = "Delete this note?";
+        }
+
 
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();

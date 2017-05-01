@@ -189,9 +189,6 @@ public class TagListActivity extends AppCompatActivity {
             case Constants.LOGOUT:
                 logout();
                 break;
-            case Constants.ATLAS:
-                startActivity(new Intent(TagListActivity.this, AtlasActivity.class));
-                break;
             case Constants.DELETE:
                 deleteAccountClicked();
                 break;
