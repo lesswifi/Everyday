@@ -26,7 +26,7 @@ import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
- * This fragment is called by
+ * Created by yx78
  */
 public class AddTagFragment extends DialogFragment {
     private EditText mTagEditText;
@@ -36,8 +36,6 @@ public class AddTagFragment extends DialogFragment {
     private DatabaseReference mTagCloudReference;
     private FirebaseAuth mFirebasAuth;
     private FirebaseUser mFirebaseUser;
-    private FloatingActionButton mFab;
-
 
     public AddTagFragment() {
         // Required empty public constructor
@@ -53,12 +51,13 @@ public class AddTagFragment extends DialogFragment {
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
 
-
     }
 
+    //Create the new instance addtagfragment
     public static AddTagFragment newInstatnce(String content)
     {
         AddTagFragment dialogFragment = new AddTagFragment();
+        //get the bundle from the taglistfragment
         Bundle args = new Bundle();
 
         if (!content.isEmpty()){
@@ -71,6 +70,7 @@ public class AddTagFragment extends DialogFragment {
 
     }
 
+    // The method to get the current data
     public void getCurrentTag(){
         Bundle args = getArguments();
         if (args != null && args.containsKey(Constants.SERIALZED_CATEGORY)){
@@ -85,6 +85,7 @@ public class AddTagFragment extends DialogFragment {
         }
     }
 
+    //Override the method to create the dialog
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final AlertDialog.Builder addtagdialog = new AlertDialog.Builder(getActivity());
@@ -132,6 +133,7 @@ public class AddTagFragment extends DialogFragment {
         mTagEditText.setText(mtag.getmTagName());
     }
 
+    //If the user id adding a new tag, make the sure it is not empty
     private boolean requiredFieldCompleted()
     {
         if(mTagEditText.getText().toString().isEmpty())
@@ -170,16 +172,19 @@ public class AddTagFragment extends DialogFragment {
         }
     }
 
+
+    //save the tag to
     public void saveTag()
     {
             if(mtag != null)
             {
                 mtag.setmTagName(mTagEditText.getText().toString().trim());
-                //update values in firebase
+                //update the edited values in firebase
                 mTagCloudReference.child(mtag.getmTagID()).setValue(mtag);
             }
             else
             {
+                //update the new tags to firebase
                 Tag tag = new Tag();
                 tag.setmTagName(mTagEditText.getText().toString().trim());
                 tag.setmTagID(mTagCloudReference.push().getKey());

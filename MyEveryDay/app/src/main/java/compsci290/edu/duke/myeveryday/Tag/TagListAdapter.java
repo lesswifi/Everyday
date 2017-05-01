@@ -18,7 +18,8 @@ import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 
 /**
- * Created by wangerxiao on 4/23/17.
+ * Created by yx78 on 4/23/17.
+ * This is the adapter used for recyclerview to display the tags
  */
 
 public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHolder> {

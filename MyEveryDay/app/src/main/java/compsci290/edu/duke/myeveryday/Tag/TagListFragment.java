@@ -73,6 +73,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         // Inflate the layout for this fragment
         mrootview =  inflater.inflate(R.layout.fragment_tag_list, container, false);
         ButterKnife.bind(this, mrootview);
+        // Get all the information needed from firebase reference
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mdatabase = FirebaseDatabase.getInstance().getReference();
@@ -81,6 +82,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         mjournals = new ArrayList<>();
         mtags = new ArrayList<>();
 
+        //Add Listener for journal cloud
         mcloudReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,7 +97,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
 
             }
         });
-        //Add listener for tagcloud
+        //Add listener for tag cloud
         mTagCloudReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -109,14 +111,17 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
             }
         });
 
+        // If user wants to add new tags, click mfab
         mfab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         mfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //pop up a tag dialog for users to enter new tag
                 displaytagdialog();
             }
         });
 
+        // The adpater to list all the tags
         mAdapter = new TagListAdapter(mtags, getContext(),this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
@@ -133,6 +138,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
 
     }
 
+    // Method used for load on the tags from firebase
     private void loadtags(DataSnapshot dataSnapshot){
         if(dataSnapshot != null) {
             mtags.clear();
@@ -146,7 +152,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
                 }
             }
         }
-
+        // If there are tags, which by default, there should be becuase we added some to firebase initially
         if(mtags.size() > 0)
         {
             hideemptytext();
@@ -158,6 +164,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         }
         else
         {
+            //If tags found, show empty text
             showemptytext();
         }
     }
@@ -179,6 +186,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         mEmptytext.setVisibility(View.VISIBLE);
     }
 
+    //This method is used for counting the number of journals corresponding to each tag
     public int getjournalcount(String tagId)
     {
         int count = 0;
@@ -195,9 +203,10 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         return count;
     }
 
+    //implement the methods from TagSelectedListener interface
     @Override
     public void onTagSelected(Tag TagSelected) {
-    //List the corresponding fragments
+        //Open the JournalListFragment and pass the specific tag ID user selects to that fragment
         JournalListFragment mfragment = new JournalListFragment();
         Bundle mbundle = new Bundle();
         String tagselectedid = TagSelected.getmTagID();
@@ -213,11 +222,11 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
 
     @Override
     public void onEditButtionClicked(Tag TagSelected) {
-
+        // Use Gson Library to serialize the Tag
         Gson gson = new Gson();
-        String serializedCategory = gson.toJson(TagSelected);
-
-        addtagdialog = AddTagFragment.newInstatnce(serializedCategory);
+        String serializedtag = gson.toJson(TagSelected);
+        // Create a tagdialog with the serializedtag
+        addtagdialog = AddTagFragment.newInstatnce(serializedtag);
         addtagdialog.show(getFragmentManager(), "Dialog");
 
     }
@@ -227,7 +236,7 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         String title = getString(R.string.are_you_sure);
         String message =  getString(R.string.action_delete) + " " + TagSelected.getmTagName();
 
-
+        //Use AlertDialog to confirm the deletion
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View titleView = (View)inflater.inflate(R.layout.dialog_title, null);
@@ -239,12 +248,22 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         alertDialog.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Delete Category
-                int noteCount = getjournalcount(TagSelected.getmTagID());
-                if (noteCount > 0){
-                    Intent intent = new Intent(getContext(), DeleteTagIntentService.class);
-                    intent.putExtra(Constants.SELECTED_CATEGORY_ID, TagSelected.getmTagID());
-                    getActivity().startService(intent);
+                //Delete Tag
+                //If the user wants
+                int journalCount = getjournalcount(TagSelected.getmTagID());
+                // If there are some journals under this tag
+                if (journalCount > 0){
+                    //remove the tags and set the tag id and name to null
+                    mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
+                    for(JournalEntry mjouranl: mjournals)
+                    {
+                        if(mjouranl.getmTagID().equals(TagSelected.getmTagID()))
+                        mjouranl.setmTagID(null);
+                        mjouranl.setmTagName(null);
+                        //update the value to firebase
+                        mcloudReference.child(mjouranl.getmID()).setValue(mjouranl);
+                    }
+
                 }else {
                     mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
                 }

@@ -13,7 +13,7 @@ import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.R;
 
 /**
- * Created by wangerxiao on 4/27/17.
+ * Created by yx78 on 4/27/17.
  */
 
 public class TagDialogAdapter extends ArrayAdapter<Tag> {

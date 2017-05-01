@@ -103,12 +103,14 @@ public class TagListActivity extends AppCompatActivity{
         memailaddress = TextUtils.isEmpty(memailaddress) ? ANONYMOUS_EMAIL : memailaddress;
         mPhotoURL = TextUtils.isEmpty(mPhotoURL) ? ANONYMOUS_PHOTO_URL : mPhotoURL;
 
+        //set up the profile
         IProfile profile = new ProfileDrawerItem()
                 .withName(mUsername)
                 .withEmail(memailaddress)
                 .withIcon(mPhotoURL)
                 .withIdentifier(102);
 
+        //set up the header of the navigationdrawer
         mHeader = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
@@ -163,6 +165,7 @@ public class TagListActivity extends AppCompatActivity{
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
         mDrawer.setSelection(Constants.TAGS, false);
+
         // Open the TaglistFragment after all the setups
         openFragment(new TagListFragment(), "Tags");
     }
@@ -211,11 +214,13 @@ public class TagListActivity extends AppCompatActivity{
 
     public void deleteAccountClicked() {
 
+        // User AlerDialog to confirm if user really wants to delete the account
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setMessage("Are you sure you want to delete this account?")
                 .setPositiveButton("Yes, delete it!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //If the user confirms, delete the account
                         deleteAccount();
                     }
                 })
@@ -241,6 +246,7 @@ public class TagListActivity extends AppCompatActivity{
                 });
     }
 
+    //Show error message if failed
     @MainThread
     private void showSnackbar(@StringRes int errorMessageRes) {
         Snackbar.make(mRootView, errorMessageRes, Snackbar.LENGTH_LONG).show();

@@ -20,6 +20,8 @@ import compsci290.edu.duke.myeveryday.R;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Author: yx78
+ * This class is used for users to choose tags in the journal editor
  */
 public class SelectTagFragment extends DialogFragment {
 
