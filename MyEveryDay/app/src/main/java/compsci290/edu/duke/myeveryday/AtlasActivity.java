@@ -100,37 +100,38 @@ public class AtlasActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for(JournalEntry journal : mJournals) {
-            // get the marker Id as String
-            String id =  mMap.addMarker(getMarkerForObject(journal)).getId();
-            //add the marker ID to Map this way you are not holding on to  GoogleMap object
-            markerMap.put(id, journal);
-            builder.include(getLatLng(journal));
-        }
-        LatLngBounds bounds = builder.build();
-        int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels;
-        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
-
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-
-        mMap.animateCamera(cu);
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Gson gson = new Gson();
-                System.out.println(markerMap.get(marker.getId()));
-                String serializedJournal = gson.toJson(markerMap.get(marker.getId()));
-                Intent editIntent = new Intent(getApplicationContext(), AddJournalActivity.class);
-                editIntent.putExtra(Constants.SERIALIZED_NOTE, serializedJournal);
-                startActivity(editIntent);
-
-
+        if(mJournals.size() > 0) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (JournalEntry journal : mJournals) {
+                // get the marker Id as String
+                String id = mMap.addMarker(getMarkerForObject(journal)).getId();
+                //add the marker ID to Map this way you are not holding on to  GoogleMap object
+                markerMap.put(id, journal);
+                builder.include(getLatLng(journal));
             }
-        });
+            LatLngBounds bounds = builder.build();
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int height = getResources().getDisplayMetrics().heightPixels;
+            int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
 
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+
+            mMap.animateCamera(cu);
+
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Gson gson = new Gson();
+                    System.out.println(markerMap.get(marker.getId()));
+                    String serializedJournal = gson.toJson(markerMap.get(marker.getId()));
+                    Intent editIntent = new Intent(getApplicationContext(), AddJournalActivity.class);
+                    editIntent.putExtra(Constants.SERIALIZED_NOTE, serializedJournal);
+                    startActivity(editIntent);
+
+
+                }
+            });
+        }
 
     }
 
