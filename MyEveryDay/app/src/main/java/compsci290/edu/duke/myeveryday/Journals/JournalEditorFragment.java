@@ -394,8 +394,16 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_note_editor, menu);
+        MenuItem delete_item = menu.findItem(R.id.action_delete);
+
+        if (currentJournal == null){
+            delete_item.setVisible(false);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -635,15 +643,8 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     private void promptForDelete(final JournalEntry journal){
 
-        String message;
-
-        if (journal.getmTitle() != null){
-            String title = journal.getmTitle();
-            message = "Delete " + title;
-        }else{
-            message = "Delete this note?";
-        }
-
+        String title = journal.getmTitle();
+        String message = "Delete " + title;
 
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
