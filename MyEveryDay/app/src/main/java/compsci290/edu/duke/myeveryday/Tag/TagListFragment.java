@@ -251,22 +251,10 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
                 //Delete Tag
                 //If the user wants
                 int journalCount = getjournalcount(TagSelected.getmTagID());
-                // If there are some journals under this tag
-                if (journalCount > 0){
-                    //remove the tags and set the tag id and name to null
-                    mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
-                    for(JournalEntry mjouranl: mjournals)
-                    {
-                        if(mjouranl.getmTagID().equals(TagSelected.getmTagID()))
-                        mjouranl.setmTagID(null);
-                        mjouranl.setmTagName(null);
-                        //update the value to firebase
-                        mcloudReference.child(mjouranl.getmID()).setValue(mjouranl);
-                    }
+                // remove from firebase
 
-                }else {
-                    mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
-                }
+                mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
+
 
             }
         });
