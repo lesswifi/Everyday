@@ -44,6 +44,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
  * Created by yx78 on 4/20/17.
+ * This Activity displays all the tags and the number of journals corresponding to each tag
  */
 
 public class TagListActivity extends AppCompatActivity{
@@ -69,9 +70,10 @@ public class TagListActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag);
-
+        //set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Tags");
         ButterKnife.bind(this);
         mActivity = this;
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -90,7 +92,6 @@ public class TagListActivity extends AppCompatActivity{
             }
             memailaddress = mFirebaseUser.getEmail();
         }
-
 
         setnavigationdrawer(savedInstanceState);
 
@@ -129,10 +130,10 @@ public class TagListActivity extends AppCompatActivity{
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null && drawerItem instanceof Nameable) {
+                        if (drawerItem != null && drawerItem instanceof Nameable){
                             toolbar.setTitle("Tags");
-                        }
 
+                        }
                         if (drawerItem != null) {
                             //handle on navigation drawer item
                             onTouchDrawer((int) drawerItem.getIdentifier());
@@ -162,17 +163,17 @@ public class TagListActivity extends AppCompatActivity{
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
         mDrawer.setSelection(Constants.TAGS, false);
-
+        // Open the TaglistFragment after all the setups
         openFragment(new TagListFragment(), "Tags");
     }
 
     public void onTouchDrawer(int position) {
         switch (position) {
             case Constants.JOURNALS:
-                //Do Nothing, we are already on Notes
                 startActivity(new Intent(TagListActivity.this, MainActivity.class));
                 break;
             case Constants.TAGS:
+                //Do nothing
                 break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(TagListActivity.this, AnalyticsActivity.class));
@@ -190,6 +191,7 @@ public class TagListActivity extends AppCompatActivity{
     }
 
     public void logout() {
+        //use firebaseUI
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -249,6 +251,7 @@ public class TagListActivity extends AppCompatActivity{
         super.onResume();
     }
 
+    //This is the method to open the fragment
     private void openFragment(Fragment fragment, String screenTitle) {
         getSupportFragmentManager()
                 .beginTransaction()

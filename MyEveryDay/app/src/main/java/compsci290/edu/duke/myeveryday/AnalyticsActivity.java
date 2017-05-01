@@ -105,7 +105,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     public static final String ANONYMOUS_EMAIL = "anonymous@noemail.com";
 
     @BindView(android.R.id.content) View mRootView;
-    @BindView(R.id.toolbar3)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @Override
@@ -147,7 +147,7 @@ public class AnalyticsActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Analytics");
         ButterKnife.bind(this);
