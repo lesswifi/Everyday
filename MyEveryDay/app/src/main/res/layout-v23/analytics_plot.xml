@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -12,7 +11,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar3"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -31,24 +30,16 @@
 
             <com.androidplot.xy.XYPlot
                 android:id="@+id/plot"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="300dp"
-                ap:rangeLineColor="@color/transparent"
-                ap:rangeOriginLineColor="@color/colorTimeline"
-                ap:rangeOriginLineThickness="1dp"
-                ap:rangeStep="1"
-                ap:rangeStepMode="increment_by_val"
-                ap:domainLineColor="@color/transparent"
-                ap:domainOriginLineColor="@color/colorTimeline"
-                ap:domainOriginLineThickness="1dp"
+                android:layout_gravity="top"
+                ap:titleTextSize="20dp"
+                ap:rangeTitle="sentiment score"
                 ap:graphBackgroundColor="@color/transparent"
                 ap:gridBackgroundColor="@color/transparent"
                 ap:backgroundColor="@color/transparent"
+                ap:lineLabels="left"
                 ap:borderColor="@color/transparent"
-                ap:borderThickness="0dp"
-                ap:graphMarginLeft="10dp"
-                ap:graphMarginTop="10dp"
-                ap:graphMarginRight="10dp"
                 ap:legendVisible="false"
                 ap:lineLabelRotationBottom="0" />
 
@@ -116,7 +107,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_margin="@dimen/fab_margin"
                     android:visibility="invisible"
-                    android:src="@drawable/ic_arrow_forward_white_24dp" />
+                    app:srcCompat="@android:drawable/ic_media_next" />
 
 
             </android.support.v7.widget.CardView>

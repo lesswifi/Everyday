@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config
-    linePaint.strokeWidth="5dp"
-    linePaint.color="#ff9800"
-    vertexPaint.color="#ff9800"
+    linePaint.strokeWidth="3dp"
+    linePaint.color="@color/colorTimeline"
+    vertexPaint.color="@color/primary"
     vertexPaint.strokeWidth="20dp"
-    pointLabelFormatter.textPaint.color="#CCCCCC"/>
+    pointLabelFormatter.textPaint.color="@color/primary_text"/>
