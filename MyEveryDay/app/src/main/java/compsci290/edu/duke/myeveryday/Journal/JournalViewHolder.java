@@ -13,6 +13,8 @@ import compsci290.edu.duke.myeveryday.R;
 
 /**
  * Created by FD on 4/18/2017.
+ * This ViewHolder is for RecyclerView at JournalListFragment. It defines the views for each item
+ * at the recycler view.
  */
 
 public class JournalViewHolder extends RecyclerView.ViewHolder {

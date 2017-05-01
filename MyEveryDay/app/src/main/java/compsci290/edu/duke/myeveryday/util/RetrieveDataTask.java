@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.Util;
+package compsci290.edu.duke.myeveryday.util;
 
 import android.os.AsyncTask;
 import android.util.Log;

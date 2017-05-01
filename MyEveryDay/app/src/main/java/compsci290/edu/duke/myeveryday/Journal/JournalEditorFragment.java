@@ -92,7 +92,7 @@ import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 
 /**
- * Created by fd53 on 4/20/17.
+ * Created by FD on 4/20/17.
  * This is the JournalEditor Fragment. It's called by AddJournalActivity and it opens the
  * EditView for users to write journal. If the intent was created by clicking on the existing journal,
  * the journal information would be passed in, and the inflater would inflate the EditView automatically.

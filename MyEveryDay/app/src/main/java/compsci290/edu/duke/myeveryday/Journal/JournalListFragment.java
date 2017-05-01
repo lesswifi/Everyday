@@ -29,7 +29,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.TimeUtils;
 
 /**
- * Created by fd53 on 4/20/17.
+ * Created by FD on 4/18/17.
  * This is the JournalList Fragment. It's called by MainActivity and it opens the
  * RecyclerView for the JournalList. It displays the preview of journals for current users.
  *
