@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoURL = mFirebaseUser.getPhotoUrl().toString();
             }
+            //the email address
             memailaddress = mFirebaseUser.getEmail();
-
         }
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
