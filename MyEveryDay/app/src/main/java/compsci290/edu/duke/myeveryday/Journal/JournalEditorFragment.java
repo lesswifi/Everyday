@@ -4,6 +4,7 @@ package compsci290.edu.duke.myeveryday.Journal;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,12 +12,14 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -65,7 +68,6 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -142,10 +144,9 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     private Activity mActivity;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
-    private BreakIterator mLatitudeText;
-    private BreakIterator mLongitudeText;
     private String mAddress;
     private LatLng mLatLng;
+    private static boolean locationServicesAvail;
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
@@ -189,6 +190,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                     .addApi(LocationServices.API)
                     .build();
         }
+        checkLocationServices();
     }
 
 
@@ -666,6 +668,46 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
 
     }
 
+    private void checkLocationServices() {
+        LocationManager lm = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+            dialog.setMessage("Gps network not enabled");
+            dialog.setPositiveButton("Open location settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    getContext().startActivity(myIntent);
+                    locationServicesAvail = true;
+                }
+
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    locationServicesAvail = false;
+                }
+            });
+            dialog.show();
+        }
+
+
+    }
+
 
     private void promptForDelete(final JournalEntry journal){
 
@@ -755,6 +797,23 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
             String key = mcloudReference.push().getKey();
             currentJournal.setmID(key);
             currentJournal.setmDateCreated(System.currentTimeMillis());
+
+            if(locationServicesAvail) {
+                currentJournal.setmLocation(mAddress);
+                currentJournal.setmLatLng(mLatLng);
+
+                WeatherService ws = new WeatherService(mLastLocation);
+                String weatherIconUrl = null;
+
+                try {
+                    weatherIconUrl = ws.getWeatherIcon();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                currentJournal.setmWeather(weatherIconUrl);
+            }
         }
 
         addImagesToFirebase();
@@ -774,25 +833,11 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
         currentJournal.setmContent(contentText);
 
         currentJournal.setmDateModified(System.currentTimeMillis());
-        currentJournal.setmLocation(mAddress);
-        currentJournal.setmLatLng(mLatLng);
 
 
-        WeatherService ws = new WeatherService(mLastLocation);
-        String weatherIconUrl = null;
         Double nlpResult = 0.0;
-        try {
-            weatherIconUrl = ws.getWeatherIcon();
-            nlpResult = getNLP(contentText);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        currentJournal.setmWeather(weatherIconUrl);
+        nlpResult = getNLP(contentText);
         currentJournal.setmSentimentScore(nlpResult);
-        System.out.println("NLP");
-        System.out.println(currentJournal.getmSentimentScore());
     }
 
 

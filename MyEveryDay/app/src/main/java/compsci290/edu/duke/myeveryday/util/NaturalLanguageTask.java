@@ -6,26 +6,24 @@ import android.util.Log;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
-import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.CategoriesResult;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsResult;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.SentimentOptions;
-import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.TargetedSentimentResults;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Divya on 4/24/17.
+ *
+ * NaturalLanguageTask is an AsyncTask that is used to make an API call to IBM Watson's Natural Language Understanding API
  */
 
 public class NaturalLanguageTask extends AsyncTask<String,Void,Double> {
 
     private NaturalLanguageUnderstanding mService;
     private String mInput;
-    private AnalysisResults mResults;
     private Double mSentimentScore = 0.0;
 
 
@@ -72,50 +70,21 @@ public class NaturalLanguageTask extends AsyncTask<String,Void,Double> {
         SentimentOptions sentiment = new SentimentOptions.Builder()
                 .build();
 
-        //EmotionResult er = results.getEmotion();
         List<KeywordsResult> keywordResults = response.getKeywords();
         if(keywordResults.size() > 0) {
             mSentimentScore = keywordResults.get(0).getSentiment().getScore();
         }
 
-        System.out.println(response.toString());
 
         return mSentimentScore;
 
     }
-
-    protected Double getSentimentScore() {
-        return mSentimentScore;
-    }
-
-
-
 
     protected void onPostExecute(String response) {
         if(response == null) {
             response = "THERE WAS AN ERROR";
         }
-        //progressBar.setVisibility(View.GONE);
         Log.i("INFO", response);
-        //responseView.setText(response);
-    }
-
-    public List<String> getSentiments() {
-        List<TargetedSentimentResults> sentimentResults = mResults.getSentiment().getTargets();
-        List<String> sentiments = new ArrayList<String>(sentimentResults.size());
-        for(TargetedSentimentResults sentiment: sentimentResults) {
-            sentiments.add(sentiment.getText());
-        }
-        return sentiments;
-    }
-
-    public List<String> getCategories() {
-        List<CategoriesResult> categoryResults = mResults.getCategories();
-        List<String> categories = new ArrayList<String>(categoryResults.size());
-        for(CategoriesResult category : categoryResults) {
-            categories.add(category.getLabel());
-        }
-        return categories;
     }
 
 
