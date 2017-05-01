@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
+        //Check if the user logs in
         if (mFirebaseUser == null) {
             startActivity(new Intent(this, AuthUiActivity.class));
             finish();
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             memailaddress = mFirebaseUser.getEmail();
         }
 
+        //Get the database reference
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //start the addjournalactivity
                 startActivity(new Intent(mActivity, AddJournalActivity.class));
             }
         });
@@ -328,6 +331,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //Add some inital tags to firebase
     private void addInitialTagToFirebase() {
 
         List<String> categoryNames = SampleData.getSampleCategories();

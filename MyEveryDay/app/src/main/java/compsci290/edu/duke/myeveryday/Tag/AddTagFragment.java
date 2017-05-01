@@ -173,7 +173,7 @@ public class AddTagFragment extends DialogFragment {
     }
 
 
-    //save the tag to
+    //save the tag to firebase
     public void saveTag()
     {
             if(mtag != null)

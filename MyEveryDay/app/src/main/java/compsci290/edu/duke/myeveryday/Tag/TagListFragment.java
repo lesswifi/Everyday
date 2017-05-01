@@ -252,7 +252,6 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
                 //If the user wants
                 int journalCount = getjournalcount(TagSelected.getmTagID());
                 // remove from firebase
-
                 mTagCloudReference.child(TagSelected.getmTagID()).removeValue();
 
 
