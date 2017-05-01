@@ -35,10 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Authentication.AuthUiActivity" />
-        <activity android:name=".Journals.AddJournalActivity" />
-        <activity android:name=".Tag.TagListActivity" />
-        <activity android:name=".AnalyticsActivity" />
+        <activity android:name=".Authentication.AuthUiActivity" android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Journals.AddJournalActivity" android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Tag.TagListActivity" android:configChanges="orientation|screenSize"/>
+        <activity android:name=".AnalyticsActivity" android:configChanges="orientation|screenSize"/>
         <service
             android:name=".Services.WeatherService"
             android:exported="false" />
