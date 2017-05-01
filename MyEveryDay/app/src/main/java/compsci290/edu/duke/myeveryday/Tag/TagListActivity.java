@@ -46,7 +46,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
  * Created by wangerxiao on 4/23/17.
  */
 
-public class TagList extends AppCompatActivity {
+public class TagListActivity extends AppCompatActivity {
 
     private String mUsername;
     private String mPhotoURL;
@@ -64,7 +64,7 @@ public class TagList extends AppCompatActivity {
 
     @BindView(android.R.id.content)
     View mRootView;
-    @BindView(R.id.toolbar2)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @Override
@@ -72,7 +72,7 @@ public class TagList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         mActivity = this;
@@ -96,9 +96,8 @@ public class TagList extends AppCompatActivity {
             //String uid = mFirebaseUser.getUid();
         }
 
-        openFragment(new TagListFragment(), "Tags");
-        setnavigationdrawer(savedInstanceState);
 
+        setnavigationdrawer(savedInstanceState);
 
     }
 
@@ -151,7 +150,7 @@ public class TagList extends AppCompatActivity {
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View drawerView) {
-                        KeyboardUtil.hideKeyboard(TagList.this);
+                        KeyboardUtil.hideKeyboard(TagListActivity.this);
 
                     }
 
@@ -165,30 +164,30 @@ public class TagList extends AppCompatActivity {
 
                     }
                 })
-                //.withFireOnInitialOnClick(true)
-                //.withSavedInstance(savedInstanceState)
+                .withFireOnInitialOnClick(true)
+                .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-        mDrawer.setSelection(Constants.CATEGORIES);
 
+        openFragment(new TagListFragment(), "Tags");
     }
 
     public void onTouchDrawer(int position) {
         switch (position) {
             case Constants.NOTES:
                 //Do Nothing, we are already on Notes
-                startActivity(new Intent(TagList.this, MainActivity.class));
+                startActivity(new Intent(TagListActivity.this, MainActivity.class));
                 break;
             case Constants.CATEGORIES:
                 break;
             case Constants.ANALYTICS:
-                startActivity(new Intent(TagList.this, AnalyticsActivity.class));
+                startActivity(new Intent(TagListActivity.this, AnalyticsActivity.class));
                 break;
             case Constants.LOGOUT:
                 logout();
                 break;
             case Constants.ATLAS:
-                startActivity(new Intent(TagList.this, AtlasActivity.class));
+                startActivity(new Intent(TagListActivity.this, AtlasActivity.class));
                 break;
             case Constants.DELETE:
                 deleteAccountClicked();

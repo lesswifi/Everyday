@@ -15,18 +15,11 @@ public class JournalEntry {
     private String mContent;
     private long mDateCreated;
     private long mDateModified;
-    private long mnextreminder;
-    private String mImagePath;
-    private boolean mCloudImageExitst;
-    private List<String> mImagePaths = new ArrayList<String>();
+    private List<String> mImagePaths = new ArrayList<>();
     private String mAudioPath;
-    private boolean mCloudAudioExists;
-    private String msketchpath;
-    private boolean mcloudsketchExists;
     private String mWeather;
     private String mTagID;
     private String mTagName;
-    private String mJourneyType;
     private LatLng mLatLng;
     private String mLocation;
     private Double mSentimentScore;
@@ -79,7 +72,9 @@ public class JournalEntry {
         this.mImagePaths = mImagePaths;
     }
 
-    public void addmImagePath(String mImagePath) { this.mImagePaths.add(mImagePath); }
+    public void addmImagePath(String mImagePath) {
+        this.mImagePaths.add(mImagePath);
+    }
 
     public String getmAudioPath() {
         return mAudioPath;
@@ -113,14 +108,6 @@ public class JournalEntry {
         this.mTagName = mTagName;
     }
 
-    public String getmJourneyType() {
-        return mJourneyType;
-    }
-
-    public void setmJourneyType(String mJourneyType) {
-        this.mJourneyType = mJourneyType;
-    }
-
     public LatLng getmLatLng() {
         return mLatLng;
     }
@@ -140,6 +127,7 @@ public class JournalEntry {
     public void setmSentimentScore(Double score) {
         this.mSentimentScore = score;
     }
+
     public Double getmSentimentScore() {
         return mSentimentScore;
     }

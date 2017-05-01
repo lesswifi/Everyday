@@ -63,7 +63,7 @@ import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
 import compsci290.edu.duke.myeveryday.Journals.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.Journals.NoteViewHolder;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
-import compsci290.edu.duke.myeveryday.Tag.TagList;
+import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
 import compsci290.edu.duke.myeveryday.util.CameraHelper;
 import compsci290.edu.duke.myeveryday.util.Constants;
 import compsci290.edu.duke.myeveryday.util.MyXYSeries;
@@ -254,7 +254,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                 startActivity(new Intent(AnalyticsActivity.this, MainActivity.class));
                 break;
             case Constants.CATEGORIES:
-                startActivity(new Intent(AnalyticsActivity.this, TagList.class));
+                startActivity(new Intent(AnalyticsActivity.this, TagListActivity.class));
                 break;
             case Constants.ANALYTICS:
                 break;

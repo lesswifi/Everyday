@@ -51,7 +51,7 @@ import compsci290.edu.duke.myeveryday.Journals.NoteListFragment;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
-import compsci290.edu.duke.myeveryday.Tag.TagList;
+import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 //Do Nothing, we are already on Notes
                 break;
             case Constants.CATEGORIES:
-                startActivity(new Intent(MainActivity.this, TagList.class));
+                startActivity(new Intent(MainActivity.this, TagListActivity.class));
                 break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(MainActivity.this, AnalyticsActivity.class));

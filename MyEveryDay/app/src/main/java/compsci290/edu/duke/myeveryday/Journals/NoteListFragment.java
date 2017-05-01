@@ -57,6 +57,7 @@ public class NoteListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //inflate the layout
         mRootView = inflater.inflate(R.layout.fragment_journal_list, container, false);
         Bundle mbundle = this.getArguments();
         if(mbundle != null) {

@@ -1,16 +1,15 @@
 package compsci290.edu.duke.myeveryday.Models;
 
 /**
- * Created by wangerxiao on 4/17/17.
+ * Created by yx78 on 4/17/17.
  */
 
 public class Tag {
     private String mTagID;
     private String mTagName;
-    private int journalcount;
+    private int mJournalcount;
 
-    public Tag()
-    {
+    public Tag() {
 
     }
 
@@ -23,11 +22,11 @@ public class Tag {
     }
 
     public int getJournalcount() {
-        return journalcount;
+        return mJournalcount;
     }
 
     public void setJournalcount(int journalcount) {
-        this.journalcount = journalcount;
+        this.mJournalcount = journalcount;
     }
 
     public String getmTagName() {

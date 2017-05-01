@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".Authentication.AuthUiActivity" />
         <activity android:name=".Journals.AddJournalActivity" />
-        <activity android:name=".Tag.TagList" />
+        <activity android:name=".Tag.TagListActivity" />
         <activity android:name=".AnalyticsActivity" />
         <service
             android:name=".Services.WeatherService"
