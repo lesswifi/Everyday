@@ -38,6 +38,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Created by yx78
  */
 public class TagListFragment extends Fragment implements TagSelectedListener {
     private List<JournalEntry> mjournals;
@@ -75,10 +76,8 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mdatabase = FirebaseDatabase.getInstance().getReference();
-
         mcloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.NOTE_CLOUD_END_POINT);
         mTagCloudReference = mdatabase.child(Constants.USERS_CLOUD_END_POINT + mFirebaseUser.getUid() + Constants.CATEGORY_CLOUD_END_POINT);
-
         mjournals = new ArrayList<>();
         mtags = new ArrayList<>();
 
@@ -89,7 +88,6 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
                     JournalEntry journal = journalsnapshot.getValue(JournalEntry.class);
                     mjournals.add(journal);
                 }
-
             }
 
             @Override
@@ -97,10 +95,11 @@ public class TagListFragment extends Fragment implements TagSelectedListener {
 
             }
         });
-
+        //Add listener for tagcloud
         mTagCloudReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 loadtags(dataSnapshot);
             }
 
