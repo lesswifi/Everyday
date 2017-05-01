@@ -183,6 +183,9 @@ public class TagListActivity extends AppCompatActivity {
             case Constants.ANALYTICS:
                 startActivity(new Intent(TagListActivity.this, AnalyticsActivity.class));
                 break;
+            case Constants.ATLAS:
+                startActivity(new Intent(TagListActivity.this, AtlasActivity.class));
+                break;
             case Constants.LOGOUT:
                 logout();
                 break;
