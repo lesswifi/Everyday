@@ -64,7 +64,7 @@ We ensured that all activities had a simple and appealing UI such that there wou
 
 ### Authentication Testing
 
-Testing was done to make sure users can log in and log out, show previous logged in accounts, and stay logged in until they logged out. We also allow users to delete their account, which deletes all the data stored for that user through the app.
+Testing was done to make sure users can log in and log out, show previous logged in accounts, and stay logged in until they log out. We also allow users to delete their account, which deletes all the data stored for that user through the app.
 
 ### Permission Testing
 
@@ -79,7 +79,7 @@ The app prompts the user to make a choice as to whether they would like to accep
 
 ### Multiple Devices
 
-When a user is logged into multiple devices, the default set up of the app is the same as if they were to only be logged into one. 
+When a user is logged into multiple devices, the default set up of the app is the same as if they were to only be logged into one device. 
 
 ### Firebase Testing
 
