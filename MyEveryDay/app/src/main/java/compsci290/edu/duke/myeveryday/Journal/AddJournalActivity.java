@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class AddJournalActivity extends AppCompatActivity {
 

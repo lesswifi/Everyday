@@ -40,7 +40,7 @@ import compsci290.edu.duke.myeveryday.AtlasActivity;
 import compsci290.edu.duke.myeveryday.Authentication.AuthUiActivity;
 import compsci290.edu.duke.myeveryday.MainActivity;
 import compsci290.edu.duke.myeveryday.R;
-import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
  * Created by yx78 on 4/20/17.
@@ -161,6 +161,7 @@ public class TagListActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
+        mDrawer.setSelection(Constants.TAGS, false);
 
         openFragment(new TagListFragment(), "Tags");
     }

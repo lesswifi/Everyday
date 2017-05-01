@@ -51,7 +51,7 @@ import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.Models.SampleData;
 import compsci290.edu.duke.myeveryday.Models.Tag;
 import compsci290.edu.duke.myeveryday.Tag.TagListActivity;
-import compsci290.edu.duke.myeveryday.Util.Constants;
+import compsci290.edu.duke.myeveryday.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-        mDrawer.setSelection(Constants.JOURNALS);
+        mDrawer.setSelection(Constants.JOURNALS, false);
     }
 
     public void onTouchDrawer(int position) {
