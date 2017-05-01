@@ -146,7 +146,7 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
     private LocationRequest mLocationRequest;
     private String mAddress;
     private LatLng mLatLng;
-    private static boolean locationServicesAvail;
+    private static boolean locationServicesAvail = true;
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
@@ -691,7 +691,6 @@ public class JournalEditorFragment extends Fragment implements GoogleApiClient.C
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                     Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     getContext().startActivity(myIntent);
-                    locationServicesAvail = true;
                 }
 
             });
