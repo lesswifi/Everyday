@@ -1,11 +1,8 @@
-package compsci290.edu.duke.myeveryday.util;
+package compsci290.edu.duke.myeveryday.Util;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 
 import java.io.File;

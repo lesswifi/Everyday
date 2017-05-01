@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.util;
+package compsci290.edu.duke.myeveryday.Util;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;

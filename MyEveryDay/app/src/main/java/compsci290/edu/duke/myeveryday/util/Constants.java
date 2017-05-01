@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.util;
+package compsci290.edu.duke.myeveryday.Util;
 
 /**
  * Created by yx78 on 4/16/17.

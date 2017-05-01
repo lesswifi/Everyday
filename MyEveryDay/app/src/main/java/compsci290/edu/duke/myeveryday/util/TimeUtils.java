@@ -1,4 +1,4 @@
-package compsci290.edu.duke.myeveryday.util;
+package compsci290.edu.duke.myeveryday.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
