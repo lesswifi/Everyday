@@ -188,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
-                        new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
+                        new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.JOURNALS),
+                        new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.TAGS),
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_arrow_forward).withIdentifier(Constants.ANALYTICS),
                         new PrimaryDrawerItem().withName("Atlas").withIcon(GoogleMaterial.Icon.gmd_map).withIdentifier(Constants.ATLAS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
@@ -228,19 +228,19 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 })
-                //.withFireOnInitialOnClick(true)
-                //.withSavedInstance(savedInstanceState)
+                .withFireOnInitialOnClick(true)
+                .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
-        mDrawer.setSelection(Constants.NOTES);
+        mDrawer.setSelection(Constants.JOURNALS);
     }
 
     public void onTouchDrawer(int position) {
         switch (position) {
-            case Constants.NOTES:
+            case Constants.JOURNALS:
                 //Do Nothing, we are already on Notes
                 break;
-            case Constants.CATEGORIES:
+            case Constants.TAGS:
                 startActivity(new Intent(MainActivity.this, TagListActivity.class));
                 break;
             case Constants.ANALYTICS:

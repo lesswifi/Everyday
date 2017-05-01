@@ -43,7 +43,7 @@ import compsci290.edu.duke.myeveryday.R;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
- * Created by wangerxiao on 4/23/17.
+ * Created by yx78 on 4/20/17.
  */
 
 public class TagListActivity extends AppCompatActivity {
@@ -53,11 +53,9 @@ public class TagListActivity extends AppCompatActivity {
     private String memailaddress;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-
     private AccountHeader mHeader = null;
     private Drawer mDrawer = null;
     private Activity mActivity;
-
     private static final String ANONYMOUS = "Anonymous";
     public static final String ANONYMOUS_PHOTO_URL = "https://dl.dropboxusercontent.com/u/15447938/notepadapp/anon_user_48dp.png";
     public static final String ANONYMOUS_EMAIL = "anonymous@noemail.com";
@@ -76,24 +74,21 @@ public class TagListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         mActivity = this;
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
+        // If user didn't log in, go back to AuthenticationAcitivity
         if (mFirebaseUser == null) {
             startActivity(new Intent(this, AuthUiActivity.class));
             finish();
             return;
         } else {
-            //user is logged in
+            //user is logged in and get username
             mUsername = mFirebaseUser.getDisplayName();
             //if photourl is not loaded
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoURL = mFirebaseUser.getPhotoUrl().toString();
             }
             memailaddress = mFirebaseUser.getEmail();
-
-            //String uid = mFirebaseUser.getUid();
         }
 
 
@@ -102,7 +97,7 @@ public class TagListActivity extends AppCompatActivity {
     }
 
     private void setnavigationdrawer(Bundle savedInstanceState) {
-
+        //Display default information is null
         mUsername = TextUtils.isEmpty(mUsername) ? ANONYMOUS : mUsername;
         memailaddress = TextUtils.isEmpty(memailaddress) ? ANONYMOUS_EMAIL : memailaddress;
         mPhotoURL = TextUtils.isEmpty(mPhotoURL) ? ANONYMOUS_PHOTO_URL : mPhotoURL;
@@ -125,8 +120,8 @@ public class TagListActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
-                        new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
+                        new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.TAGS),
+                        new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.JOURNALS),
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
                         new PrimaryDrawerItem().withName("Atlas").withIcon(GoogleMaterial.Icon.gmd_map).withIdentifier(Constants.ATLAS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
@@ -135,7 +130,6 @@ public class TagListActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null && drawerItem instanceof Nameable) {
-                            //String name = ((Nameable) drawerItem).getName().getText(mActivity);
                             toolbar.setTitle("Tags");
                         }
 
@@ -143,7 +137,6 @@ public class TagListActivity extends AppCompatActivity {
                             //handle on navigation drawer item
                             onTouchDrawer((int) drawerItem.getIdentifier());
                         }
-
                         return false;
                     }
                 })
@@ -174,11 +167,11 @@ public class TagListActivity extends AppCompatActivity {
 
     public void onTouchDrawer(int position) {
         switch (position) {
-            case Constants.NOTES:
+            case Constants.JOURNALS:
                 //Do Nothing, we are already on Notes
                 startActivity(new Intent(TagListActivity.this, MainActivity.class));
                 break;
-            case Constants.CATEGORIES:
+            case Constants.TAGS:
                 break;
             case Constants.ANALYTICS:
                 startActivity(new Intent(TagListActivity.this, AnalyticsActivity.class));

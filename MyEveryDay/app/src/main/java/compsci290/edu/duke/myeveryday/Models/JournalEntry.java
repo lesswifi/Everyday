@@ -6,7 +6,7 @@ import java.util.List;
 import compsci290.edu.duke.myeveryday.Services.LatLng;
 
 /**
- * Created by wangerxiao on 4/17/17.
+ * Created by wangerxiao on 4/15/17.
  */
 
 public class JournalEntry {

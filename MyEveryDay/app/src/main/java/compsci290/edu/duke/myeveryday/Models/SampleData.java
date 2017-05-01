@@ -8,7 +8,8 @@ import java.util.List;
 import compsci290.edu.duke.myeveryday.util.Constants;
 
 /**
- * Created by wangerxiao on 4/17/17.
+ * Created by yx78 on 4/15/17.
+ * This class store some intial tags that we provide to users
  */
 
 public class SampleData {

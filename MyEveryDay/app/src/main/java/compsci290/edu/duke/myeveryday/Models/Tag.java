@@ -1,7 +1,7 @@
 package compsci290.edu.duke.myeveryday.Models;
 
 /**
- * Created by yx78 on 4/17/17.
+ * Created by yx78 on 4/15/17.
  */
 
 public class Tag {

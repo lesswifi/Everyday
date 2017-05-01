@@ -200,8 +200,8 @@ public class AnalyticsActivity extends AppCompatActivity {
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Analytics").withIcon(GoogleMaterial.Icon.gmd_caret_up_circle).withIdentifier(Constants.ANALYTICS),
-                        new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.NOTES),
-                        new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.CATEGORIES),
+                        new PrimaryDrawerItem().withName("Journals").withIcon(GoogleMaterial.Icon.gmd_view_list).withIdentifier(Constants.JOURNALS),
+                        new PrimaryDrawerItem().withName("Tags").withIcon(GoogleMaterial.Icon.gmd_folder).withIdentifier(Constants.TAGS),
                         new PrimaryDrawerItem().withName("Atlas").withIcon(GoogleMaterial.Icon.gmd_map).withIdentifier(Constants.ATLAS),
                         new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_lock).withIdentifier(Constants.LOGOUT)
                 )
@@ -209,7 +209,6 @@ public class AnalyticsActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null && drawerItem instanceof Nameable){
-                            //String name = ((Nameable) drawerItem).getName().getText(mActivity);
                             toolbar.setTitle("Analytics");
                         }
 
@@ -239,8 +238,8 @@ public class AnalyticsActivity extends AppCompatActivity {
 
                     }
                 })
-                //.withFireOnInitialOnClick(true)
-                //.withSavedInstance(savedInstanceState)
+                .withFireOnInitialOnClick(true)
+                .withSavedInstance(savedInstanceState)
                 .build();
         mDrawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Delete Account!").withIcon(GoogleMaterial.Icon.gmd_delete).withIdentifier(Constants.DELETE));
         mDrawer.setSelection(Constants.ANALYTICS);
@@ -249,11 +248,11 @@ public class AnalyticsActivity extends AppCompatActivity {
     public void onTouchDrawer(int position)
     {
         switch (position){
-            case Constants.NOTES:
+            case Constants.JOURNALS:
                 //Do Nothing, we are already on Notes
                 startActivity(new Intent(AnalyticsActivity.this, MainActivity.class));
                 break;
-            case Constants.CATEGORIES:
+            case Constants.TAGS:
                 startActivity(new Intent(AnalyticsActivity.this, TagListActivity.class));
                 break;
             case Constants.ANALYTICS:

@@ -1,24 +1,17 @@
 package compsci290.edu.duke.myeveryday.util;
 
 /**
- * Created by wangerxiao on 4/17/17.
+ * Created by yx78 on 4/16/17.
  */
 
 public class Constants {
-    public final static int NOTES = 1;
-    public final static int CATEGORIES = 2;
+    public final static int JOURNALS = 1;
+    public final static int TAGS = 2;
     public final static int ATLAS = 3;
     public final static int LOGOUT = 4;
     public final static int DELETE = 5;
     public final static int ANALYTICS = 6;
-    public final static int ABOUT = 7;
 
-
-
-    public final static String NOTE_TYPE_TEXT = "text";
-    public final static String NOTE_TYPE_IMAGE = "image";
-    public final static String NOTE_TYPE_AUDIO = "audio";
-    public final static String NOTE_TYPE_REMINDER = "reminder";
 
 
     public static final String NOTE_ID = "note_id";
