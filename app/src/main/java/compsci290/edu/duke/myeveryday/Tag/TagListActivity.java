@@ -102,7 +102,6 @@ public class TagListActivity extends AppCompatActivity{
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.tool_bar, fragment)
-                .addToBackStack(screenTitle)
                 .commit();
     }
 
