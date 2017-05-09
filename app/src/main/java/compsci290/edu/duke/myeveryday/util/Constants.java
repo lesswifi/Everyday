@@ -1,5 +1,8 @@
 package compsci290.edu.duke.myeveryday.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by yx78 on 4/16/17.
  */
@@ -7,10 +10,20 @@ package compsci290.edu.duke.myeveryday.util;
 public class Constants {
     public final static int JOURNALS = 1;
     public final static int TAGS = 2;
-    public final static int ATLAS = 3;
-    public final static int LOGOUT = 4;
-    public final static int DELETE = 5;
-    public final static int ANALYTICS = 6;
+    public final static int ANALYTICS = 3;
+    public final static int ATLAS = 4;
+    public final static int LOGOUT = 5;
+    public final static int DELETE = 6;
+
+    public static final HashMap<Integer, String> CURRENT_NAME;
+    static
+    {
+        CURRENT_NAME = new HashMap<Integer, String>();
+        CURRENT_NAME.put(1, "Journals");
+        CURRENT_NAME.put(2, "Tags");
+        CURRENT_NAME.put(3, "Analytics");
+        CURRENT_NAME.put(4, "Atlas");
+    }
 
 
     public static final String SERIALIZED_CATEGORY = "serialized_category";

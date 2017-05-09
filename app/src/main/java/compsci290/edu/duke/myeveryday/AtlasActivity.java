@@ -2,7 +2,11 @@ package compsci290.edu.duke.myeveryday;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +28,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import compsci290.edu.duke.myeveryday.Journal.AddJournalActivity;
 import compsci290.edu.duke.myeveryday.Models.JournalEntry;
 import compsci290.edu.duke.myeveryday.util.Constants;
@@ -35,7 +41,7 @@ import compsci290.edu.duke.myeveryday.util.Constants;
  * that the user has journaled.
  */
 
-public class AtlasActivity extends FragmentActivity implements OnMapReadyCallback {
+public class AtlasActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -45,6 +51,9 @@ public class AtlasActivity extends FragmentActivity implements OnMapReadyCallbac
     private DatabaseReference mcloudReference;
     private static ArrayList<JournalEntry> mJournals;
     private HashMap<String, JournalEntry> markerMap = new HashMap<String, JournalEntry>();
+
+    @BindView(R.id.tool_bar_item)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +93,13 @@ public class AtlasActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar_item);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().hide();
+
+        openToolBar(new ToolBarFragment(), "Atlas");
 
     }
 
@@ -144,6 +160,15 @@ public class AtlasActivity extends FragmentActivity implements OnMapReadyCallbac
     public com.google.android.gms.maps.model.LatLng getLatLng(JournalEntry journal) {
         com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(journal.getmLatLng().getLatitude(), journal.getmLatLng().getLongitude());
         return location;
+    }
+
+    private void openToolBar(Fragment fragment, String screenTitle) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.tool_bar, fragment)
+                .addToBackStack(screenTitle)
+                .commit();
     }
 
 
