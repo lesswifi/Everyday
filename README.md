@@ -6,6 +6,9 @@
 * [Developer documentation](#developer-documentation)
 * [Testing documentation](#testing-documentation)
 
+![alt text](https://github.com/lesswifi/Everyday/blob/master/1.png)
+![alt text](https://github.com/lesswifi/Everyday/blob/master/2.png)
+
 ## Download the app
  Clone or download this git repo. Open the project in Android Studio. Connect your Android device to your computer, and run the app.
 
